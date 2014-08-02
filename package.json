@@ -1,0 +1,28 @@
+{
+  "name": "csv2md",
+  "version": "0.0.1",
+  "description": "Transform csv data to markdown table data",
+  "main": "src/index.js",
+  "bin": {
+    "csv2md": "bin/csv2md"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/pstaender/csv2md.git"
+  },
+  "homepage": "https://github.com/pstaender/csv2md",
+  "bugs": "https://github.com/pstaender/csv2md/issues",
+  "keywords": [
+    "csv",
+    "markdown",
+    "table"
+  ],
+  "author": "Philipp Staender <philipp.staender@gmail.com>",
+  "license": [
+    "The MIT License (MIT)"
+  ],
+  "dependencies": {
+    "csv-parse": "0.0.6",
+    "stream-transform": "0.0.4"
+  }
+}
