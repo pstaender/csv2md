@@ -1,6 +1,6 @@
 {
   "name": "csv2md",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Transform csv data to markdown table data",
   "main": "src/index.js",
   "bin": {
