@@ -1,26 +1,40 @@
 var parse = require('csv-parse');
 var transform = require('stream-transform');
+var csv2md = require('./csv2md');
 
-var output = [];
 var parser = parse();
 
-var tableLimiter = '|';
-var cellMargin = ' ';
-var firstLineMarker = '---';
-
 var isFirstLine = true;
+
+csv2md.options.pretty = true;
+
+if (csv2md.options.pretty) {
+  // we need to process steps if we prettyfy
+  csv2md.options.stream = false;
+}
+
 var transformer = transform(function(record, callback){
   setTimeout(function() {
-    var s = "";
-    s += record.join(cellMargin+tableLimiter+cellMargin)+'\n';
-    if (isFirstLine) {
-      var a = Array(record.length+1).join(firstLineMarker+';').split(';');
-      a.pop();
-      s += a.join(cellMargin+tableLimiter+cellMargin)+'\n';
-      isFirstLine = false;
+    if (!csv2md.options.stream) {
+      // we
+      csv2md.addRow(record);
+    } else {
+      // prepare for stdout
+      var s = csv2md.rowToString(record, isFirstLine);
+      if (isFirstLine) {
+        isFirstLine = false;
+      }
     }
     callback(null, s);
-  }, 500);
+  }, 1);
 }, {parallel: 10});
 
-process.stdin.pipe(parser).pipe(transformer).pipe(process.stdout);
+if (csv2md.options.stream) {
+  process.stdin.pipe(parser).pipe(transformer).pipe(process.stdout);
+} else {
+  process.stdin.pipe(parser).pipe(transformer);
+  transformer.on('finish', function() {
+    console.log(csv2md.rowsToString());
+    // process.exit(0);
+  });
+}
