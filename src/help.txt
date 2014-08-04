@@ -1,0 +1,20 @@
+Converts CSV data to MARKDOWN tables
+(c) 2014 by Philipp Staender, MIT License
+
+Usage:
+  csv2md                      [-hps] [--help] [--pretty] [--stream] [--tableDelimiter=STRING] [--cellPadding=STRING] [--firstLineMarker=STRING]
+
+Example:
+  cat data.csv | csv2md > data.md
+  **important** it expects input on `stdin`
+
+Options:
+  -h --help                   show this help message and exit
+  -p --pretty                 pretty output, i.e. fixed cell width (takes longer) [default: false]
+  -s --stream                 processes in chuncks (activated by default) [default: true]
+  --tableDelimiter=STRING     delimiter for cells in output [default: |]
+  --cellPadding=STRING        chars / spaces to wrap cell content [default: ' ']
+  --firstLineMarker=STRING    to seperate first row [default: =*]
+                              you can specifiy own characters, for instance:
+                              `-*`      -> `----------…` (will be set to same width as cell)
+                              `-====-`  -> `-====-`

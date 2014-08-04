@@ -1,14 +1,28 @@
 
 
 exports.options = {
-  tableLimiter: '|',
-  cellMargin: ' ',
-  firstLineMarker: '-*',
-  pretty: false,
-  stream: true,
+  tableDelimiter: null,   // will be set by (default) args
+  cellPadding: null,      // will be set by (default) args
+  firstLineMarker: null,  // will be set by (default) args
+  pretty: null,           // will be set by (default) args
+  stream: null,           // will be set by (default) args
   lineBreak: '\n',
-  delimiterOnBegin: '|',
-  delimiterOnEnd: '|',
+  delimiterOnBegin: null, // will be set in setOptions
+  delimiterOnEnd: null,   // will be set in setOptions
+}
+
+exports.setOptions = function(o) {
+  var options = exports.options;
+  for (var attr in o) {
+    options[attr] = o[attr];
+  }
+  if (options.delimiterOnBegin === null) {
+    options.delimiterOnBegin = options.tableDelimiter;
+  }
+  if (options.delimiterOnEnd === null) {
+    options.delimiterOnEnd = options.tableDelimiter;
+  }
+  return options;
 }
 
 exports.rows = [];
@@ -19,7 +33,7 @@ exports.rowToString = function(record, isFirstLine, cellLength) {
   }
   var firstLineMarker = exports.options.firstLineMarker;
   var firstLineMarkerRepeat = Boolean((firstLineMarker.length === 2) && (firstLineMarker[1] === '*'));
-  var cellMarginForFirstLine = (firstLineMarkerRepeat) ? firstLineMarker[0] : exports.options.cellMargin;
+  var cellPaddingForFirstLine = (firstLineMarkerRepeat) ? firstLineMarker[0] : exports.options.cellPadding;
   if ((typeof cellLength === 'number') && (cellLength > 0)) {
     // ensure correct cell length
     if (firstLineMarkerRepeat) {
@@ -32,15 +46,15 @@ exports.rowToString = function(record, isFirstLine, cellLength) {
     }
   } else {
     firstLineMarker = Array(4).join(firstLineMarker[0]);
-    cellMarginForFirstLine = '';
+    cellPaddingForFirstLine = '';
   }
   var s = "";
-  s += ((exports.options.delimiterOnBegin) ? exports.options.delimiterOnBegin + exports.options.cellMargin : '' ) + record.join(exports.options.cellMargin + exports.options.tableLimiter + exports.options.cellMargin) + ((exports.options.delimiterOnEnd) ? exports.options.cellMargin + exports.options.delimiterOnEnd : '' ) + exports.options.lineBreak;
+  s += ((exports.options.delimiterOnBegin) ? exports.options.delimiterOnBegin + exports.options.cellPadding : '' ) + record.join(exports.options.cellPadding + exports.options.tableDelimiter + exports.options.cellPadding) + ((exports.options.delimiterOnEnd) ? exports.options.cellPadding + exports.options.delimiterOnEnd : '' ) + exports.options.lineBreak;
   if (isFirstLine) {
     var a = Array(record.length+1).join(firstLineMarker+'¨').split('¨');
     a.pop();
 
-    s += ((exports.options.delimiterOnBegin) ? exports.options.delimiterOnBegin + cellMarginForFirstLine : '' ) + a.join(cellMarginForFirstLine + exports.options.tableLimiter + cellMarginForFirstLine) + ((exports.options.delimiterOnEnd) ? cellMarginForFirstLine + exports.options.delimiterOnEnd : '' ) + exports.options.lineBreak;
+    s += ((exports.options.delimiterOnBegin) ? exports.options.delimiterOnBegin + cellPaddingForFirstLine : '' ) + a.join(cellPaddingForFirstLine + exports.options.tableDelimiter + cellPaddingForFirstLine) + ((exports.options.delimiterOnEnd) ? cellPaddingForFirstLine + exports.options.delimiterOnEnd : '' ) + exports.options.lineBreak;
   }
   return s;
 }
