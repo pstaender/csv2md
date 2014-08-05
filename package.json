@@ -1,6 +1,6 @@
 {
   "name": "csv2md",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Transform csv data to markdown table data",
   "main": "src/index.js",
   "bin": {
@@ -22,7 +22,7 @@
     "The MIT License (MIT)"
   ],
   "scripts": {
-    "test": "mocha --compilers coffee:coffee-script"
+    "test": "mocha --compilers coffee:coffee-script --colors"
   },
   "dependencies": {
     "csv-parse": "0.0.6",
@@ -30,7 +30,7 @@
     "stream-transform": "0.0.4"
   },
   "devDependencies": {
-    "coffee-script": "^1.7.1",
+    "coffee-script": "1.6.3",
     "chai": "^1.9.1",
     "mocha": "^1.21.3"
   }
