@@ -14,7 +14,7 @@ Options:
   -s --stream                 stream processing [default: true]
   --tableDelimiter=STRING     delimiter for cells in output [default: |]
   --cellPadding=STRING        chars / spaces to wrap cell content [default: ' ']
-  --firstLineMarker=STRING    to seperate first row [default: =*]
+  --firstLineMarker=STRING    to seperate first row [default: -*]
                               you can specifiy own characters, for instance:
                               `-*`      -> `----------…` (will be set to same width as cell)
                               `-====-`  -> `-====-`

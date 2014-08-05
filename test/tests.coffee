@@ -2,7 +2,7 @@ defaultOptions = {
   pretty:           false
   stream:           false
   tableDelimiter:   '|'
-  firstLineMarker:  '=*'
+  firstLineMarker:  '-*'
   cellPadding:      ' '
   delimiterOnBegin: '|'
   delimiterOnEnd:   '|'
@@ -49,13 +49,46 @@ describe 'markdown table output', ->
     md = csv2md.rowsToString(csvData)
     expect(md.trim()).to.be.equal """
     | a | b | c_1 | c_2 |
-    |===|===|===|===|
+    |---|---|---|---|
     | -122.1430195 | 124.3 | true | false |
-    | null |  a  | a very long string | ~ |
+    | null | a | a very long string | ~ |
     | a | b | c_1 | c_2 |
     """
 
-  it.skip 'transform to a simple markdown table in pretty', ->
+  it 'transform to a simple markdown table in pretty', ->
     csv2md.setOptions(defaultOptions)
     csv2md.setOptions({ pretty: true })
     md = csv2md.rowsToString(csvData)
+    expect(md.trim()).to.be.equal """
+    | a            | b     | c_1                | c_2   |
+    |--------------|-------|--------------------|-------|
+    | -122.1430195 | 124.3 | true               | false |
+    | null         | a     | a very long string | ~     |
+    | a            | b     | c_1                | c_2   |
+    """
+
+  it 'transform to a simple markdown table with various options', ->
+    csv2md.setOptions(defaultOptions)
+    csv2md.setOptions
+      tableDelimiter:   '$'
+      firstLineMarker:  '+*'
+      cellPadding:      '_'
+      delimiterOnBegin: '/'
+      delimiterOnEnd:   '\\'
+    md = csv2md.rowsToString(csvData)
+    expect(md.trim()).to.be.equal """
+      /_a_$_b_$_c_1_$_c_2_\\
+      /+++$+++$+++$+++\\
+      /_-122.1430195_$_124.3_$_true_$_false_\\
+      /_null_$_a_$_a very long string_$_~_\\
+      /_a_$_b_$_c_1_$_c_2_\\
+    """
+    csv2md.setOptions({ pretty: true, prettyCellSpace: '…' })
+    md = csv2md.rowsToString(csvData)
+    """
+      /_a……………………………_$_b…………_$_c_1………………………………………_$_c_2……_\\
+      /++++++++++++++$+++++++$++++++++++++++++++++$+++++++\\
+      /_-122.1430195_$_124.3_$_true……………………………………_$_false_\\
+      /_null……………………_$_a…………_$_a very long string_$_~…………_\\
+      /_a……………………………_$_b…………_$_c_1………………………………………_$_c_2……_\\
+    """
