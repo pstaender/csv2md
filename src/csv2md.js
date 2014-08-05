@@ -5,7 +5,7 @@ exports.options = {
   cellPadding: null,      // will be set by (default) args
   firstLineMarker: null,  // will be set by (default) args
   pretty: null,           // will be set by (default) args
-  stream: null,           // will be set by (default) args
+  stream: null,           // will be set by (default) args and in setOptions
   lineBreak: '\n',
   delimiterOnBegin: null, // will be set in setOptions
   delimiterOnEnd: null,   // will be set in setOptions
@@ -14,7 +14,13 @@ exports.options = {
 exports.setOptions = function(o) {
   var options = exports.options;
   for (var attr in o) {
-    options[attr] = o[attr];
+    if (/^["'].*["']$/.test(o[attr])) {
+      options[attr] = o[attr].match(/^["'](.*)["']$/)[1];
+    } else if (o[attr]==='null') {
+      options[attr] = null;
+    } else {
+      options[attr] = o[attr];
+    }
   }
   if (options.delimiterOnBegin === null) {
     options.delimiterOnBegin = options.tableDelimiter;
@@ -22,6 +28,16 @@ exports.setOptions = function(o) {
   if (options.delimiterOnEnd === null) {
     options.delimiterOnEnd = options.tableDelimiter;
   }
+  if (options.pretty) {
+    // we can't work with streams in prettify mode
+    options.stream = false;
+  }
+  // ensure that false/null/0 is an empty string, i.e. ''
+  'tableDelimiter,cellPadding,firstLineMarker,delimiterOnBegin,delimiterOnEnd'.split(',').map(function(attr){
+    if (!options[attr]) {
+      options[attr] = '';
+    }
+  });
   return options;
 }
 

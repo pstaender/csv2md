@@ -5,29 +5,32 @@ var fs = require('fs');
 var helpText = fs.readFileSync(__dirname+'/help.txt').toString();
 var docopt = require('docopt').docopt;
 var argOptions = docopt(helpText);
-
-var parser = parse();
-
 var isFirstLine = true;
 
 csv2md.setOptions({
-  pretty: argOptions['--pretty'],
-  stream: argOptions['--stream'],
-  tableDelimiter: argOptions['--tableDelimiter'],
-  firstLineMarker: argOptions['--firstLineMarker'],
-  cellPadding: (argOptions['--cellPadding'] === "' '") ? ' ' : argOptions['--cellPadding']
+  pretty:           argOptions['--pretty'],
+  stream:           argOptions['--stream'],
+  tableDelimiter:   argOptions['--tableDelimiter'],
+  firstLineMarker:  argOptions['--firstLineMarker'],
+  cellPadding:      argOptions['--cellPadding'],
+  delimiterOnBegin: argOptions['--delimiterOnBegin'],
+  delimiterOnEnd:   argOptions['--delimiterOnEnd'],
+  csvComment:       argOptions['--csvComment'],
+  csvDelimiter:     argOptions['--csvDelimiter'],
+  csvQuote:         argOptions['--csvQuote'],
+  csvEscape:        argOptions['--csvEscape']
 });
 
-if (csv2md.options.pretty) {
-  // we can't work with streams in prettify mode
-  csv2md.options.stream = false;
-}
-
+var parser = parse({
+  comment:          argOptions['--csvComment'],
+  delimiter:        argOptions['--csvDelimiter'],
+  quote:            argOptions['--csvQuote'],
+  escape:           argOptions['--csvEscape'],
+});
 
 var transformer = transform(function(record, callback){
   setTimeout(function() {
     if (!csv2md.options.stream) {
-      // we
       csv2md.addRow(record);
     } else {
       // prepare for stdout
