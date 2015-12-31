@@ -44,7 +44,7 @@ describe 'markdown table output', ->
     expect(csvData[0]).to.have.length.above 0
 
 
-  it 'transform to a simple markdown table with default values', ->
+  it 'expect to transform to a simple markdown table with default values', ->
     csv2md.setOptions(defaultOptions)
     md = csv2md.rowsToString(csvData)
     expect(md.trim()).to.be.equal """
@@ -55,7 +55,7 @@ describe 'markdown table output', ->
     | a | b | c_1 | c_2 |
     """
 
-  it 'transform to a simple markdown table in pretty', ->
+  it 'expect to transform to a simple markdown table in pretty', ->
     csv2md.setOptions(defaultOptions)
     csv2md.setOptions({ pretty: true })
     md = csv2md.rowsToString(csvData)
@@ -67,7 +67,7 @@ describe 'markdown table output', ->
     | a            | b     | c_1                | c_2   |
     """
 
-  it 'transform to a simple markdown table with various options', ->
+  it 'expect to transform to a simple markdown table with various options', ->
     csv2md.setOptions(defaultOptions)
     csv2md.setOptions
       tableDelimiter:   '$'
@@ -92,3 +92,6 @@ describe 'markdown table output', ->
       /_null……………………_$_a…………_$_a very long string_$_~…………_\\
       /_a……………………………_$_b…………_$_c_1………………………………………_$_c_2……_\\
     """
+
+  it.skip 'expect to read and transform a csv file to markdown', (done) ->
+    done()

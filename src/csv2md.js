@@ -90,6 +90,8 @@ exports.rowsToString = function(rows) {
     rows = exports.rows;
   }
   var maxLength = Array.apply(null, new Array(rows[0].length)).map(Number.prototype.valueOf,exports.options.firstLineMarker.length);
+  var isFirstLine = true;
+  var s = '';
   if (exports.options.pretty) {
     rows.map(function(row){
       row.map(function(cell, columnIndex){
@@ -99,8 +101,6 @@ exports.rowsToString = function(rows) {
       })
     });
   }
-  var isFirstLine = true;
-  var s = '';
   rows.map(function(row){
     s += exports.rowToString(row, isFirstLine, (exports.options.pretty) ? maxLength : null);
     if (isFirstLine) {
