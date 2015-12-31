@@ -52,7 +52,7 @@ Despite from `pretty` you can also set these options as well:
     -s --stream                 stream processing [default: true]
     --tableDelimiter=STRING     delimiter for cells in output [default: |]
     --cellPadding=STRING        chars / spaces to wrap cell content [default: ' ']
-    --firstLineMarker=STRING    to seperate first row [default: =*]
+    --firstLineMarker=STRING    to seperate first row [default: -*]
                                 you can specifiy own characters, for instance:
                                 `-*`      -> `----------…` (will be set to same width as cell)
                                 `-====-`  -> `-====-`
@@ -63,15 +63,15 @@ Despite from `pretty` you can also set these options as well:
     --csvQuote=STRING           cell quote [default: "]
     --csvEscape=STRING          char to escape, see quoter [default: "]
 
-  To define an empty string, simply set null
+  To define an empty string, simply set null (e.g. --cellPadding=null)
 
 ```
 
 ## Tests
 
+Ensure that you have mocha installed `npm install -g mocha`, then run:
+
 ```sh
-  $ (sudo) npm install -g mocha
-  $ cd csv2md
   $ npm run test
 ```
 
