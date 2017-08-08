@@ -1,4 +1,4 @@
-# Transform csv data to markdown table data
+# Transforms csv to markdown table
 
 Install with:
 
@@ -6,7 +6,7 @@ Install with:
   $ (sudo) npm install -g csv2md
 ```
 
-Small tool to convert (large) csv tables to markdown tables. Is able to process `stdin` or csv files.
+Small tool to convert (larger) csv to markdown tables. Processes `stdin` or csv file.
 
 ## Usage
 
@@ -14,7 +14,7 @@ Small tool to convert (large) csv tables to markdown tables. Is able to process 
   $ csv2md data.csv > data.md
 ```
 
-You can also pipe (larger files):
+Piping data is possible (and recommend for larger files):
 
 ```sh
   $ cat data.csv | csv2md
@@ -31,7 +31,7 @@ You can also pipe (larger files):
   $ cat data.csv | csv2md > data.md
 ```
 
-The `pretty` option will pad cells to uniform width, but will disable stream output.
+The `pretty` option will pad cells to uniform width, but will disable stream processing.
 
 ```sh
   $ csv2md --pretty data.csv > data.md
