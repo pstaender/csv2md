@@ -1,5 +1,7 @@
 # Transforms csv to markdown table
 
+[![Build Status](https://travis-ci.org/pstaender/csv2md.svg?branch=travis_ci)](https://travis-ci.org/pstaender/csv2md)
+
 Install with:
 
 ```sh
