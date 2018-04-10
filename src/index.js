@@ -6,7 +6,7 @@ var path = require('path');
 var isFirstLine = true;
 
 var argv = require('yargs')
-  .usage('Converts CSV data to MARKDOWN tables\n(c) 2014-2015 by Philipp Staender, MIT License\n\nUsage: csv2md [options] (inputfile.csv)')
+  .usage('Converts CSV data to MARKDOWN tables\n(c) 2014-2018 by Philipp Staender, MIT License\n\nUsage: csv2md [options] (inputfile.csv)')
   .example('csv2md --pretty input.csv > output.md')
   .describe('p', 'pretty output, i.e. optimized column width (takes longer to process)')
   .default('p', false)
