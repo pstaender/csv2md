@@ -24,9 +24,8 @@
   },
   "dependencies": {
     "csv-parse": "^2.2",
-    "docopt": "^0.4.0",
-    "stream-transform": "^0.0.4",
-    "yargs": "^3.31.0"
+    "stream-transform": "^1.0.2",
+    "yargs": "^11.0.0"
   },
   "devDependencies": {
     "chai": "^3.4.1",
