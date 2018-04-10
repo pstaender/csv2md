@@ -7,7 +7,6 @@ var isFirstLine = true;
 
 var argv = require('yargs')
   .usage('Converts CSV data to MARKDOWN tables\n(c) 2014-2015 by Philipp Staender, MIT License\n\nUsage: csv2md [options] (inputfile.csv)')
-  // .epilog('')
   .example('csv2md --pretty input.csv > output.md')
   .describe('p', 'pretty output, i.e. optimized column width (takes longer to process)')
   .default('p', false)
@@ -34,7 +33,6 @@ var argv = require('yargs')
   .describe('csvEscape', 'char to escape, see quoter')
   .default('csvEscape', '"')
   .boolean(['p', 's'])
-  // .nargs('o', 1)
   .help('h')
   .alias('h', 'help')
   .count('verbose')
@@ -46,7 +44,6 @@ var residualArguments = argv._;
 
 
 if ((argv.p) && (argv.stream)) {
-  // console.error('note: Pretty output and stream can\'t be used simultaniously - proceeding without streaming processing');
   argv.stream = argv.s = false;
 }
 
@@ -54,7 +51,7 @@ argv.inputFilePath = null;
 
 if (residualArguments.length > 0) {
   // we might have input file argument
-  residualArguments.forEach(function(fileName){
+  residualArguments.forEach(function (fileName) {
     // TODO: cehck for output file option?
     var file = path.parse(fileName);
     if ((file) && (file.ext) && /csv/i.test(file.ext)) {
@@ -63,39 +60,36 @@ if (residualArguments.length > 0) {
         // check read access
         fs.accessSync(argv.inputFilePath, fs.R_OK);
       } catch (e) {
-        console.error('Couldn\'t access/read input file \''+argv.inputFilePath+'\'');
+        console.error('Couldn\'t access/read input file \'' + argv.inputFilePath + '\'');
         process.exit(1);
       }
     }
   });
 }
 
-
-
-
 csv2md.setOptions({
-  pretty:           argv.pretty,
-  stream:           argv.stream,
-  tableDelimiter:   argv.tableDelimiter,
-  firstLineMarker:  argv.firstLineMarker,
-  cellPadding:      argv.cellPadding,
+  pretty: argv.pretty,
+  stream: argv.stream,
+  tableDelimiter: argv.tableDelimiter,
+  firstLineMarker: argv.firstLineMarker,
+  cellPadding: argv.cellPadding,
   delimiterOnBegin: argv.delimiterOnBegin,
-  delimiterOnEnd:   argv.delimiterOnEnd,
-  csvComment:       argv.csvComment,
-  csvDelimiter:     argv.csvDelimiter,
-  csvQuote:         argv.csvQuote,
-  csvEscape:        argv.csvEscape
+  delimiterOnEnd: argv.delimiterOnEnd,
+  csvComment: argv.csvComment,
+  csvDelimiter: argv.csvDelimiter,
+  csvQuote: argv.csvQuote,
+  csvEscape: argv.csvEscape
 });
 
 var parser = parse({
-  comment:          argv.csvComment,
-  delimiter:        argv.csvDelimiter,
-  quote:            argv.csvQuote,
-  escape:           argv.csvEscape,
+  comment: argv.csvComment,
+  delimiter: argv.csvDelimiter,
+  quote: argv.csvQuote,
+  escape: argv.csvEscape,
 });
 
-var transformer = transform(function(record, callback){
-  (function() {
+var transformer = transform(function (record, callback) {
+  (function () {
     if (!csv2md.options.stream) {
       csv2md.addRow(record);
     } else {
@@ -107,7 +101,7 @@ var transformer = transform(function(record, callback){
     }
     callback(null, s);
   })();
-}, {parallel: 10});
+}, { parallel: 10 });
 
 // input file or stdin?
 var readStream = (argv.inputFilePath) ? fs.createReadStream(argv.inputFilePath) : process.stdin;
@@ -116,7 +110,7 @@ if (csv2md.options.stream) {
   readStream.pipe(parser).pipe(transformer).pipe(process.stdout);
 } else {
   readStream.pipe(parser).pipe(transformer);
-  transformer.on('finish', function() {
+  transformer.on('finish', function () {
     console.log(csv2md.rowsToString());
   });
 }
