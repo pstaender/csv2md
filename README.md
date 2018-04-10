@@ -5,7 +5,7 @@
 Install with:
 
 ```sh
-  $ (sudo) npm install -g csv2md
+  $ npm install -g csv2md
 ```
 
 Small tool to convert (larger) csv to markdown tables. Processes `stdin` or csv file.
@@ -62,6 +62,6 @@ Ensure that you have mocha installed `npm install -g mocha`, then run:
   $ npm run test
 ```
 
-## TODO
+## Contributors
 
-  * file writing
+  * [dbohdan](https://github.com/dbohdan)

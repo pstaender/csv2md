@@ -10,6 +10,7 @@ defaultOptions = {
   csvDelimiter:     ','
   csvQuote:         '"'
   csvEscape:        '"'
+  prettyCellSpace:  ' '
 }
 
 csvOptions = {
@@ -37,7 +38,7 @@ describe 'markdown table output', ->
       done()
 
   it 'expect to have a parsable, multiline csv file', ->
-    # properly speaking we should not test the parser here
+    # properly we should not test the parser here
     # but we must ensure that we have a valid csv file
     expect(csvString.match(/\n/).length).to.be.above 0
     expect(csvData).to.have.length.above 0
@@ -85,7 +86,7 @@ describe 'markdown table output', ->
     """
     csv2md.setOptions({ pretty: true, prettyCellSpace: '…' })
     md = csv2md.rowsToString(csvData)
-    """
+    expect(md.trim()).to.be.equal """
       /_a……………………………_$_b…………_$_c_1………………………………………_$_c_2……_\\
       /++++++++++++++$+++++++$++++++++++++++++++++$+++++++\\
       /_-122.1430195_$_124.3_$_true……………………………………_$_false_\\
@@ -93,5 +94,26 @@ describe 'markdown table output', ->
       /_a……………………………_$_b…………_$_c_1………………………………………_$_c_2……_\\
     """
 
-  it.skip 'expect to read and transform a csv file to markdown', (done) ->
-    done()
+  it 'expect to transform also empty cells', (done) ->
+    csvData = """
+      foo,bar,baz
+      a#,"b",c
+      d,e,
+      ,f,
+      ,,
+      g,h,i
+    """
+    parse csvData.trim(), {}, (err, rows) ->
+      expect(err).to.be.equal null
+      csv2md.setOptions(defaultOptions)
+      csv2md.setOptions(pretty: true)
+      expect(csv2md.rowsToString(rows).trim()).to.be.equal """
+        | foo | bar | baz |
+        |-----|-----|-----|
+        | a#  | b   | c   |
+        | d   | e   |     |
+        |     | f   |     |
+        |     |     |     |
+        | g   | h   | i   |
+      """.trim()
+      done()
