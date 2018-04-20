@@ -54,25 +54,28 @@ Use `-h` for more command options:
   $ csv2md -h
 ```
 
-## Using csv2md (synchronously) via require
+## Using csv2md synchronously via require
 
-Example:
+For example:
 
 ```js
-  let csv2md = require('./src/csv2md').csv2md;
+  let csv2md = require('csv2md').csv2md;
+
   let csvString = `
   a,b,c_1,c_2
   -122.1430195,124.3,true,false
   null, a ,a very long string,~
   a,b,c_1,c_2
   `.trim()
+
   let markdown = csv2md(csvString, {
     pretty: true
   });
+
   console.log(markdown);
 ```
 
-would output:
+will output:
 
 ```
 | a            | b     | c_1                | c_2   |
