@@ -4,34 +4,35 @@ var csv2md = require('./csv2md');
 var fs = require('fs');
 var path = require('path');
 var isFirstLine = true;
+var deaultOptions = csv2md.defaultOptions;
 
 var argv = require('yargs')
   .usage('Converts CSV data to MARKDOWN tables\n(c) 2014-2015 by Philipp Staender, MIT License\n\nUsage: csv2md [options] (inputfile.csv)')
   .example('csv2md --pretty input.csv > output.md')
   .describe('p', 'pretty output, i.e. optimized column width (takes longer to process)')
-  .default('p', false)
+  .default('p', deaultOptions.pretty)
   .alias('p', 'pretty')
   .describe('s', 'stream processing')
   .default('s', true)
   .alias('s', 'stream')
   .describe('tableDelimiter', 'delimiter for cells in output')
-  .default('tableDelimiter', '|')
+  .default('tableDelimiter', deaultOptions.tableDelimiter)
   .describe('cellPadding', 'chars / spaces to wrap cell content')
-  .default('cellPadding', ' ')
+  .default('cellPadding', deaultOptions.cellPadding)
   .describe('firstLineMarker', 'to seperate first row\n you can specifiy own characters, for instance:\n`-*` -> `------…` (gets cell width)\n   `-====-` -> `-====-`\n')
-  .default('firstLineMarker', '-*')
+  .default('firstLineMarker', defaultOptions.firstLineMarker)
   .describe('delimiterOnBegin', 'first row delimiter')
-  .default('delimiterOnBegin', null)
+  .default('delimiterOnBegin', defaultOptions.delimiterOnBegin)
   .describe('delimiterOnEnd', 'last  row delimiter')
-  .default('delimiterOnEnd', null)
+  .default('delimiterOnEnd', defaultOptions.delimiterOnEnd)
   .describe('csvComment', 'ignore everything until next line after this character')
-  .default('csvComment', null)
+  .default('csvComment', defaultOptions.csvComment)
   .describe('csvDelimiter', 'column delimiter')
-  .default('csvDelimiter', ',')
+  .default('csvDelimiter', defaultOptions.csvDelimiter)
   .describe('csvQuote', 'cell quote')
-  .default('csvQuote', '"')
+  .default('csvQuote', defaultOptions.csvQuote)
   .describe('csvEscape', 'char to escape, see quoter')
-  .default('csvEscape', '"')
+  .default('csvEscape', defaultOptions.csvEscape)
   .boolean(['p', 's'])
   .help('h')
   .alias('h', 'help')
@@ -52,7 +53,6 @@ argv.inputFilePath = null;
 if (residualArguments.length > 0) {
   // we might have input file argument
   residualArguments.forEach(function (fileName) {
-    // TODO: cehck for output file option?
     var file = path.parse(fileName);
     if ((file) && (file.ext) && /csv/i.test(file.ext)) {
       argv.inputFilePath = fileName;

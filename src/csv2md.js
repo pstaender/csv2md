@@ -1,13 +1,27 @@
+exports.defaultOptions = {
+  pretty: false,
+  stream: false,
+  tableDelimiter: '|',
+  cellPadding: ' ',
+  firstLineMarker: '-*',
+  delimiterOnBegin: null,
+  delimiterOnEnd: null,
+  csvComment: null,
+  csvDelimiter: ',',
+  csvQuote: '"',
+  csvEscape: '"',
+}
+
 exports.options = {
-  tableDelimiter: null,   // will be set by (default) args
-  cellPadding: null,      // will be set by (default) args
-  firstLineMarker: null,  // will be set by (default) args
-  pretty: null,           // will be set by (default) args
-  stream: null,           // will be set by (default) args and in setOptions
+  tableDelimiter: null,
+  cellPadding: null,
+  firstLineMarker: null,
+  pretty: null,
+  stream: null,
   prettyCellSpace: ' ',
   lineBreak: '\n',
-  delimiterOnBegin: null, // will be set in setOptions
-  delimiterOnEnd: null,   // will be set in setOptions
+  delimiterOnBegin: null,
+  delimiterOnEnd: null,
 }
 
 exports.setOptions = function (o) {
@@ -114,4 +128,28 @@ exports.addRow = function (row) {
   }
   exports.rows.push(row);
   return exports.rows;
+}
+
+exports.csv2md = function(csv, options) {
+  if (typeof options === 'undefined') {
+    options = {};
+  }
+  options = mergeWithDefaultOptions(options);
+  var data = require('csv-parse/lib/sync')(csv, {
+    comment: options.csvComment,
+    delimiter: options.csvDelimiter,
+    quote: options.csvQuote,
+    escape: options.csvEscape,
+  });
+  exports.setOptions(options);
+  return exports.rowsToString(data);
+}
+
+var mergeWithDefaultOptions = function(options) {
+  for (var attr in exports.defaultOptions) {
+    if (typeof options[attr] === 'undefined') {
+      options[attr] = exports.defaultOptions[attr]; 
+    }
+  }
+  return options;
 }

@@ -117,3 +117,43 @@ describe 'markdown table output', ->
         | g   | h   | i   |
       """.trim()
       done()
+
+  it 'expect to transforms a csv string synchronously to markdown via require', ->
+    csv = """
+    foo,bar,baz
+    a#,"b",c
+    d,e,
+    ,f,
+    ,,
+    g,h,i
+    """
+    expectedOutcome = """
+    | foo | bar | baz |
+    |---|---|---|
+    | a# | b | c |
+    | d | e |  |
+    |  | f |  |
+    |  |  |  |
+    | g | h | i |
+    """.trim()
+    expect(
+      require('../src/csv2md').csv2md(csv).trim()
+    ).to.be.equal expectedOutcome
+    expect(
+      require('../src/csv2md').csv2md(csv, {}).trim()
+    ).to.be.equal expectedOutcome
+    expect(
+      require('../src/csv2md').csv2md(csv, {
+        tableDelimiter: 'ǁ'
+        pretty: true
+      }).trim()
+    ).to.be.equal """
+    ǁ foo ǁ bar ǁ baz ǁ
+    ǁ-----ǁ-----ǁ-----ǁ
+    ǁ a#  ǁ b   ǁ c   ǁ
+    ǁ d   ǁ e   ǁ     ǁ
+    ǁ     ǁ f   ǁ     ǁ
+    ǁ     ǁ     ǁ     ǁ
+    ǁ g   ǁ h   ǁ i   ǁ
+    """.trim()
+    
