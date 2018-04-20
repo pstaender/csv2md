@@ -4,21 +4,21 @@ var csv2md = require('./csv2md');
 var fs = require('fs');
 var path = require('path');
 var isFirstLine = true;
-var deaultOptions = csv2md.defaultOptions;
+var defaultOptions = csv2md.defaultOptions;
 
 var argv = require('yargs')
   .usage('Converts CSV data to MARKDOWN tables\n(c) 2014-2018 by Philipp Staender, MIT License\n\nUsage: csv2md [options] (inputfile.csv)')
   .example('csv2md --pretty input.csv > output.md')
   .describe('p', 'pretty output, i.e. optimized column width (takes longer to process)')
-  .default('p', deaultOptions.pretty)
+  .default('p', defaultOptions.pretty)
   .alias('p', 'pretty')
   .describe('s', 'stream processing')
   .default('s', true)
   .alias('s', 'stream')
   .describe('tableDelimiter', 'delimiter for cells in output')
-  .default('tableDelimiter', deaultOptions.tableDelimiter)
+  .default('tableDelimiter', defaultOptions.tableDelimiter)
   .describe('cellPadding', 'chars / spaces to wrap cell content')
-  .default('cellPadding', deaultOptions.cellPadding)
+  .default('cellPadding', defaultOptions.cellPadding)
   .describe('firstLineMarker', 'to seperate first row\n you can specifiy own characters, for instance:\n`-*` -> `------…` (gets cell width)\n   `-====-` -> `-====-`\n')
   .default('firstLineMarker', defaultOptions.firstLineMarker)
   .describe('delimiterOnBegin', 'first row delimiter')
