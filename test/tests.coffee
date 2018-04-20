@@ -156,4 +156,13 @@ describe 'markdown table output', ->
     ǁ     ǁ     ǁ     ǁ
     ǁ g   ǁ h   ǁ i   ǁ
     """.trim()
-    
+
+  it 'expect to execute bin/csv2md', ->
+    md = require('child_process').execSync("#{__dirname}/../bin/csv2md --pretty #{__dirname}/example1.csv")
+    expect(md.toString().trim()).to.be.equal """
+    | a            | b     | c_1                | c_2   |
+    |--------------|-------|--------------------|-------|
+    | -122.1430195 | 124.3 | true               | false |
+    | null         | a     | a very long string | ~     |
+    | a            | b     | c_1                | c_2   |
+    """.trim()

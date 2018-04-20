@@ -90,7 +90,7 @@ will output:
 Ensure that you have mocha installed `npm install -g mocha`, then run:
 
 ```sh
-  $ npm run test
+  $ npm test
 ```
 
 ## Contributors
