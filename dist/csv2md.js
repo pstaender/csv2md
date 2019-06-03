@@ -1,63 +1,55 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.defaultOptions = {
+    pretty: true,
+    stream: false,
+    csvComment: null,
+    csvDelimiter: ',',
+    csvQuote: '"',
+    csvEscape: '"',
+    tableDelimiter: '|',
+    cellPadding: ' ',
+    firstLineMarker: '-*',
+    delimiterOnBegin: '',
+    delimiterOnEnd: '',
+    lineBreak: '\n',
+    prettyCellSpace: ' '
+};
 var Csv2md = (function () {
-    function Csv2md(pretty, stream, tableDelimiter, cellPadding, firstLineMarker, delimiterOnBegin, delimiterOnEnd, lineBreak, prettyCellSpace, csvComment, csvDelimiter, csvQuote, csvEscape) {
-        if (pretty === void 0) { pretty = true; }
-        if (stream === void 0) { stream = false; }
-        if (tableDelimiter === void 0) { tableDelimiter = '|'; }
-        if (cellPadding === void 0) { cellPadding = ' '; }
-        if (firstLineMarker === void 0) { firstLineMarker = '-*'; }
-        if (delimiterOnBegin === void 0) { delimiterOnBegin = ''; }
-        if (delimiterOnEnd === void 0) { delimiterOnEnd = ''; }
-        if (lineBreak === void 0) { lineBreak = '\n'; }
-        if (prettyCellSpace === void 0) { prettyCellSpace = ' '; }
-        this.tableDelimiter = '|';
-        this.cellPadding = ' ';
-        this.firstLineMarker = '-*';
-        this.delimiterOnBegin = '';
-        this.delimiterOnEnd = '';
-        this.lineBreak = '\n';
-        this.prettyCellSpace = ' ';
-        this.pretty = pretty;
-        this.stream = stream;
-        this.tableDelimiter = tableDelimiter;
-        this.cellPadding = cellPadding;
-        this.firstLineMarker = firstLineMarker;
-        this.csvComment = csvComment;
-        this.delimiterOnBegin = delimiterOnBegin;
-        this.delimiterOnEnd = delimiterOnEnd;
-        this.lineBreak = lineBreak;
-        this.prettyCellSpace = prettyCellSpace;
-        this.csvComment = csvComment;
-        this.csvDelimiter = csvDelimiter;
-        this.csvQuote = csvQuote;
-        this.csvEscape = csvEscape;
+    function Csv2md(options) {
+        this.options = options;
         this.rows = [];
     }
     Csv2md.prototype.rowToString = function (record, isFirstLine, cell) {
         if (isFirstLine === void 0) { isFirstLine = false; }
-        var pretty = this.pretty;
-        var firstLineMarker = this.firstLineMarker;
+        var pretty = this.options.pretty;
+        var firstLineMarker = this.options.firstLineMarker;
         var firstLineMarkerRepeat = firstLineMarker.length === 2 && firstLineMarker[1] === '*';
         var cellPaddingForFirstLine = firstLineMarkerRepeat
             ? firstLineMarker[0]
-            : this.cellPadding;
+            : this.options.cellPadding;
         var s = '';
         for (var column = 0; column < record.length; column++) {
             if (pretty) {
                 record[column] =
                     record[column].trim() +
-                        Array(cell[column] - (record[column].trim().length - 1)).join(this.prettyCellSpace);
+                        Array(cell[column] - (record[column].trim().length - 1)).join(this.options.prettyCellSpace);
             }
             else {
                 record[column] = record[column].trim();
             }
         }
         s +=
-            (this.delimiterOnBegin ? this.delimiterOnBegin + this.cellPadding : '') +
-                record.join(this.cellPadding + this.tableDelimiter + this.cellPadding) +
-                (this.delimiterOnEnd ? this.cellPadding + this.delimiterOnEnd : '') +
-                this.lineBreak;
+            (this.options.delimiterOnBegin
+                ? this.options.delimiterOnBegin + this.options.cellPadding
+                : '') +
+                record.join(this.options.cellPadding +
+                    this.options.tableDelimiter +
+                    this.options.cellPadding) +
+                (this.options.delimiterOnEnd
+                    ? this.options.cellPadding + this.options.delimiterOnEnd
+                    : '') +
+                this.options.lineBreak;
         if (isFirstLine) {
             var a = [];
             for (var i = 0; i < record.length; i++) {
@@ -79,16 +71,16 @@ var Csv2md = (function () {
                 }
             }
             s +=
-                (this.delimiterOnBegin
-                    ? this.delimiterOnBegin + cellPaddingForFirstLine
+                (this.options.delimiterOnBegin
+                    ? this.options.delimiterOnBegin + cellPaddingForFirstLine
                     : '') +
                     a.join(cellPaddingForFirstLine +
-                        this.tableDelimiter +
+                        this.options.tableDelimiter +
                         cellPaddingForFirstLine) +
-                    (this.delimiterOnEnd
-                        ? cellPaddingForFirstLine + this.delimiterOnEnd
+                    (this.options.delimiterOnEnd
+                        ? cellPaddingForFirstLine + this.options.delimiterOnEnd
                         : '') +
-                    this.lineBreak;
+                    this.options.lineBreak;
         }
         return s;
     };
