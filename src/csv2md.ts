@@ -1,54 +1,24 @@
-// export interface Options {
-//   pretty?: boolean
-//   stream?: boolean
-//   csvComment?: string | undefined
-//   csvDelimiter?: string | undefined
-//   csvQuote?: string | undefined
-//   csvEscape?: string | undefined
-//   tableDelimiter?: string
-//   cellPadding?: string
-//   firstLineMarker?: string
-//   delimiterOnBegin?: string
-//   delimiterOnEnd?: string
-//   lineBreak?: string
-//   prettyCellSpace?: string
-// }
+import * as parseSync from 'csv-parse/lib/sync'
 
-// export const defaultOptions: Options = {
-//   pretty: true,
-//   stream: false,
-//   csvComment: undefined,
-//   csvDelimiter: ',',
-//   csvQuote: '"',
-//   csvEscape: '"',
-//   tableDelimiter: '|',
-//   cellPadding: ' ',
-//   firstLineMarker: '-*',
-//   delimiterOnBegin: '',
-//   delimiterOnEnd: '',
-//   lineBreak: '\n',
-//   prettyCellSpace: ' '
-// }
+export interface Options {
+  pretty?: boolean
+  stream?: boolean
+  csvComment?: string | undefined
+  csvDelimiter?: string | undefined
+  csvQuote?: string | undefined
+  csvEscape?: string | undefined
+  tableDelimiter?: string
+  cellPadding?: string
+  firstLineMarker?: string
+  delimiterOnBegin?: string
+  delimiterOnEnd?: string
+  lineBreak?: string
+  prettyCellSpace?: string
+}
 
-// export interface options {
-//   tableDelimiter?: string
-//   cellPadding?: string
-//   firstLineMarker?: string
-//   pretty?: boolean
-//   stream?: boolean
-//   prettyCellSpace?: string
-//   lineBreak?: string
-//   delimiterOnBegin?: string
-//   delimiterOnEnd?: string
-//   csvComment?: string
-//   csvEscape?: string
-//   csvQuote?: string
-//   csvDelimiter?: string
-// }
-
-export class Csv2md {
-  pretty: Boolean
-  stream: Boolean
+export class Csv2md implements Options {
+  pretty = false
+  stream = false
   tableDelimiter = '|'
   cellPadding = ' '
   firstLineMarker = '-*'
@@ -57,62 +27,64 @@ export class Csv2md {
   lineBreak = '\n'
   prettyCellSpace = ' '
 
-  csvComment: string | undefined
-  csvDelimiter: string | undefined
-  csvQuote: string | undefined
-  csvEscape: string | undefined
+  csvComment?: string
+  csvDelimiter?: string
+  csvQuote?: string
+  csvEscape?: string
 
-  private rows: any[]
+  private rows: any[] = []
 
-  constructor(
-    pretty = true,
-    stream = false,
-    tableDelimiter = '|',
-    cellPadding = ' ',
-    firstLineMarker = '-*',
-    delimiterOnBegin = '',
-    delimiterOnEnd = '',
-    lineBreak = '\n',
-    prettyCellSpace = ' ',
-    csvComment: string | undefined,
-    csvDelimiter: string | undefined, // = ',',
-    csvQuote: string | undefined, //'"',
-    csvEscape: string | undefined //'"',
-  ) {
-    this.pretty = pretty
-    this.stream = stream
-    this.tableDelimiter = tableDelimiter
-    this.cellPadding = cellPadding
-    this.firstLineMarker = firstLineMarker
-    this.csvComment = csvComment
-    this.delimiterOnBegin = delimiterOnBegin
-    this.delimiterOnEnd = delimiterOnEnd
-    this.lineBreak = lineBreak
-    this.prettyCellSpace = prettyCellSpace
-    this.csvComment = csvComment
-    this.csvDelimiter = csvDelimiter
-    this.csvQuote = csvQuote
-    this.csvEscape = csvEscape
-    this.rows = []
+  constructor(options: Options = {}) {
+    if (options.pretty !== undefined) this.pretty = options.pretty
+    if (options.stream !== undefined) this.stream = options.stream
+    if (this.pretty) {
+      // for pretty we assume a table delimiter as well at the beginning and at the end by default
+      this.delimiterOnBegin = this.delimiterOnEnd = this.tableDelimiter
+    }
+    if (typeof options.tableDelimiter === 'string')
+      this.tableDelimiter = options.tableDelimiter
+    if (typeof options.cellPadding === 'string')
+      this.cellPadding = options.cellPadding
+    if (typeof options.firstLineMarker === 'string')
+      this.firstLineMarker = options.firstLineMarker
+    if (typeof options.csvComment === 'string')
+      this.csvComment = options.csvComment
+    if (typeof options.delimiterOnBegin === 'string')
+      this.delimiterOnBegin = options.delimiterOnBegin
+    if (typeof options.delimiterOnEnd === 'string')
+      this.delimiterOnEnd = options.delimiterOnEnd
+    if (typeof options.lineBreak === 'string')
+      this.lineBreak = options.lineBreak
+    if (typeof options.prettyCellSpace === 'string')
+      this.prettyCellSpace = options.prettyCellSpace
+
+    this.csvComment = options.csvComment
+    this.csvDelimiter = options.csvDelimiter
+    this.csvQuote = options.csvQuote
+    this.csvEscape = options.csvEscape
   }
 
-  rowToString(record: any, isFirstLine = false, cell: [any]) {
-    let pretty = this.pretty
+  rowToString(
+    record: any[],
+    isFirstLine = false,
+    cellsForPrettyPadding: any[] | null
+  ): string {
     let firstLineMarker = this.firstLineMarker
-    let firstLineMarkerRepeat =
+    var firstLineMarkerRepeat = Boolean(
       firstLineMarker.length === 2 && firstLineMarker[1] === '*'
+    )
     var cellPaddingForFirstLine = firstLineMarkerRepeat
       ? firstLineMarker[0]
       : this.cellPadding
 
-    let s = ''
-    for (let column = 0; column < record.length; column++) {
-      if (pretty) {
+    var s = ''
+    for (var column = 0; column < record.length; column++) {
+      if (cellsForPrettyPadding) {
         record[column] =
           record[column].trim() +
-          Array(cell[column] - (record[column].trim().length - 1)).join(
-            this.prettyCellSpace
-          )
+          Array(
+            cellsForPrettyPadding[column] - (record[column].trim().length - 1)
+          ).join(this.prettyCellSpace)
       } else {
         record[column] = record[column].trim()
       }
@@ -126,11 +98,11 @@ export class Csv2md {
     if (isFirstLine) {
       var a = []
       for (var i = 0; i < record.length; i++) {
-        if (pretty) {
+        if (cellsForPrettyPadding) {
           if (firstLineMarkerRepeat) {
-            a[i] = Array(cell[i] + 1).join(firstLineMarker[0])
+            a[i] = Array(cellsForPrettyPadding[i] + 1).join(firstLineMarker[0])
           } else {
-            a[i] = firstLineMarker.substr(0, cell[0])
+            a[i] = firstLineMarker.substr(0, cellsForPrettyPadding[0])
           }
         } else {
           if (firstLineMarkerRepeat) {
@@ -157,14 +129,14 @@ export class Csv2md {
     return s
   }
 
-  rowsToString(rows: any[] = this.rows) {
+  rowsToString(rows: any[] = this.rows): string {
     var maxLength = Array.apply(null, new Array(rows[0].length)).map(
       Number.prototype.valueOf,
-      exports.options.firstLineMarker.length
+      this.firstLineMarker.length
     )
     var isFirstLine = true
     var s = ''
-    if (exports.options.pretty) {
+    if (this.pretty) {
       rows.map(function(row) {
         row.map(function(cell: any, columnIndex: any) {
           if (String(cell).trim().length > maxLength[columnIndex]) {
@@ -173,12 +145,8 @@ export class Csv2md {
         })
       })
     }
-    rows.map(function(row) {
-      s += exports.rowToString(
-        row,
-        isFirstLine,
-        exports.options.pretty ? maxLength : null
-      )
+    rows.map(row => {
+      s += this.rowToString(row, isFirstLine, this.pretty ? maxLength : null)
       if (isFirstLine) {
         isFirstLine = false
       }
@@ -186,20 +154,19 @@ export class Csv2md {
     return s
   }
 
-  addRow(row: any[]) {
+  addRow(row: any[]): any[] {
     this.rows.push(row)
-    return exports.rows
+    return this.rows
   }
 
-  // convert(csv: string) {
-  //   // options = mergeWithDefaultOptions(options)
-  //   var data = require('csv-parse/lib/sync')(csv, {
-  //     comment: options.csvComment,
-  //     delimiter: options.csvDelimiter,
-  //     quote: options.csvQuote,
-  //     escape: options.csvEscape
-  //   })
-  //   exports.setOptions(options)
-  //   return exports.rowsToString(data)
-  // }
+  async convert(csv: string) {
+    // TODO: make this real async
+    const data = parseSync(csv, {
+      comment: this.csvComment,
+      delimiter: this.csvDelimiter,
+      quote: this.csvQuote,
+      escape: this.csvEscape
+    })
+    return this.rowsToString(data)
+  }
 }

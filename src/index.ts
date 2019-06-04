@@ -1,13 +1,8 @@
-import { defaultOptions, Options, CSV2MD } from './csv2md'
-
+import { Csv2md, Options } from './csv2md'
 import * as fs from 'fs'
-//import * as path from 'path'
-
-// var path = require('path')
-// var isFirstLine = true
-// var defaultOptions = csv2md.defaultOptions
-
 import * as yargs from 'yargs'
+
+const defaultCsv2md = new Csv2md()
 
 const { argv } = yargs
   .usage(
@@ -17,31 +12,30 @@ const { argv } = yargs
 Usage: $0 [options] <csvfile>`
   )
   .example(
-    '$0 -p input.csv > output.md',
-    'Converts a csv file to pretty formatted markdown table'
+    `$0 -p data.csv > output.md`,
+    `Converts csv to pretty markdown table`
   )
+  .example(`cat data.csv | $0 > output.md`, `Converts larger data`)
   .example(
-    'cat input.csv | $0 > output.md',
-    'Converts (larger) csv data to markdown table'
+    `$0 --csvDelimiter=";" < ~/data.csv`,
+    `Converts with a distinct csv delimiter`
   )
-  // .command('$0 [options] [csvfile]', '', {}, argv => {
-  //   console.log('this command will be run by default')
-  // })
-  //.example('')
-  .describe('p', 'pretty output, i.e. optimized column width')
-  .default('p', defaultOptions.pretty)
-  .alias('p', 'pretty')
+  .describe(
+    'pretty',
+    'pretty output, i.e. optimized column width and not inline-style'
+  )
+  .alias('pretty', 'p')
   .describe(
     'csvComment',
     'ignore everything until next line after this character'
   )
-  .default('csvComment', defaultOptions.csvComment)
+  .default('csvComment', defaultCsv2md.csvComment)
   .describe('csvDelimiter', 'column delimiter')
-  .default('csvDelimiter', defaultOptions.csvDelimiter)
+  .default('csvDelimiter', defaultCsv2md.csvDelimiter)
   .describe('csvQuote', 'cell quote')
-  .default('csvQuote', defaultOptions.csvQuote)
+  .default('csvQuote', defaultCsv2md.csvQuote)
   .describe('csvEscape', 'char to escape, see quoter')
-  .default('csvEscape', defaultOptions.csvEscape)
+  .default('csvEscape', defaultCsv2md.csvEscape)
   .help('h')
   .alias('h', 'help')
 
@@ -49,21 +43,18 @@ const lastArgument = process.argv.slice(-1)[0]
 
 const inputFile = lastArgument.match(/\.csv$/i) ? lastArgument : null
 
-const processAsStream = !argv.inputFilePath && process.stdin
-
-// input file or stdin?
-// var readStream = argv.inputFilePath
-//   ? fs.createReadStream(argv.inputFilePath)
-//   : process.stdin
+const processAsStream = Boolean(!inputFile && process.stdin)
 
 const options: Options = {
-  pretty: defaultOptions.pretty,
-  stream: processAsStream as boolean,
+  pretty: Boolean(argv.pretty),
+  stream: processAsStream,
   csvComment: argv.csvComment as string,
   csvDelimiter: argv.csvDelimiter as string,
   csvQuote: argv.csvQuote as string,
   csvEscape: argv.csvEscape as string
 }
+
+const csv2md = new Csv2md(options)
 
 import * as parse from 'csv-parse'
 import * as transform from 'stream-transform'
@@ -77,118 +68,38 @@ const parser = parse({
 
 let isFirstLine = true
 
-const csv2md = new CSV2MD(options)
-
 const transformer = transform({ parallel: 10 }, function(
   record: any,
   callback: any
 ) {
-  ;(function() {
-    if (!options.stream) {
+  ;(function(csv2md) {
+    let s = null
+    if (csv2md.pretty) {
       csv2md.addRow(record)
     } else {
-      // prepare for stdout
-      var s = csv2md.rowToString(record, isFirstLine)
+      s = csv2md.rowToString(record, isFirstLine, null)
       if (isFirstLine) {
         isFirstLine = false
       }
     }
     callback(null, s)
-  })()
+  })(csv2md)
 })
 
-// generator
-//   .pipe(parser)
-//   .pipe(transformer)
-//   .pipe(process.stdout)
-
-if (csv2md.options.stream) {
-  readStream
-    .pipe(parser)
-    .pipe(transformer)
-    .pipe(process.stdout)
-} else {
-  readStream.pipe(parser).pipe(transformer)
-  transformer.on('finish', function() {
-    console.log(csv2md.rowsToString())
-  })
+if (processAsStream) {
+  if (csv2md.pretty) {
+    process.stdin.pipe(parser).pipe(transformer)
+    transformer.on('finish', function() {
+      console.log(csv2md.rowsToString())
+    })
+  } else {
+    process.stdin
+      .pipe(parser)
+      .pipe(transformer)
+      .pipe(process.stdout)
+  }
+} else if (inputFile) {
+  ;(async () => {
+    console.log(await csv2md.convert(fs.readFileSync(inputFile).toString()))
+  })()
 }
-
-// if (argv.p && argv.stream) {
-//   argv.stream = argv.s = false
-// }
-
-// argv.inputFilePath = null
-
-// if (residualArguments.length > 0) {
-//   // we might have input file argument
-//   residualArguments.forEach(function(fileName) {
-//     var file = path.parse(fileName)
-//     if (file && file.ext && /csv/i.test(file.ext)) {
-//       argv.inputFilePath = fileName
-//       try {
-//         // check read access
-//         fs.accessSync(argv.inputFilePath, fs.R_OK)
-//       } catch (e) {
-//         console.error(
-//           "Couldn't access/read input file '" + argv.inputFilePath + "'"
-//         )
-//         process.exit(1)
-//       }
-//     }
-//   })
-// }
-
-// csv2md.setOptions({
-//   pretty: argv.pretty,
-//   stream: argv.stream,
-//   tableDelimiter: argv.tableDelimiter,
-//   firstLineMarker: argv.firstLineMarker,
-//   cellPadding: argv.cellPadding,
-//   delimiterOnBegin: argv.delimiterOnBegin,
-//   delimiterOnEnd: argv.delimiterOnEnd,
-//   csvComment: argv.csvComment,
-//   csvDelimiter: argv.csvDelimiter,
-//   csvQuote: argv.csvQuote,
-//   csvEscape: argv.csvEscape
-// })
-
-// var parser = parse({
-//   comment: argv.csvComment,
-//   delimiter: argv.csvDelimiter,
-//   quote: argv.csvQuote,
-//   escape: argv.csvEscape
-// })
-
-// var transformer = transform(
-//   function(record, callback) {
-//     ;(function() {
-//       if (!csv2md.options.stream) {
-//         csv2md.addRow(record)
-//       } else {
-//         // prepare for stdout
-//         var s = csv2md.rowToString(record, isFirstLine)
-//         if (isFirstLine) {
-//           isFirstLine = false
-//         }
-//       }
-//       callback(null, s)
-//     })()
-//   },
-//   { parallel: 10 }
-// )
-
-// input file or stdin?
-// const readStream = inputFile ? fs.createReadStream(inputFile) : process.stdin
-
-// if (csv2md.options.stream) {
-//   readStream
-//     .pipe(parser)
-//     .pipe(transformer)
-//     .pipe(process.stdout)
-// } else {
-//   readStream.pipe(parser).pipe(transformer)
-//   transformer.on('finish', function() {
-//     console.log(csv2md.rowsToString())
-//   })
-// }
