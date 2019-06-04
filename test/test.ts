@@ -89,30 +89,11 @@ describe('markdown table output', function() {
       done()
     })
   })
-  it('expect to transform a csv string with promises', function() {
-    const csv = 'foo,bar,baz\na#,"b",c\nd,e,\n,f,\n,,\ng,h,i'
-    const expectedOutcome = '| foo | bar | baz |\n|---|---|---|\n| a# | b | c |\n| d | e |  |\n|  | f |  |\n|  |  |  |\n| g | h | i |'.trim()
-    // csv2md.c
-    // expect(
-    //   require('../src/csv2md')
-    //     .csv2md(csv)
-    //     .trim()
-    // ).to.be.equal(expectedOutcome)
-    // expect(
-    //   require('../src/csv2md')
-    //     .csv2md(csv, {})
-    //     .trim()
-    // ).to.be.equal(expectedOutcome)
-    // expect(
-    //   require('../src/csv2md')
-    //     .csv2md(csv, {
-    //       tableDelimiter: 'ǁ',
-    //       pretty: true
-    //     })
-    //     .trim()
-    // ).to.be.equal(
-    //   'ǁ foo ǁ bar ǁ baz ǁ\nǁ-----ǁ-----ǁ-----ǁ\nǁ a#  ǁ b   ǁ c   ǁ\nǁ d   ǁ e   ǁ     ǁ\nǁ     ǁ f   ǁ     ǁ\nǁ     ǁ     ǁ     ǁ\nǁ g   ǁ h   ǁ i   ǁ'.trim()
-    // )
+  it('expect to transform a csv string with promises', async function() {
+    const expected = '| foo | bar | baz |\n|---|---|---|\n| a# | b | c |\n| d | e |  |\n|  | f |  |\n|  |  |  |\n| g | h | i |'.trim()
+
+    let data = await csv2md.convert(csvString)
+    expect(data).to.eq(expected)
   })
   it('expect to execute bin/csv2md', function() {
     var md

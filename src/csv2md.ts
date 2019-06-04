@@ -160,7 +160,7 @@ export class Csv2md implements Options {
   }
 
   async convert(csv: string) {
-    // TODO: make this real async
+    // TODO: make this real async via transformer -> https://stackoverflow.com/a/51711076
     const data = parseSync(csv, {
       comment: this.csvComment,
       delimiter: this.csvDelimiter,
