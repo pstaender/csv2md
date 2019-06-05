@@ -21,33 +21,33 @@ Piping data is possible (and recommend for larger files):
 ```sh
   $ data.csv < csv2md
 
-  | max_i | min_i | max_f | min_f |
-  |---|---|---|---|
-  | -122.1430195 | -122.1430195 | -122.415278 | 37.778643 |
-  | -122.1430195 | -122.1430195 | -122.40815 | 37.785034 |
-  | -122.4194155 | -122.4194155 | -122.4330827 | 37.7851673 |
+  Markdown | Less | Pretty
+  --- | --- | ---
+  *Still* | `renders` | **nicely**
+  1 | 2 | 3
+```
 
-  # and something like this, respectively
-  $ csv2md < data.csv > output.md
+To write the resulting markdown to a file, use the familiar stream syntax:
+
+```sh
+  $ csv2md < data.csv > data.md
+```
+
+### Pretty Markdown
+
+The `pretty` option will pad cells to uniform width and using additional `|`-delimiters by default:
+
+```sh
+  $ csv2md -p < data.csv
+
+  | Markdown | More      | Prettier   |
+  |----------|-----------|------------|
+  | *Still*  | `renders` | **nicely** |
+  | 1        | 2         | 3          |
   …
 ```
 
-```sh
-  $ cat data.csv | csv2md > data.md
-```
-
-The `pretty` option will pad cells to uniform width, but will disable stream processing.
-
-```sh
-  $ csv2md --pretty data.csv > data.md
-
-  | max_i        | min_i        | max_f        | min_f      |
-  |--------------|--------------|--------------|------------|
-  | -122.1430195 | -122.1430195 | -122.415278  | 37.778643  |
-  | -122.1430195 | -122.1430195 | -122.40815   | 37.785034  |
-  | -122.4194155 | -122.4194155 | -122.4330827 | 37.7851673 |
-  …
-```
+It looks much nicer than the default inline-style but will disable stream processing.
 
 ## Options
 
@@ -62,13 +62,13 @@ Use `-h` for more command options:
 ```js
 import { Csv2md } from 'csv2md'
 
+let csvString = fs.readFileSync(__dirname + '/data.csv').toString()
+
 let csv2md = new Csv2md.new({
   pretty: true
 })
 
-let markdown = await csv2md.convert(
-  fs.readFileSync(__dirname + '/data.csv').toString()
-)
+let markdown = await csv2md.convert(csvString)
 
 console.log(markdown)
 ```
@@ -89,14 +89,6 @@ let markdown = csv2md(csvString, {
 })
 
 console.log(markdown)
-```
-
-## Tests
-
-Ensure that you have mocha installed `npm install -g mocha`, then run:
-
-```sh
-  $ npm test
 ```
 
 ## Contributors
