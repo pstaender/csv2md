@@ -91,16 +91,6 @@ let markdown = csv2md(csvString, {
 console.log(markdown)
 ```
 
-will output:
-
-```
-| a            | b     | c_1                | c_2   |
-|--------------|-------|--------------------|-------|
-| -122.1430195 | 124.3 | true               | false |
-| null         | a     | a very long string | ~     |
-| a            | b     | c_1                | c_2   |
-```
-
 ## Tests
 
 Ensure that you have mocha installed `npm install -g mocha`, then run:
