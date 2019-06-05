@@ -22,7 +22,7 @@ Piping data is possible (and recommend for larger files):
   $ data.csv < csv2md
 
   max_i | min_i | max_f | min_f
-  --|---|---|--
+  ---|---|---|---
   -122.1430195 | -122.1430195 | -122.415278 | 37.778643
   -122.1430195 | -122.1430195 | -122.40815 | 37.785034
   -122.4194155 | -122.4194155 | -122.4330827 | 37.7851673
@@ -70,8 +70,6 @@ let csv2md = new Csv2md.new({
 })
 
 let markdown = await csv2md.convert(csvString)
-
-console.log(markdown)
 ```
 
 ### Synchronous usage
@@ -88,8 +86,6 @@ a,b,c_1,c_2`.trim()
 let markdown = csv2md(csvString, {
   pretty: true
 })
-
-console.log(markdown)
 ```
 
 ## Contributors
