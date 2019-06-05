@@ -36,7 +36,7 @@ To write the resulting markdown to a file, use the familiar stream syntax:
 
 ### Pretty Markdown
 
-The `pretty` option will pad cells to uniform width and using additional `|`-delimiters by default:
+The `pretty` / `p` option will pad cells to uniform width and using beginning and ending `|`-delimiters by default:
 
 ```sh
   $ csv2md -p < data.csv
