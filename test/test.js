@@ -137,7 +137,7 @@ describe('markdown table output', function () {
                     return [4, csv2mdDefault.convert(csvString)];
                 case 1:
                     data = _a.sent();
-                    chai_1.expect(data.trim()).to.eq("a | b | c_1 | c_2\n--|---|---|--\n-122.1430195 | 124.3 | true | false\nnull | a | a very long string | ~\na | b | c_1 | c_2".trim());
+                    chai_1.expect(data.trim()).to.eq("a | b | c_1 | c_2\n---|---|---|---\n-122.1430195 | 124.3 | true | false\nnull | a | a very long string | ~\na | b | c_1 | c_2".trim());
                     return [2];
             }
         });

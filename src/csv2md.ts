@@ -100,30 +100,23 @@ export class Csv2md implements Options {
       for (var i = 0; i < record.length; i++) {
         if (cellsForPrettyPadding) {
           if (firstLineMarkerRepeat) {
-            a[i] = Array(cellsForPrettyPadding[i] + 1).join(firstLineMarker[0])
+            a[i] = Array(cellsForPrettyPadding[i] + 2).join(firstLineMarker[0])
           } else {
             a[i] = firstLineMarker.substr(0, cellsForPrettyPadding[0])
           }
         } else {
           if (firstLineMarkerRepeat) {
-            a[i] = Array(2).join(firstLineMarker[0])
+            a[i] = Array(3).join(firstLineMarker[0])
           } else {
             a[i] = firstLineMarker
           }
         }
       }
       s +=
-        (this.delimiterOnBegin
-          ? this.delimiterOnBegin + cellPaddingForFirstLine
-          : '') +
-        a.join(
-          cellPaddingForFirstLine +
-            this.tableDelimiter +
-            cellPaddingForFirstLine
-        ) +
-        (this.delimiterOnEnd
-          ? cellPaddingForFirstLine + this.delimiterOnEnd
-          : '') +
+        (this.delimiterOnBegin || '') +
+        a.join(cellPaddingForFirstLine + this.tableDelimiter) +
+        cellPaddingForFirstLine +
+        (this.delimiterOnEnd || '') +
         this.lineBreak
     }
     return s

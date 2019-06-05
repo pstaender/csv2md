@@ -21,10 +21,11 @@ Piping data is possible (and recommend for larger files):
 ```sh
   $ data.csv < csv2md
 
-  Markdown | Less | Pretty
-  --- | --- | ---
-  *Still* | `renders` | **nicely**
-  1 | 2 | 3
+  max_i | min_i | max_f | min_f
+  --|---|---|--
+  -122.1430195 | -122.1430195 | -122.415278 | 37.778643
+  -122.1430195 | -122.1430195 | -122.40815 | 37.785034
+  -122.4194155 | -122.4194155 | -122.4330827 | 37.7851673
 ```
 
 To write the resulting markdown to a file, use the familiar stream syntax:
@@ -40,11 +41,11 @@ The `pretty` option will pad cells to uniform width and using additional `|`-del
 ```sh
   $ csv2md -p < data.csv
 
-  | Markdown | More      | Prettier   |
-  |----------|-----------|------------|
-  | *Still*  | `renders` | **nicely** |
-  | 1        | 2         | 3          |
-  …
+  | max_i        | min_i        | max_f        | min_f      |
+  |--------------|--------------|--------------|------------|
+  | -122.1430195 | -122.1430195 | -122.415278  | 37.778643  |
+  | -122.1430195 | -122.1430195 | -122.40815   | 37.785034  |
+  | -122.4194155 | -122.4194155 | -122.4330827 | 37.7851673 |
 ```
 
 It looks much nicer than the default inline-style but will disable stream processing.

@@ -104,7 +104,7 @@ describe('markdown table output', () => {
     const data = await csv2mdDefault.convert(csvString)
     expect(data.trim()).to.eq(
       `a | b | c_1 | c_2
---|---|---|--
+---|---|---|---
 -122.1430195 | 124.3 | true | false
 null | a | a very long string | ~
 a | b | c_1 | c_2`.trim()
