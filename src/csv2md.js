@@ -161,21 +161,28 @@ var Csv2md = (function () {
         this.rows.push(row);
         return this.rows;
     };
+    Csv2md.prototype.csv2md = function (csv) {
+        var data = parseSync(csv, {
+            comment: this.csvComment,
+            delimiter: this.csvDelimiter,
+            quote: this.csvQuote,
+            escape: this.csvEscape
+        });
+        return this.rowsToString(data);
+    };
     Csv2md.prototype.convert = function (csv) {
         return __awaiter(this, void 0, void 0, function () {
-            var data;
             return __generator(this, function (_a) {
-                data = parseSync(csv, {
-                    comment: this.csvComment,
-                    delimiter: this.csvDelimiter,
-                    quote: this.csvQuote,
-                    escape: this.csvEscape
-                });
-                return [2, this.rowsToString(data)];
+                return [2, this.csv2md(csv)];
             });
         });
     };
     return Csv2md;
 }());
 exports.Csv2md = Csv2md;
+function csv2md(csv, options) {
+    if (options === void 0) { options = {}; }
+    return new Csv2md(options).csv2md(csv);
+}
+exports.csv2md = csv2md;
 //# sourceMappingURL=csv2md.js.map

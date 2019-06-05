@@ -159,8 +159,7 @@ export class Csv2md implements Options {
     return this.rows
   }
 
-  async convert(csv: string) {
-    // TODO: make this real async via transformer -> https://stackoverflow.com/a/51711076
+  csv2md(csv: string): string {
     const data = parseSync(csv, {
       comment: this.csvComment,
       delimiter: this.csvDelimiter,
@@ -169,4 +168,13 @@ export class Csv2md implements Options {
     })
     return this.rowsToString(data)
   }
+
+  async convert(csv: string) {
+    // TODO: make this "real" async via transformer -> e.g. https://stackoverflow.com/a/51711076
+    return this.csv2md(csv)
+  }
+}
+
+export function csv2md(csv: string, options: Options = {}) {
+  return new Csv2md(options).csv2md(csv)
 }
