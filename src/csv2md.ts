@@ -9,8 +9,8 @@ export interface Options {
   tableDelimiter?: string
   cellPadding?: string
   firstLineMarker?: string
-  delimiterOnBegin?: string
-  delimiterOnEnd?: string
+  delimiterOnBegin?: string | undefined
+  delimiterOnEnd?: string | undefined
   lineBreak?: string
   prettyCellSpace?: string
 }
@@ -30,6 +30,8 @@ export class Csv2md implements Options {
   csvQuote?: string
   csvEscape?: string
 
+  private isFirstLine = true
+
   private rows: any[] = []
 
   constructor(options: Options = {}) {
@@ -46,9 +48,9 @@ export class Csv2md implements Options {
       this.firstLineMarker = options.firstLineMarker
     if (typeof options.csvComment === 'string')
       this.csvComment = options.csvComment
-    if (typeof options.delimiterOnBegin === 'string')
+    if (options.delimiterOnBegin !== undefined)
       this.delimiterOnBegin = options.delimiterOnBegin
-    if (typeof options.delimiterOnEnd === 'string')
+    if (options.delimiterOnEnd !== undefined)
       this.delimiterOnEnd = options.delimiterOnEnd
     if (typeof options.lineBreak === 'string')
       this.lineBreak = options.lineBreak
@@ -93,30 +95,47 @@ export class Csv2md implements Options {
       this.lineBreak
     // attach first Line seperator
     if (isFirstLine) {
-      var a = []
-      for (var i = 0; i < record.length; i++) {
-        if (cellsForPrettyPadding) {
-          if (firstLineMarkerRepeat) {
-            a[i] = Array(cellsForPrettyPadding[i] + 2).join(firstLineMarker[0])
-          } else {
-            a[i] = firstLineMarker.substr(0, cellsForPrettyPadding[0])
-          }
-        } else {
-          if (firstLineMarkerRepeat) {
-            a[i] = Array(3).join(firstLineMarker[0])
-          } else {
-            a[i] = firstLineMarker
-          }
-        }
-      }
+      let headingSeperatorLine = this.headingSeperatorLine(
+        record,
+        cellsForPrettyPadding,
+        firstLineMarkerRepeat,
+        firstLineMarker,
+        cellPaddingForFirstLine
+      )
       s +=
-        (this.delimiterOnBegin || '') +
-        a.join(cellPaddingForFirstLine + this.tableDelimiter) +
+        this.delimiterOnBegin +
+        headingSeperatorLine +
         cellPaddingForFirstLine +
-        (this.delimiterOnEnd || '') +
+        this.delimiterOnEnd +
         this.lineBreak
     }
     return s
+  }
+
+  private headingSeperatorLine(
+    record: any[],
+    cellsForPrettyPadding: any[] | null,
+    firstLineMarkerRepeat: boolean,
+    firstLineMarker: string,
+    cellPaddingForFirstLine: string
+  ): string {
+    var a = []
+    for (var i = 0; i < record.length; i++) {
+      if (cellsForPrettyPadding) {
+        if (firstLineMarkerRepeat) {
+          a[i] = Array(cellsForPrettyPadding[i] + 2).join(firstLineMarker[0])
+        } else {
+          a[i] = firstLineMarker.substr(0, cellsForPrettyPadding[0])
+        }
+      } else {
+        if (firstLineMarkerRepeat) {
+          a[i] = Array(3).join(firstLineMarker[0])
+        } else {
+          a[i] = firstLineMarker
+        }
+      }
+    }
+    return a.join(cellPaddingForFirstLine + this.tableDelimiter)
   }
 
   rowsToString(rows: any[] = this.rows): string {
@@ -141,12 +160,27 @@ export class Csv2md implements Options {
         isFirstLine = false
       }
     })
+    // to reuse transform
+    this.isFirstLine = true
     return s
   }
 
   addRow(row: any[]): any[] {
     this.rows.push(row)
     return this.rows
+  }
+
+  transform(record: any[], cb: Function): Function {
+    let s = null
+    if (this.pretty) {
+      this.addRow(record)
+    } else {
+      s = this.rowToString(record, this.isFirstLine, null)
+      if (this.isFirstLine) {
+        this.isFirstLine = false
+      }
+    }
+    return cb(null, s)
   }
 
   csv2md(csv: string): string {
@@ -165,6 +199,6 @@ export class Csv2md implements Options {
   }
 }
 
-export function csv2md(csv: string, options: Options = {}) {
+export function csv2md(csv: string, options: Options = {}): string {
   return new Csv2md(options).csv2md(csv)
 }

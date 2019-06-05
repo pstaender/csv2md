@@ -8,8 +8,6 @@
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "removeComments": true
-    // "outDir": "dist",
-    // "rootDir": "src"
   },
   "include": ["src/**/*", "test/**/*"],
   "exclude": ["node_modules"]

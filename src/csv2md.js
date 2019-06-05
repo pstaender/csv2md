@@ -47,6 +47,7 @@ var Csv2md = (function () {
         this.delimiterOnEnd = '';
         this.lineBreak = '\n';
         this.prettyCellSpace = ' ';
+        this.isFirstLine = true;
         this.rows = [];
         if (options.pretty !== undefined)
             this.pretty = options.pretty;
@@ -61,9 +62,9 @@ var Csv2md = (function () {
             this.firstLineMarker = options.firstLineMarker;
         if (typeof options.csvComment === 'string')
             this.csvComment = options.csvComment;
-        if (typeof options.delimiterOnBegin === 'string')
+        if (options.delimiterOnBegin !== undefined)
             this.delimiterOnBegin = options.delimiterOnBegin;
-        if (typeof options.delimiterOnEnd === 'string')
+        if (options.delimiterOnEnd !== undefined)
             this.delimiterOnEnd = options.delimiterOnEnd;
         if (typeof options.lineBreak === 'string')
             this.lineBreak = options.lineBreak;
@@ -98,33 +99,37 @@ var Csv2md = (function () {
                 (this.delimiterOnEnd ? this.cellPadding + this.delimiterOnEnd : '') +
                 this.lineBreak;
         if (isFirstLine) {
-            var a = [];
-            for (var i = 0; i < record.length; i++) {
-                if (cellsForPrettyPadding) {
-                    if (firstLineMarkerRepeat) {
-                        a[i] = Array(cellsForPrettyPadding[i] + 2).join(firstLineMarker[0]);
-                    }
-                    else {
-                        a[i] = firstLineMarker.substr(0, cellsForPrettyPadding[0]);
-                    }
-                }
-                else {
-                    if (firstLineMarkerRepeat) {
-                        a[i] = Array(3).join(firstLineMarker[0]);
-                    }
-                    else {
-                        a[i] = firstLineMarker;
-                    }
-                }
-            }
+            var headingSeperatorLine = this.headingSeperatorLine(record, cellsForPrettyPadding, firstLineMarkerRepeat, firstLineMarker, cellPaddingForFirstLine);
             s +=
-                (this.delimiterOnBegin || '') +
-                    a.join(cellPaddingForFirstLine + this.tableDelimiter) +
+                this.delimiterOnBegin +
+                    headingSeperatorLine +
                     cellPaddingForFirstLine +
-                    (this.delimiterOnEnd || '') +
+                    this.delimiterOnEnd +
                     this.lineBreak;
         }
         return s;
+    };
+    Csv2md.prototype.headingSeperatorLine = function (record, cellsForPrettyPadding, firstLineMarkerRepeat, firstLineMarker, cellPaddingForFirstLine) {
+        var a = [];
+        for (var i = 0; i < record.length; i++) {
+            if (cellsForPrettyPadding) {
+                if (firstLineMarkerRepeat) {
+                    a[i] = Array(cellsForPrettyPadding[i] + 2).join(firstLineMarker[0]);
+                }
+                else {
+                    a[i] = firstLineMarker.substr(0, cellsForPrettyPadding[0]);
+                }
+            }
+            else {
+                if (firstLineMarkerRepeat) {
+                    a[i] = Array(3).join(firstLineMarker[0]);
+                }
+                else {
+                    a[i] = firstLineMarker;
+                }
+            }
+        }
+        return a.join(cellPaddingForFirstLine + this.tableDelimiter);
     };
     Csv2md.prototype.rowsToString = function (rows) {
         var _this = this;
@@ -147,11 +152,25 @@ var Csv2md = (function () {
                 isFirstLine = false;
             }
         });
+        this.isFirstLine = true;
         return s;
     };
     Csv2md.prototype.addRow = function (row) {
         this.rows.push(row);
         return this.rows;
+    };
+    Csv2md.prototype.transform = function (record, cb) {
+        var s = null;
+        if (this.pretty) {
+            this.addRow(record);
+        }
+        else {
+            s = this.rowToString(record, this.isFirstLine, null);
+            if (this.isFirstLine) {
+                this.isFirstLine = false;
+            }
+        }
+        return cb(null, s);
     };
     Csv2md.prototype.csv2md = function (csv) {
         var data = parseSync(csv, {

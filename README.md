@@ -48,7 +48,7 @@ The `pretty` option will pad cells to uniform width and using additional `|`-del
   | -122.4194155 | -122.4194155 | -122.4330827 | 37.7851673 |
 ```
 
-It looks much nicer than the default inline-style but will disable stream processing.
+It's much more human readable than the default inline-style but will disable stream processing.
 
 ## Options
 
@@ -76,6 +76,23 @@ let markdown = await csv2md.convert(csvString)
 
 ```js
 import { Csv2md, csv2md } from 'csv2md'
+
+let csvString = `
+a,b,c_1,c_2
+-122.1430195,124.3,true,false
+null, a ,a very long string,~
+a,b,c_1,c_2`.trim()
+
+let markdown = csv2md(csvString, {
+  pretty: true
+})
+```
+
+### Stream
+
+```js
+import { Csv2md } from 'csv2md'
+import * as transform from 'stream-transform'
 
 let csvString = `
 a,b,c_1,c_2

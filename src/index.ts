@@ -40,8 +40,10 @@ Usage: $0 [options] <csvfile>`
   .default('firstLineMarker', defaultCsv2md.firstLineMarker)
   .describe('delimiterOnBegin', 'first row delimiter')
   .default('delimiterOnBegin', defaultCsv2md.delimiterOnBegin)
-  .describe('delimiterOnEnd', 'last  row delimiter')
+  .describe('delimiterOnEnd', 'last row delimiter')
   .default('delimiterOnEnd', defaultCsv2md.delimiterOnEnd)
+  .describe('parallel', 'number of transformation callbacks to run in parallel')
+  .default('parallel', 100)
   .default('csvComment', defaultCsv2md.csvComment)
   .describe('csvDelimiter', 'column delimiter')
   .default('csvDelimiter', defaultCsv2md.csvDelimiter)
@@ -49,6 +51,7 @@ Usage: $0 [options] <csvfile>`
   .default('csvQuote', defaultCsv2md.csvQuote)
   .describe('csvEscape', 'char to escape, see quoter')
   .default('csvEscape', defaultCsv2md.csvEscape)
+  .number(['parallel'])
   .boolean(['pretty'])
   .help('h')
   .alias('h', 'help')
@@ -62,8 +65,8 @@ const processAsStream = Boolean(!inputFile && process.stdin)
 const options: Options = {
   pretty: argv.pretty,
   firstLineMarker: argv.firstLineMarker,
-  delimiterOnBegin: argv.delimiterOnBegin,
-  delimiterOnEnd: argv.delimiterOnEnd,
+  delimiterOnBegin: argv.delimiterOnBegin || undefined,
+  delimiterOnEnd: argv.delimiterOnEnd || undefined,
   cellPadding: argv.cellPadding,
   tableDelimiter: argv.tableDelimiter,
   csvComment: argv.csvComment as string,
@@ -84,38 +87,23 @@ const parser = parse({
   escape: options.csvEscape
 })
 
-let isFirstLine = true
-
-const transformer = transform({ parallel: 10 }, function(
-  record: any,
-  callback: any
-) {
-  ;(function(csv2md) {
-    let s = null
-    if (csv2md.pretty) {
-      csv2md.addRow(record)
-    } else {
-      s = csv2md.rowToString(record, isFirstLine, null)
-      if (isFirstLine) {
-        isFirstLine = false
-      }
-    }
-    callback(null, s)
-  })(csv2md)
-})
-
 if (processAsStream) {
-  if (csv2md.pretty) {
-    process.stdin.pipe(parser).pipe(transformer)
-    transformer.on('finish', function() {
-      console.log(csv2md.rowsToString())
-    })
-  } else {
-    process.stdin
-      .pipe(parser)
-      .pipe(transformer)
-      .pipe(process.stdout)
-  }
+  ;(csv2md => {
+    const transformer = transform({ parallel: argv.parallel }, (record, cb) =>
+      csv2md.transform(record, cb)
+    )
+    if (csv2md.pretty) {
+      process.stdin.pipe(parser).pipe(transformer)
+      transformer.on('finish', function() {
+        console.log(csv2md.rowsToString())
+      })
+    } else {
+      process.stdin
+        .pipe(parser)
+        .pipe(transformer)
+        .pipe(process.stdout)
+    }
+  })(csv2md)
 } else if (inputFile) {
   ;(async () => {
     console.log(await csv2md.convert(fs.readFileSync(inputFile).toString()))

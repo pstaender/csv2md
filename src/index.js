@@ -56,8 +56,10 @@ var argv = yargs
     .default('firstLineMarker', defaultCsv2md.firstLineMarker)
     .describe('delimiterOnBegin', 'first row delimiter')
     .default('delimiterOnBegin', defaultCsv2md.delimiterOnBegin)
-    .describe('delimiterOnEnd', 'last  row delimiter')
+    .describe('delimiterOnEnd', 'last row delimiter')
     .default('delimiterOnEnd', defaultCsv2md.delimiterOnEnd)
+    .describe('parallel', 'number of transformation callbacks to run in parallel')
+    .default('parallel', 100)
     .default('csvComment', defaultCsv2md.csvComment)
     .describe('csvDelimiter', 'column delimiter')
     .default('csvDelimiter', defaultCsv2md.csvDelimiter)
@@ -65,6 +67,7 @@ var argv = yargs
     .default('csvQuote', defaultCsv2md.csvQuote)
     .describe('csvEscape', 'char to escape, see quoter')
     .default('csvEscape', defaultCsv2md.csvEscape)
+    .number(['parallel'])
     .boolean(['pretty'])
     .help('h')
     .alias('h', 'help').argv;
@@ -74,8 +77,8 @@ var processAsStream = Boolean(!inputFile && process.stdin);
 var options = {
     pretty: argv.pretty,
     firstLineMarker: argv.firstLineMarker,
-    delimiterOnBegin: argv.delimiterOnBegin,
-    delimiterOnEnd: argv.delimiterOnEnd,
+    delimiterOnBegin: argv.delimiterOnBegin || undefined,
+    delimiterOnEnd: argv.delimiterOnEnd || undefined,
     cellPadding: argv.cellPadding,
     tableDelimiter: argv.tableDelimiter,
     csvComment: argv.csvComment,
@@ -92,36 +95,25 @@ var parser = parse({
     quote: options.csvQuote,
     escape: options.csvEscape
 });
-var isFirstLine = true;
-var transformer = transform({ parallel: 10 }, function (record, callback) {
+if (processAsStream) {
     ;
     (function (csv2md) {
-        var s = null;
+        var transformer = transform({ parallel: argv.parallel }, function (record, cb) {
+            return csv2md.transform(record, cb);
+        });
         if (csv2md.pretty) {
-            csv2md.addRow(record);
+            process.stdin.pipe(parser).pipe(transformer);
+            transformer.on('finish', function () {
+                console.log(csv2md.rowsToString());
+            });
         }
         else {
-            s = csv2md.rowToString(record, isFirstLine, null);
-            if (isFirstLine) {
-                isFirstLine = false;
-            }
+            process.stdin
+                .pipe(parser)
+                .pipe(transformer)
+                .pipe(process.stdout);
         }
-        callback(null, s);
     })(csv2md);
-});
-if (processAsStream) {
-    if (csv2md.pretty) {
-        process.stdin.pipe(parser).pipe(transformer);
-        transformer.on('finish', function () {
-            console.log(csv2md.rowsToString());
-        });
-    }
-    else {
-        process.stdin
-            .pipe(parser)
-            .pipe(transformer)
-            .pipe(process.stdout);
-    }
 }
 else if (inputFile) {
     ;
