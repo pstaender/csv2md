@@ -59,7 +59,9 @@ var options = {
 var csvString = require('fs')
     .readFileSync(__dirname + '/example1.csv')
     .toString();
-var exepectedMarkdownTable = '| a | b | c_1 | c_2 |\n|---|---|---|---|\n| -122.1430195 | 124.3 | true | false |\n| null | a | a very long string | ~ |\n| a | b | c_1 | c_2 |';
+var expectedMarkdownTable = "| a | b | c_1 | c_2 |\n|---|---|---|---|\n| -122.1430195 | 124.3 | true | false |\n| null | a | a very long string | ~ |\n| a | b | c_1 | c_2 |";
+var expectedMarkdownTableInline = "a | b | c_1 | c_2\n---|---|---|---\n-122.1430195 | 124.3 | true | false\nnull | a | a very long string | ~\na | b | c_1 | c_2";
+var expectedMarkdownTablePretty = '| a            | b     | c_1                | c_2   |\n|--------------|-------|--------------------|-------|\n| -122.1430195 | 124.3 | true               | false |\n| null         | a     | a very long string | ~     |\n| a            | b     | c_1                | c_2   |';
 describe('markdown table output', function () {
     var csvData = [];
     var csv2mdConverter = new csv2md_1.Csv2md(options);
@@ -81,7 +83,7 @@ describe('markdown table output', function () {
     });
     it('expect to convert to a markdown table with specific (test) options', function () {
         var md = csv2mdConverter.rowsToString(csvData);
-        chai_1.expect(md.trim()).to.be.equal(exepectedMarkdownTable.trim());
+        chai_1.expect(md.trim()).to.be.equal(expectedMarkdownTable.trim());
     });
     it('expect to convert to a markdown table in pretty', function () {
         csv2mdConverter.pretty = true;
@@ -117,14 +119,14 @@ describe('markdown table output', function () {
                 case 0: return [4, csv2mdConverter.convert(csvString)];
                 case 1:
                     data = _a.sent();
-                    chai_1.expect(data.trim()).to.eq(exepectedMarkdownTable.trim());
+                    chai_1.expect(data.trim()).to.eq(expectedMarkdownTable.trim());
                     return [2];
             }
         });
     }); });
     it('expect to transform a csv string synchronously', function () { return __awaiter(_this, void 0, void 0, function () {
         return __generator(this, function (_a) {
-            chai_1.expect(csv2md_1.csv2md(csvString, options).trim()).to.eq(exepectedMarkdownTable.trim());
+            chai_1.expect(csv2md_1.csv2md(csvString, options).trim()).to.eq(expectedMarkdownTable.trim());
             return [2];
         });
     }); });
@@ -137,14 +139,20 @@ describe('markdown table output', function () {
                     return [4, csv2mdDefault.convert(csvString)];
                 case 1:
                     data = _a.sent();
-                    chai_1.expect(data.trim()).to.eq("a | b | c_1 | c_2\n---|---|---|---\n-122.1430195 | 124.3 | true | false\nnull | a | a very long string | ~\na | b | c_1 | c_2".trim());
+                    chai_1.expect(data.trim()).to.eq(expectedMarkdownTableInline.trim());
                     return [2];
             }
         });
     }); });
     it('expect to execute bin/csv2md', function () {
         var md = require('child_process').execSync(__dirname + "/../bin/csv2md --pretty " + __dirname + "/example1.csv");
-        chai_1.expect(md.toString().trim()).to.be.equal('| a            | b     | c_1                | c_2   |\n|--------------|-------|--------------------|-------|\n| -122.1430195 | 124.3 | true               | false |\n| null         | a     | a very long string | ~     |\n| a            | b     | c_1                | c_2   |'.trim());
+        chai_1.expect(md.toString().trim()).to.be.equal(expectedMarkdownTablePretty.trim());
+    });
+    it('expect to stream with bin/csv2md', function () {
+        var md = require('child_process').execSync(__dirname + "/../bin/csv2md --pretty < " + __dirname + "/example1.csv");
+        chai_1.expect(md.toString().trim()).to.be.equal(expectedMarkdownTablePretty.trim());
+        md = require('child_process').execSync(__dirname + "/../bin/csv2md < " + __dirname + "/example1.csv");
+        chai_1.expect(md.toString().trim()).to.be.equal(expectedMarkdownTableInline.trim());
     });
 });
 //# sourceMappingURL=test.js.map

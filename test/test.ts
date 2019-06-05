@@ -26,8 +26,19 @@ const csvString = require('fs')
   .readFileSync(__dirname + '/example1.csv')
   .toString()
 
-const exepectedMarkdownTable =
-  '| a | b | c_1 | c_2 |\n|---|---|---|---|\n| -122.1430195 | 124.3 | true | false |\n| null | a | a very long string | ~ |\n| a | b | c_1 | c_2 |'
+const expectedMarkdownTable = `| a | b | c_1 | c_2 |
+|---|---|---|---|
+| -122.1430195 | 124.3 | true | false |
+| null | a | a very long string | ~ |
+| a | b | c_1 | c_2 |`
+const expectedMarkdownTableInline = `a | b | c_1 | c_2
+---|---|---|---
+-122.1430195 | 124.3 | true | false
+null | a | a very long string | ~
+a | b | c_1 | c_2`
+
+const expectedMarkdownTablePretty =
+  '| a            | b     | c_1                | c_2   |\n|--------------|-------|--------------------|-------|\n| -122.1430195 | 124.3 | true               | false |\n| null         | a     | a very long string | ~     |\n| a            | b     | c_1                | c_2   |'
 
 describe('markdown table output', () => {
   let csvData: any[] | never[] = []
@@ -53,7 +64,7 @@ describe('markdown table output', () => {
   })
   it('expect to convert to a markdown table with specific (test) options', () => {
     let md = csv2mdConverter.rowsToString(csvData)
-    expect(md.trim()).to.be.equal(exepectedMarkdownTable.trim())
+    expect(md.trim()).to.be.equal(expectedMarkdownTable.trim())
   })
   it('expect to convert to a markdown table in pretty', () => {
     csv2mdConverter.pretty = true
@@ -92,30 +103,32 @@ describe('markdown table output', () => {
   })
   it('expect to convert a csv string with promises', async () => {
     const data = await csv2mdConverter.convert(csvString)
-    expect(data.trim()).to.eq(exepectedMarkdownTable.trim())
+    expect(data.trim()).to.eq(expectedMarkdownTable.trim())
   })
   it('expect to transform a csv string synchronously', async () => {
     expect(csv2md(csvString, options).trim()).to.eq(
-      exepectedMarkdownTable.trim()
+      expectedMarkdownTable.trim()
     )
   })
   it('expect to convert with default options', async () => {
     const csv2mdDefault = new Csv2md()
     const data = await csv2mdDefault.convert(csvString)
-    expect(data.trim()).to.eq(
-      `a | b | c_1 | c_2
----|---|---|---
--122.1430195 | 124.3 | true | false
-null | a | a very long string | ~
-a | b | c_1 | c_2`.trim()
-    )
+    expect(data.trim()).to.eq(expectedMarkdownTableInline.trim())
   })
   it('expect to execute bin/csv2md', () => {
     const md = require('child_process').execSync(
       `${__dirname}/../bin/csv2md --pretty ${__dirname}/example1.csv`
     )
-    expect(md.toString().trim()).to.be.equal(
-      '| a            | b     | c_1                | c_2   |\n|--------------|-------|--------------------|-------|\n| -122.1430195 | 124.3 | true               | false |\n| null         | a     | a very long string | ~     |\n| a            | b     | c_1                | c_2   |'.trim()
+    expect(md.toString().trim()).to.be.equal(expectedMarkdownTablePretty.trim())
+  })
+  it('expect to stream with bin/csv2md', () => {
+    let md = require('child_process').execSync(
+      `${__dirname}/../bin/csv2md --pretty < ${__dirname}/example1.csv`
     )
+    expect(md.toString().trim()).to.be.equal(expectedMarkdownTablePretty.trim())
+    md = require('child_process').execSync(
+      `${__dirname}/../bin/csv2md < ${__dirname}/example1.csv`
+    )
+    expect(md.toString().trim()).to.be.equal(expectedMarkdownTableInline.trim())
   })
 })

@@ -94,15 +94,14 @@ let markdown = csv2md(csvString, {
 import { Csv2md } from 'csv2md'
 import * as transform from 'stream-transform'
 
-let csvString = `
-a,b,c_1,c_2
--122.1430195,124.3,true,false
-null, a ,a very long string,~
-a,b,c_1,c_2`.trim()
-
-let markdown = csv2md(csvString, {
-  pretty: true
-})
+const transformer = transform((record, cb) =>
+  csv2md.transform(record, cb)
+)
+process.stdin
+  .pipe(parser)
+  .pipe(transformer)
+  .pipe(process.stdout)
+}
 ```
 
 ## Contributors
