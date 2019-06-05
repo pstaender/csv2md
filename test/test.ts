@@ -51,22 +51,22 @@ describe('markdown table output', () => {
     expect(csvData).to.have.length.above(0)
     expect(csvData[0]).to.have.length.above(0)
   })
-  it('expect to transform to a simple markdown table with given options', () => {
+  it('expect to convert to a markdown table with specific (test) options', () => {
     let md = csv2mdConverter.rowsToString(csvData)
     expect(md.trim()).to.be.equal(exepectedMarkdownTable.trim())
   })
-  it('expect to transform to a simple markdown table in pretty', () => {
+  it('expect to convert to a markdown table in pretty', () => {
     csv2mdConverter.pretty = true
     let md = csv2mdConverter.rowsToString(csvData)
     expect(md.trim()).to.be.equal(
       '| a            | b     | c_1                | c_2   |\n|--------------|-------|--------------------|-------|\n| -122.1430195 | 124.3 | true               | false |\n| null         | a     | a very long string | ~     |\n| a            | b     | c_1                | c_2   |'
     )
   })
-  it('expect to transform to a simple markdown table with various options', () => {
+  it('expect to convert to a markdown table with various options', () => {
     csv2mdConverter.tableDelimiter = '$'
     csv2mdConverter.firstLineMarker = '+*'
-    csv2mdConverter.cellPadding = '_'
     csv2mdConverter.delimiterOnBegin = '/'
+    csv2mdConverter.cellPadding = '_'
     csv2mdConverter.delimiterOnEnd = '\\'
     let md = csv2mdConverter.rowsToString(csvData)
     expect(md.trim()).to.be.equal(
@@ -79,7 +79,7 @@ describe('markdown table output', () => {
       '/_a……………………………_$_b…………_$_c_1………………………………………_$_c_2……_\\\n/++++++++++++++$+++++++$++++++++++++++++++++$+++++++\\\n/_-122.1430195_$_124.3_$_true……………………………………_$_false_\\\n/_null……………………_$_a…………_$_a very long string_$_~…………_\\\n/_a……………………………_$_b…………_$_c_1………………………………………_$_c_2……_\\'
     )
   })
-  it('expect to transform also empty cells', done => {
+  it('expect to convert also empty cells', done => {
     const csvData = 'foo,bar,baz\na#,"b",c\nd,e,\n,f,\n,,\ng,h,i'
     parse(csvData.trim(), {}, function(err, rows) {
       expect(err).to.be.equal(undefined)
@@ -90,7 +90,7 @@ describe('markdown table output', () => {
       done()
     })
   })
-  it('expect to transform a csv string with promises', async () => {
+  it('expect to convert a csv string with promises', async () => {
     const data = await csv2mdConverter.convert(csvString)
     expect(data.trim()).to.eq(exepectedMarkdownTable.trim())
   })
@@ -112,7 +112,7 @@ a | b | c_1 | c_2`.trim()
   })
   it('expect to execute bin/csv2md', () => {
     const md = require('child_process').execSync(
-      __dirname + '/../bin/csv2md --pretty ' + __dirname + '/example1.csv'
+      `${__dirname}/../bin/csv2md --pretty ${__dirname}/example1.csv`
     )
     expect(md.toString().trim()).to.be.equal(
       '| a            | b     | c_1                | c_2   |\n|--------------|-------|--------------------|-------|\n| -122.1430195 | 124.3 | true               | false |\n| null         | a     | a very long string | ~     |\n| a            | b     | c_1                | c_2   |'.trim()

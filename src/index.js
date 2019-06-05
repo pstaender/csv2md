@@ -48,6 +48,16 @@ var argv = yargs
     .describe('pretty', 'pretty output, i.e. optimized column width and not inline-style')
     .alias('pretty', 'p')
     .describe('csvComment', 'ignore everything until next line after this character')
+    .describe('tableDelimiter', 'delimiter for cells in output')
+    .default('tableDelimiter', defaultCsv2md.tableDelimiter)
+    .describe('cellPadding', 'chars / spaces to wrap cell content')
+    .default('cellPadding', defaultCsv2md.cellPadding)
+    .describe('firstLineMarker', 'to seperate first row\n you can specifiy own characters, for instance:\n`-*` -> `------…` (gets cell width)\n   `-====-` -> `-====-`\n')
+    .default('firstLineMarker', defaultCsv2md.firstLineMarker)
+    .describe('delimiterOnBegin', 'first row delimiter')
+    .default('delimiterOnBegin', defaultCsv2md.delimiterOnBegin)
+    .describe('delimiterOnEnd', 'last  row delimiter')
+    .default('delimiterOnEnd', defaultCsv2md.delimiterOnEnd)
     .default('csvComment', defaultCsv2md.csvComment)
     .describe('csvDelimiter', 'column delimiter')
     .default('csvDelimiter', defaultCsv2md.csvDelimiter)
@@ -55,14 +65,19 @@ var argv = yargs
     .default('csvQuote', defaultCsv2md.csvQuote)
     .describe('csvEscape', 'char to escape, see quoter')
     .default('csvEscape', defaultCsv2md.csvEscape)
+    .boolean(['pretty'])
     .help('h')
     .alias('h', 'help').argv;
 var lastArgument = process.argv.slice(-1)[0];
 var inputFile = lastArgument.match(/\.csv$/i) ? lastArgument : null;
 var processAsStream = Boolean(!inputFile && process.stdin);
 var options = {
-    pretty: Boolean(argv.pretty),
-    stream: processAsStream,
+    pretty: argv.pretty,
+    firstLineMarker: argv.firstLineMarker,
+    delimiterOnBegin: argv.delimiterOnBegin,
+    delimiterOnEnd: argv.delimiterOnEnd,
+    cellPadding: argv.cellPadding,
+    tableDelimiter: argv.tableDelimiter,
     csvComment: argv.csvComment,
     csvDelimiter: argv.csvDelimiter,
     csvQuote: argv.csvQuote,

@@ -2,7 +2,6 @@ import * as parseSync from 'csv-parse/lib/sync'
 
 export interface Options {
   pretty?: boolean
-  stream?: boolean
   csvComment?: string | undefined
   csvDelimiter?: string | undefined
   csvQuote?: string | undefined
@@ -18,7 +17,6 @@ export interface Options {
 
 export class Csv2md implements Options {
   pretty = false
-  stream = false
   tableDelimiter = '|'
   cellPadding = ' '
   firstLineMarker = '-*'
@@ -36,7 +34,6 @@ export class Csv2md implements Options {
 
   constructor(options: Options = {}) {
     if (options.pretty !== undefined) this.pretty = options.pretty
-    if (options.stream !== undefined) this.stream = options.stream
     if (this.pretty) {
       // for pretty we assume a table delimiter as well at the beginning and at the end by default
       this.delimiterOnBegin = this.delimiterOnEnd = this.tableDelimiter

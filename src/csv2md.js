@@ -40,7 +40,6 @@ var Csv2md = (function () {
     function Csv2md(options) {
         if (options === void 0) { options = {}; }
         this.pretty = false;
-        this.stream = false;
         this.tableDelimiter = '|';
         this.cellPadding = ' ';
         this.firstLineMarker = '-*';
@@ -51,8 +50,6 @@ var Csv2md = (function () {
         this.rows = [];
         if (options.pretty !== undefined)
             this.pretty = options.pretty;
-        if (options.stream !== undefined)
-            this.stream = options.stream;
         if (this.pretty) {
             this.delimiterOnBegin = this.delimiterOnEnd = this.tableDelimiter;
         }

@@ -79,20 +79,20 @@ describe('markdown table output', function () {
         chai_1.expect(csvData).to.have.length.above(0);
         chai_1.expect(csvData[0]).to.have.length.above(0);
     });
-    it('expect to transform to a simple markdown table with given options', function () {
+    it('expect to convert to a markdown table with specific (test) options', function () {
         var md = csv2mdConverter.rowsToString(csvData);
         chai_1.expect(md.trim()).to.be.equal(exepectedMarkdownTable.trim());
     });
-    it('expect to transform to a simple markdown table in pretty', function () {
+    it('expect to convert to a markdown table in pretty', function () {
         csv2mdConverter.pretty = true;
         var md = csv2mdConverter.rowsToString(csvData);
         chai_1.expect(md.trim()).to.be.equal('| a            | b     | c_1                | c_2   |\n|--------------|-------|--------------------|-------|\n| -122.1430195 | 124.3 | true               | false |\n| null         | a     | a very long string | ~     |\n| a            | b     | c_1                | c_2   |');
     });
-    it('expect to transform to a simple markdown table with various options', function () {
+    it('expect to convert to a markdown table with various options', function () {
         csv2mdConverter.tableDelimiter = '$';
         csv2mdConverter.firstLineMarker = '+*';
-        csv2mdConverter.cellPadding = '_';
         csv2mdConverter.delimiterOnBegin = '/';
+        csv2mdConverter.cellPadding = '_';
         csv2mdConverter.delimiterOnEnd = '\\';
         var md = csv2mdConverter.rowsToString(csvData);
         chai_1.expect(md.trim()).to.be.equal('/_a_$_b_$_c_1_$_c_2_\\\n/+++$+++$+++$+++\\\n/_-122.1430195_$_124.3_$_true_$_false_\\\n/_null_$_a_$_a very long string_$_~_\\\n/_a_$_b_$_c_1_$_c_2_\\');
@@ -101,7 +101,7 @@ describe('markdown table output', function () {
         md = csv2mdConverter.rowsToString(csvData);
         chai_1.expect(md.trim()).to.be.equal('/_a……………………………_$_b…………_$_c_1………………………………………_$_c_2……_\\\n/++++++++++++++$+++++++$++++++++++++++++++++$+++++++\\\n/_-122.1430195_$_124.3_$_true……………………………………_$_false_\\\n/_null……………………_$_a…………_$_a very long string_$_~…………_\\\n/_a……………………………_$_b…………_$_c_1………………………………………_$_c_2……_\\');
     });
-    it('expect to transform also empty cells', function (done) {
+    it('expect to convert also empty cells', function (done) {
         var csvData = 'foo,bar,baz\na#,"b",c\nd,e,\n,f,\n,,\ng,h,i';
         parse(csvData.trim(), {}, function (err, rows) {
             chai_1.expect(err).to.be.equal(undefined);
@@ -110,7 +110,7 @@ describe('markdown table output', function () {
             done();
         });
     });
-    it('expect to transform a csv string with promises', function () { return __awaiter(_this, void 0, void 0, function () {
+    it('expect to convert a csv string with promises', function () { return __awaiter(_this, void 0, void 0, function () {
         var data;
         return __generator(this, function (_a) {
             switch (_a.label) {
@@ -143,7 +143,7 @@ describe('markdown table output', function () {
         });
     }); });
     it('expect to execute bin/csv2md', function () {
-        var md = require('child_process').execSync(__dirname + '/../bin/csv2md --pretty ' + __dirname + '/example1.csv');
+        var md = require('child_process').execSync(__dirname + "/../bin/csv2md --pretty " + __dirname + "/example1.csv");
         chai_1.expect(md.toString().trim()).to.be.equal('| a            | b     | c_1                | c_2   |\n|--------------|-------|--------------------|-------|\n| -122.1430195 | 124.3 | true               | false |\n| null         | a     | a very long string | ~     |\n| a            | b     | c_1                | c_2   |'.trim());
     });
 });
