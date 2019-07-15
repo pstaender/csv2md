@@ -79,11 +79,11 @@ export class Csv2md implements Options {
     var s = ''
     for (var column = 0; column < record.length; column++) {
       if (cellsForPrettyPadding) {
-        record[column] =
-          record[column].trim() +
-          Array(
-            cellsForPrettyPadding[column] - (record[column].trim().length - 1)
-          ).join(this.prettyCellSpace)
+        record[column] = this.paddedCells(
+          record[column],
+          column,
+          cellsForPrettyPadding
+        )
       } else {
         record[column] = record[column].trim()
       }
@@ -110,6 +110,19 @@ export class Csv2md implements Options {
         this.lineBreak
     }
     return s
+  }
+
+  private paddedCells(
+    record: string,
+    column: any,
+    cellsForPrettyPadding: any[]
+  ) {
+    return (
+      record.trim() +
+      Array(cellsForPrettyPadding[column] - (record.trim().length - 1)).join(
+        this.prettyCellSpace
+      )
+    )
   }
 
   private headingSeperatorLine(
