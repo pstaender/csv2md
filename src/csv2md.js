@@ -85,9 +85,7 @@ var Csv2md = (function () {
         var s = '';
         for (var column = 0; column < record.length; column++) {
             if (cellsForPrettyPadding) {
-                record[column] =
-                    record[column].trim() +
-                        Array(cellsForPrettyPadding[column] - (record[column].trim().length - 1)).join(this.prettyCellSpace);
+                record[column] = this.paddedCells(record[column], column, cellsForPrettyPadding);
             }
             else {
                 record[column] = record[column].trim();
@@ -108,6 +106,10 @@ var Csv2md = (function () {
                     this.lineBreak;
         }
         return s;
+    };
+    Csv2md.prototype.paddedCells = function (record, column, cellsForPrettyPadding) {
+        return (record.trim() +
+            Array(cellsForPrettyPadding[column] - (record.trim().length - 1)).join(this.prettyCellSpace));
     };
     Csv2md.prototype.headingSeperatorLine = function (record, cellsForPrettyPadding, firstLineMarkerRepeat, firstLineMarker, cellPaddingForFirstLine) {
         var a = [];
