@@ -65,7 +65,7 @@ import { Csv2md } from 'csv2md'
 
 let csvString = fs.readFileSync(__dirname + '/data.csv').toString()
 
-let csv2md = new Csv2md.new({
+let csv2md = new Csv2md({
   pretty: true
 })
 
