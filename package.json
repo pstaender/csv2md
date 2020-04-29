@@ -25,21 +25,21 @@
   "author": "Philipp Staender <pstaender@mailbox.org>",
   "license": "MIT",
   "dependencies": {
-    "csv-parse": "^4.8.2",
+    "csv-parse": "^4.9.0",
     "get-stream": "^5.1.0",
     "stream-transform": "^2.0.1",
     "yargs": "^11.1.1"
   },
   "devDependencies": {
-    "@types/chai": "^4.2.6",
-    "@types/jest": "^24.0.23",
+    "@types/chai": "^4.2.11",
+    "@types/jest": "^24.9.1",
     "@types/mocha": "^5.2.7",
-    "@types/node": "^12.12.16",
-    "@types/yargs": "^13.0.3",
+    "@types/node": "^12.12.37",
+    "@types/yargs": "^13.0.8",
     "chai": "^4.2.0",
-    "coffeescript": "^2.4.1",
-    "mocha": "^6.2.2",
-    "source-map-support": "^0.5.16",
-    "typescript": "^3.7.3"
+    "coffeescript": "^2.5.1",
+    "mocha": "^6.2.3",
+    "source-map-support": "^0.5.19",
+    "typescript": "^3.8.3"
   }
 }
