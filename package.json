@@ -7,9 +7,9 @@
     "csv2md": "bin/csv2md"
   },
   "scripts": {
-    "test": "npm run build; node_modules/mocha/bin/mocha -r ts-node/register test/**/test.ts",
+    "test": "npm run build; node_modules/mocha/bin/mocha test/**/test.ts",
     "build": "tsc --project tsconfig.json",
-    "watch": "tsc -w"
+    "watch": "tsc --project tsconfig.json -w"
   },
   "repository": {
     "type": "git",
