@@ -36,8 +36,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.csv2md = exports.Csv2md = void 0;
 var parseSync = require("csv-parse/lib/sync");
-var Csv2md = (function () {
+var Csv2md = /** @class */ (function () {
     function Csv2md(options) {
         if (options === void 0) { options = {}; }
         this.pretty = false;
@@ -53,6 +54,7 @@ var Csv2md = (function () {
         if (options.pretty !== undefined)
             this.pretty = options.pretty;
         if (this.pretty) {
+            // for pretty we assume a table delimiter as well at the beginning and at the end by default
             this.delimiterOnBegin = this.delimiterOnEnd = this.tableDelimiter;
         }
         if (typeof options.tableDelimiter === 'string')
@@ -97,6 +99,7 @@ var Csv2md = (function () {
                 record.join(this.cellPadding + this.tableDelimiter + this.cellPadding) +
                 (this.delimiterOnEnd ? this.cellPadding + this.delimiterOnEnd : '') +
                 this.lineBreak;
+        // attach first Line seperator
         if (isFirstLine) {
             var headingSeperatorLine = this.headingSeperatorLine(record, cellsForPrettyPadding, firstLineMarkerRepeat, firstLineMarker, cellPaddingForFirstLine);
             s +=
@@ -155,6 +158,7 @@ var Csv2md = (function () {
                 isFirstLine = false;
             }
         });
+        // to reuse transform
         this.isFirstLine = true;
         return s;
     };
@@ -187,7 +191,8 @@ var Csv2md = (function () {
     Csv2md.prototype.convert = function (csv) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2, this.csv2md(csv)];
+                // TODO: make this "real" async via transformer -> e.g. https://stackoverflow.com/a/51711076
+                return [2 /*return*/, this.csv2md(csv)];
             });
         });
     };

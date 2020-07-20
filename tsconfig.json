@@ -7,8 +7,7 @@
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
-    "removeComments": true
+    "skipLibCheck": true
   },
-  "include": ["src/**/*", "test/**/*"],
-  "exclude": ["node_modules"]
+  "include": ["src/**/*"]
 }

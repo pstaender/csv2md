@@ -123,10 +123,10 @@ else if (inputFile) {
             switch (_c.label) {
                 case 0:
                     _b = (_a = console).log;
-                    return [4, csv2md.convert(fs.readFileSync(inputFile).toString())];
+                    return [4 /*yield*/, csv2md.convert(fs.readFileSync(inputFile).toString())];
                 case 1:
                     _b.apply(_a, [_c.sent()]);
-                    return [2];
+                    return [2 /*return*/];
             }
         });
     }); })();
