@@ -2,3 +2,4 @@
 --reporter spec
 --colors
 --timeout 4000
+--require ts-node/register

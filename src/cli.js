@@ -41,7 +41,7 @@ var fs = require("fs");
 var yargs = require("yargs");
 var defaultCsv2md = new csv2md_1.Csv2md();
 var argv = yargs
-    .usage("Converts CSV data to Markdown tables\n(c) 2014-2019 by Philipp Staender, MIT License\n\nUsage: $0 [options] <csvfile>")
+    .usage("Converts CSV data to Markdown tables\n(c) 2014-2020 by Philipp Staender, MIT License\n\nUsage: $0 [options] <csvfile>")
     .example("$0 -p data.csv > output.md", "Converts csv to pretty markdown table")
     .example("cat data.csv | $0 > output.md", "Converts larger data")
     .example("$0 --csvDelimiter=\";\" < ~/data.csv", "Converts with a distinct csv delimiter")
@@ -123,12 +123,12 @@ else if (inputFile) {
             switch (_c.label) {
                 case 0:
                     _b = (_a = console).log;
-                    return [4, csv2md.convert(fs.readFileSync(inputFile).toString())];
+                    return [4 /*yield*/, csv2md.convert(fs.readFileSync(inputFile).toString())];
                 case 1:
                     _b.apply(_a, [_c.sent()]);
-                    return [2];
+                    return [2 /*return*/];
             }
         });
     }); })();
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=cli.js.map
