@@ -19,7 +19,7 @@ Small tool to convert (larger) csv to markdown tables. Processes `stdin` or csv 
 Piping data is possible (and recommend for larger files):
 
 ```sh
-  $ data.csv < csv2md
+  $ csv2md < data.csv
 
   max_i | min_i | max_f | min_f
   ---|---|---|---
