@@ -1,7 +1,5 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "strict": true,
     "sourceMap": true,
     "skipLibCheck": true
   },
