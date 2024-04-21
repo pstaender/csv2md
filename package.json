@@ -7,7 +7,8 @@
     "csv2md": "bin/csv2md"
   },
   "scripts": {
-    "test": "npm run build; npx mocha test/**/*.ts",
+    "test": "npx mocha test/**/*.ts",
+    "build-and-test": "npm run build && npx mocha test/**/*.ts",
     "build": "tsc --project tsconfig.json",
     "watch": "tsc --project tsconfig.json -w"
   },
