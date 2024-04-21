@@ -1,4 +1,4 @@
-import parseSync from 'csv-parse/lib/sync'
+import { parse } from 'csv-parse/sync'
 
 export interface Options {
   pretty?: boolean
@@ -197,7 +197,7 @@ export class Csv2md implements Options {
   }
 
   csv2md(csv: string): string {
-    const data = parseSync(csv, {
+    const data = parse(csv, {
       comment: this.csvComment,
       delimiter: this.csvDelimiter,
       quote: this.csvQuote,

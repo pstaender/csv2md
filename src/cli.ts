@@ -7,7 +7,7 @@ const defaultCsv2md = new Csv2md()
 const { argv } = yargs
   .usage(
     `Converts CSV data to Markdown tables
-(c) 2014-2020 by Philipp Staender, MIT License
+(c) 2014-2024 by Philipp Staender, MIT License
 
 Usage: $0 [options] <csvfile>`
   )
@@ -77,7 +77,7 @@ const options: Options = {
 
 const csv2md = new Csv2md(options)
 
-import * as parse from 'csv-parse'
+import { parse } from 'csv-parse'
 import * as transform from 'stream-transform'
 
 const parser = parse({

@@ -1,7 +1,7 @@
 import 'source-map-support/register'
 
 import { expect } from 'chai'
-import parse from 'csv-parse'
+import { parse } from 'csv-parse'
 import { Csv2md, csv2md } from '../src/csv2md'
 
 const csvOptions = {
