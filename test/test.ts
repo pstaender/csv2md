@@ -117,17 +117,17 @@ describe('markdown table output', () => {
   })
   it('expect to execute bin/csv2md', () => {
     const md = require('child_process').execSync(
-      `${__dirname}/../bin/csv2md --pretty ${__dirname}/example1.csv`
+      `node ${__dirname}/../bin/csv2md --pretty ${__dirname}/example1.csv`
     )
     expect(md.toString().trim()).to.be.equal(expectedMarkdownTablePretty.trim())
   })
   it('expect to stream with bin/csv2md', () => {
     let md = require('child_process').execSync(
-      `${__dirname}/../bin/csv2md --pretty < ${__dirname}/example1.csv`
+      `node ${__dirname}/../bin/csv2md --pretty < ${__dirname}/example1.csv`
     )
     expect(md.toString().trim()).to.be.equal(expectedMarkdownTablePretty.trim())
     md = require('child_process').execSync(
-      `${__dirname}/../bin/csv2md < ${__dirname}/example1.csv`
+      `node ${__dirname}/../bin/csv2md < ${__dirname}/example1.csv`
     )
     expect(md.toString().trim()).to.be.equal(expectedMarkdownTableInline.trim())
   })
