@@ -1,4 +1,4 @@
-import * as parseSync from 'csv-parse/lib/sync'
+import parseSync from 'csv-parse/lib/sync'
 
 export interface Options {
   pretty?: boolean
