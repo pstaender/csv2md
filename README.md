@@ -1,6 +1,6 @@
 # Transforms csv to markdown table
 
-[![Build Status](https://travis-ci.org/pstaender/csv2md.svg?branch=master)](https://travis-ci.org/pstaender/csv2md)
+![status](https://github.com/pstaender/csv2md/actions/workflows/build.yml/badge.svg)
 
 Install with:
 
