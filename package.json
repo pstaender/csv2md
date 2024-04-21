@@ -9,8 +9,8 @@
   "scripts": {
     "test": "npx mocha test/**/*.ts",
     "build-and-test": "npm run build && npx mocha test/**/*.ts",
-    "build": "tsc --project tsconfig.json",
-    "watch": "tsc --project tsconfig.json -w"
+    "build": "tsc --build",
+    "watch": "tsc --build -w"
   },
   "repository": {
     "type": "git",
