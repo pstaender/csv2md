@@ -17,8 +17,8 @@ Usage: $0 [options] <csvfile>`
   )
   .example(`cat data.csv | $0 > output.md`, `Converts larger data`)
   .example(
-    `$0 --csvDelimiter=";" < ~/data.csv`,
-    `Converts with a distinct csv delimiter`
+    `$0 -d=";" < ~/data.csv`,
+    `Using another csv delimiter than ,`
   )
   .describe(
     "pretty",
@@ -47,6 +47,7 @@ Usage: $0 [options] <csvfile>`
   .default("csvComment", defaultCsv2md.csvComment)
   .describe("csvDelimiter", "column delimiter")
   .default("csvDelimiter", defaultCsv2md.csvDelimiter)
+  .alias("d", "csvDelimiter")
   .describe("csvQuote", "cell quote")
   .default("csvQuote", defaultCsv2md.csvQuote)
   .describe("csvEscape", "char to escape, see quoter")

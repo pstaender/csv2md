@@ -26,7 +26,7 @@ export class Csv2md implements Options {
   prettyCellSpace = " ";
 
   csvComment?: string;
-  csvDelimiter?: string;
+  csvDelimiter: string;
   csvQuote?: string;
   csvEscape?: string;
 
