@@ -3,7 +3,7 @@ name: build-and-test
 on: [push]
 
 jobs:
-  build:
+  test:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -15,6 +15,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+          cache: npm
       - run: npm install --include=dev
-      - run: npm run build
       - run: npm run test
