@@ -8,7 +8,7 @@ const csvOptions = {
   comment: "#",
   delimiter: undefined,
   quote: undefined,
-  escape: undefined,
+  escape: undefined
 };
 
 const options = {
@@ -19,7 +19,7 @@ const options = {
   cellPadding: " ",
   delimiterOnBegin: "|",
   delimiterOnEnd: "|",
-  csvComment: "#",
+  csvComment: "#"
 };
 
 const csvString = require("fs")

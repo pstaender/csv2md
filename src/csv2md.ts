@@ -201,7 +201,7 @@ export class Csv2md implements Options {
       comment: this.csvComment,
       delimiter: this.csvDelimiter,
       quote: this.csvQuote,
-      escape: this.csvEscape,
+      escape: this.csvEscape
     });
     return this.rowsToString(data);
   }

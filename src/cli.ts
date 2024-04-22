@@ -16,10 +16,7 @@ Usage: $0 [options] <csvfile>`
     `Converts csv to pretty markdown table`
   )
   .example(`cat data.csv | $0 > output.md`, `Converts larger data`)
-  .example(
-    `$0 -d=";" < ~/data.csv`,
-    `Using another csv delimiter than ,`
-  )
+  .example(`$0 -d=";" < ~/data.csv`, `Using another csv delimiter than ,`)
   .describe(
     "pretty",
     "pretty output, i.e. optimized column width and not inline-style"
@@ -73,7 +70,7 @@ const options: Options = {
   csvComment: argv.csvComment as string,
   csvDelimiter: argv.csvDelimiter as string,
   csvQuote: argv.csvQuote as string,
-  csvEscape: argv.csvEscape as string,
+  csvEscape: argv.csvEscape as string
 };
 
 const csv2md = new Csv2md(options);
@@ -85,7 +82,7 @@ const parser = parse({
   comment: options.csvComment as string,
   delimiter: options.csvDelimiter,
   quote: options.csvQuote,
-  escape: options.csvEscape,
+  escape: options.csvEscape
 });
 
 if (processAsStream) {
