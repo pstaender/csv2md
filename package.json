@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "npx mocha test/**/*.ts",
-    "build-and-test": "npm run build && npx mocha test/**/*.ts",
+    "build-and-test": "npm run build && npm run test",
     "build": "tsc --build",
     "watch": "tsc --build -w"
   },
