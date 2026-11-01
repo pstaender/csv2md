@@ -47,6 +47,10 @@
     ".": {
       "types": "./dist/csv2md.d.ts",
       "default": "./dist/csv2md.js"
+    },
+    "./promises": {
+      "types": "./dist/promises.d.ts",
+      "default": "./dist/promises.js"
     }
   },
   "engines": {

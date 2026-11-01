@@ -60,36 +60,44 @@ Use `-h` for more command options:
 
 ## Using csv2md programatically
 
-All conversions are promise based. Input can be a string, a `Buffer`, a readable stream or any (async) iterable of strings/buffers.
+csv2md offers two APIs: a synchronous one (`csv2md`, compatible with v1) and a promise based one (`csv2md/promises`), similar to `node:fs` and `node:fs/promises`. Both produce identical output.
+
+### Synchronous
+
+```js
+import { readFileSync } from 'node:fs'
+import { Csv2md, csv2md } from 'csv2md'
+
+const csvString = readFileSync('data.csv', 'utf8')
+
+const markdown = csv2md(csvString, { pretty: true })
+
+// or with a reusable converter
+const converter = new Csv2md({ pretty: true })
+converter.csv2md(csvString)         // string
+await converter.convert(csvString)  // Promise<string>
+```
+
+### Promise based
+
+Input can be a string, a `Buffer`, a readable stream or any (async) iterable of strings/buffers.
 
 ```js
 import { createReadStream } from 'node:fs'
-import { Csv2md, csv2md } from 'csv2md'
+import { Csv2md, csv2md } from 'csv2md/promises'
 
-// one-off conversion
-const markdown = await csv2md('a,b\n1,2', { pretty: true })
-
-// reusable converter, reading from a stream
-const converter = new Csv2md({ pretty: true, csvDelimiter: ';' })
-const table = await converter.convert(createReadStream('data.csv'))
+const markdown = await csv2md(createReadStream('data.csv'), { pretty: true })
 ```
 
-### Streaming
-
-`chunks()` yields the markdown table piece by piece. Regular tables are streamed row by row, pretty tables (which need all rows to compute the column widths) are yielded as one chunk.
+`chunks()` yields the markdown table piece by piece. Regular tables are streamed row by row, pretty tables (which need all rows to compute the column widths) are yielded as one chunk:
 
 ```js
-import { Csv2md } from 'csv2md'
-
 for await (const chunk of new Csv2md().chunks(process.stdin)) {
   process.stdout.write(chunk)
 }
 ```
 
-### Other methods
-
-- `records(input)` – async generator of the parsed CSV records (`string[]`)
-- `rowsToString(rows)` – formats already parsed rows synchronously
+`records(input)` yields the parsed CSV records (`string[]`). Both classes also provide `rowsToString(rows)` to format already parsed rows synchronously.
 
 > Requires Node.js 24 or newer. The package is ESM, but it can still be loaded via `require('csv2md')` thanks to Node's `require(esm)` support.
 

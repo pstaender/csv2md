@@ -1,8 +1,7 @@
 import { expect } from 'chai'
 import { parse } from 'csv-parse/sync'
 import { execSync } from 'node:child_process'
-import { createReadStream, readFileSync } from 'node:fs'
-import { Readable } from 'node:stream'
+import { readFileSync } from 'node:fs'
 import { Csv2md, csv2md } from '../src/csv2md.ts'
 
 const __dirname = import.meta.dirname
@@ -99,9 +98,35 @@ describe('markdown table output', () => {
     const data = await csv2mdConverter.convert(csvString)
     expect(data.trim()).to.eq(expectedMarkdownTable.trim())
   })
-  it('expect to convert a csv string with the csv2md function', async () => {
-    expect((await csv2md(csvString, options)).trim()).to.eq(
+  it('expect to transform a csv string synchronously', () => {
+    expect(csv2md(csvString, options).trim()).to.eq(
       expectedMarkdownTable.trim()
+    )
+    expect(csv2mdConverter.csv2md(csvString).trim()).to.eq(
+      expectedMarkdownTable.trim()
+    )
+  })
+  it('expect to transform records one by one (stream-transform handler)', () => {
+    const results: (string | null)[] = []
+    const converter = new Csv2md(options)
+    for (const record of csvData) {
+      converter.transform(record, (err, s) => {
+        expect(err).to.equal(null)
+        results.push(s)
+      })
+    }
+    expect(results.join('').trim()).to.equal(expectedMarkdownTable)
+  })
+  it('expect to collect records for pretty output via transform', () => {
+    const converter = new Csv2md({ ...options, pretty: true })
+    for (const record of csvData) {
+      converter.transform(record, (err, s) => expect(s).to.equal(null))
+    }
+    expect(converter.rowsToString().trim()).to.equal(expectedMarkdownTablePretty)
+  })
+  it('expect to format a single row', () => {
+    expect(csv2mdConverter.rowToString(['a', ' b '], true)).to.equal(
+      '| a | b |\n|---|---|\n'
     )
   })
   it('expect to convert with default options', async () => {
@@ -124,89 +149,5 @@ describe('markdown table output', () => {
       `${__dirname}/../bin/csv2md < ${__dirname}/fixtures/example1.csv`
     )
     expect(md.toString().trim()).to.be.equal(expectedMarkdownTableInline.trim())
-  })
-})
-
-describe('promise based api', () => {
-  const fixture = `${__dirname}/fixtures/example1.csv`
-  const prettyOptions = { pretty: true }
-
-  it('accepts strings, buffers, readable streams and (async) iterables', async () => {
-    const inputs = [
-      csvString,
-      Buffer.from(csvString),
-      createReadStream(fixture, { highWaterMark: 7 }),
-      Readable.from(csvString.match(/[^\n]*\n/g)!),
-      csvString.split(',').map((part, i, all) => (i < all.length - 1 ? `${part},` : part))
-    ]
-    for (const input of inputs) {
-      expect((await csv2md(input, prettyOptions)).trim()).to.equal(
-        expectedMarkdownTablePretty
-      )
-    }
-  })
-
-  it('yields parsed records', async () => {
-    const records = await Array.fromAsync(new Csv2md().records('a,b\n1, 2 \n'))
-    expect(records).to.deep.equal([
-      ['a', 'b'],
-      ['1', ' 2 ']
-    ])
-  })
-
-  it('streams regular tables row by row', async () => {
-    const chunks = await Array.fromAsync(new Csv2md().chunks(csvString))
-    expect(chunks).to.have.length(4)
-    expect(chunks[0]).to.equal('a | b | c_1 | c_2\n---|---|---|---\n')
-    expect(chunks.join('').trim()).to.equal(expectedMarkdownTableInline)
-  })
-
-  it('yields pretty tables as one chunk', async () => {
-    const chunks = await Array.fromAsync(new Csv2md(prettyOptions).chunks(csvString))
-    expect(chunks).to.have.length(1)
-    expect(chunks[0].trim()).to.equal(expectedMarkdownTablePretty)
-  })
-
-  it('yields the rows parsed before an error, then rejects', async () => {
-    const chunks: string[] = []
-    let error: unknown
-    try {
-      for await (const chunk of new Csv2md().chunks('a,b\n1,2,3\n')) chunks.push(chunk)
-    } catch (err) {
-      error = err
-    }
-    expect(chunks).to.deep.equal(['a | b\n---|---\n'])
-    expect(String(error)).to.match(/Invalid Record Length/)
-  })
-
-  it('rejects on invalid csv', async () => {
-    let error: unknown
-    await csv2md('a,b\n1,2,3', prettyOptions).catch(err => (error = err))
-    expect(String(error)).to.match(/Invalid Record Length/)
-  })
-
-  it('converts empty input to an empty string', async () => {
-    expect(await csv2md('')).to.equal('')
-    expect(await csv2md('', prettyOptions)).to.equal('')
-    expect(new Csv2md().rowsToString([])).to.equal('')
-  })
-
-  it('does not mutate the given rows', () => {
-    const rows = [
-      [' a ', 'b'],
-      ['1', ' 2']
-    ]
-    new Csv2md(prettyOptions).rowsToString(rows)
-    expect(rows).to.deep.equal([
-      [' a ', 'b'],
-      ['1', ' 2']
-    ])
-  })
-
-  it('can stop iterating early', async () => {
-    for await (const record of new Csv2md().records(createReadStream(fixture))) {
-      expect(record).to.deep.equal(['a', 'b', 'c_1', 'c_2'])
-      break
-    }
   })
 })

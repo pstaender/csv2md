@@ -2,7 +2,7 @@ import { createReadStream } from 'node:fs'
 import { once } from 'node:events'
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
-import { Csv2md, type Options } from './csv2md.ts'
+import { Csv2md, type Options } from './promises.ts'
 
 const defaultCsv2md = new Csv2md()
 
