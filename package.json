@@ -2,14 +2,16 @@
   "name": "csv2md",
   "version": "1.1.0",
   "description": "csv2md transforms csv data to markdown tables",
-  "main": "src/csv2md",
+  "main": "dist/csv2md.js",
   "bin": {
     "csv2md": "bin/csv2md"
   },
   "scripts": {
-    "test": "npm run build; node_modules/mocha/bin/mocha test/**/test.ts",
+    "test": "npm run build && npm run typecheck && mocha",
     "build": "tsc --project tsconfig.json",
-    "watch": "tsc --project tsconfig.json -w"
+    "watch": "tsc --project tsconfig.json --watch",
+    "typecheck": "tsc --project tsconfig.test.json",
+    "prepare": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -26,22 +28,36 @@
   "author": "Philipp Staender <pstaender@mailbox.org>",
   "license": "MIT",
   "dependencies": {
-    "csv-parse": "^4.11.1",
-    "get-stream": "^5.1.0",
-    "stream-transform": "^2.0.2",
-    "yargs": "^11.1.1"
+    "csv-parse": "^7.0.3",
+    "stream-transform": "^3.6.0",
+    "yargs": "^18.2.0"
   },
   "devDependencies": {
-    "@types/chai": "^4.2.11",
-    "@types/jest": "^26.0.5",
-    "@types/mocha": "^8.0.0",
-    "@types/node": "^14.0.23",
-    "@types/yargs": "^15.0.5",
-    "chai": "^4.2.0",
-    "mocha": "^6.2.3",
-    "source-map-support": "*",
-    "ts-node": "^8.10.2",
-    "typescript": "^3.9.7",
-    "typings": "^2.1.1"
+    "@types/chai": "^5.2.3",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^24.19.2",
+    "@types/yargs": "^17.0.35",
+    "chai": "^6.3.0",
+    "mocha": "^12.0.3",
+    "typescript": "^7.0.2"
+  },
+  "type": "module",
+  "types": "dist/csv2md.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/csv2md.d.ts",
+      "default": "./dist/csv2md.js"
+    }
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "files": [
+    "dist",
+    "bin"
+  ],
+  "overrides": {
+    "glob": "^14.0.3",
+    "minimatch": "^11.0.3"
   }
 }

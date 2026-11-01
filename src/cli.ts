@@ -1,13 +1,16 @@
-import { Csv2md, Options } from './csv2md'
-import * as fs from 'fs'
-import * as yargs from 'yargs'
+import { Csv2md, type Options } from './csv2md.ts'
+import { readFileSync } from 'node:fs'
+import yargs from 'yargs'
+import { hideBin } from 'yargs/helpers'
+import { parse } from 'csv-parse'
+import { transform } from 'stream-transform'
 
 const defaultCsv2md = new Csv2md()
 
-const { argv } = yargs
+const argv = yargs(hideBin(process.argv))
   .usage(
     `Converts CSV data to Markdown tables
-(c) 2014-2020 by Philipp Staender, MIT License
+(c) 2014-2026 by Philipp Staender, MIT License
 
 Usage: $0 [options] <csvfile>`
   )
@@ -55,6 +58,7 @@ Usage: $0 [options] <csvfile>`
   .boolean(['pretty'])
   .help('h')
   .alias('h', 'help')
+  .parseSync()
 
 const lastArgument = process.argv.slice(-1)[0]
 
@@ -77,9 +81,6 @@ const options: Options = {
 
 const csv2md = new Csv2md(options)
 
-import * as parse from 'csv-parse'
-import * as transform from 'stream-transform'
-
 const parser = parse({
   comment: options.csvComment as string,
   delimiter: options.csvDelimiter,
@@ -89,8 +90,9 @@ const parser = parse({
 
 if (processAsStream) {
   ;(csv2md => {
-    const transformer = transform({ parallel: argv.parallel }, (record, cb) =>
-      csv2md.transform(record, cb)
+    const transformer = transform(
+      { parallel: argv.parallel },
+      (record: string[], cb) => csv2md.transform(record, cb)
     )
     if (csv2md.pretty) {
       process.stdin.pipe(parser).pipe(transformer)
@@ -106,6 +108,6 @@ if (processAsStream) {
   })(csv2md)
 } else if (inputFile) {
   ;(async () => {
-    console.log(await csv2md.convert(fs.readFileSync(inputFile).toString()))
+    console.log(await csv2md.convert(readFileSync(inputFile, 'utf8')))
   })()
 }

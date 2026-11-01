@@ -61,9 +61,10 @@ Use `-h` for more command options:
 ## Using csv2md programatically
 
 ```js
+import { readFileSync } from 'node:fs'
 import { Csv2md } from 'csv2md'
 
-let csvString = fs.readFileSync(__dirname + '/data.csv').toString()
+let csvString = readFileSync(`${import.meta.dirname}/data.csv`, 'utf8')
 
 let csv2md = new Csv2md({
   pretty: true
@@ -92,17 +93,17 @@ let markdown = csv2md(csvString, {
 
 ```js
 import { Csv2md } from 'csv2md'
-import * as transform from 'stream-transform'
+import { parse } from 'csv-parse'
+import { transform } from 'stream-transform'
 
-const transformer = transform((record, cb) =>
-  csv2md.transform(record, cb)
-)
-process.stdin
-  .pipe(parser)
-  .pipe(transformer)
-  .pipe(process.stdout)
-}
+const csv2md = new Csv2md()
+const parser = parse()
+const transformer = transform((record, cb) => csv2md.transform(record, cb))
+
+process.stdin.pipe(parser).pipe(transformer).pipe(process.stdout)
 ```
+
+> Requires Node.js 24 or newer. The package is ESM, but it can still be loaded via `require('csv2md')` thanks to Node's `require(esm)` support.
 
 ## Contributors
 

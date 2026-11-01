@@ -1,4 +1,4 @@
-import * as parseSync from 'csv-parse/lib/sync'
+import { parse as parseSync } from 'csv-parse/sync'
 
 export interface Options {
   pretty?: boolean
@@ -138,7 +138,7 @@ export class Csv2md implements Options {
         if (firstLineMarkerRepeat) {
           a[i] = Array(cellsForPrettyPadding[i] + 2).join(firstLineMarker[0])
         } else {
-          a[i] = firstLineMarker.substr(0, cellsForPrettyPadding[0])
+          a[i] = firstLineMarker.slice(0, cellsForPrettyPadding[0])
         }
       } else {
         if (firstLineMarkerRepeat) {
@@ -183,7 +183,10 @@ export class Csv2md implements Options {
     return this.rows
   }
 
-  transform(record: any[], cb: Function): Function {
+  transform(
+    record: any[],
+    cb: (err: Error | null, result: string | null) => void
+  ): void {
     let s = null
     if (this.pretty) {
       this.addRow(record)
@@ -193,11 +196,11 @@ export class Csv2md implements Options {
         this.isFirstLine = false
       }
     }
-    return cb(null, s)
+    cb(null, s)
   }
 
   csv2md(csv: string): string {
-    const data = parseSync(csv, {
+    const data: string[][] = parseSync(csv, {
       comment: this.csvComment,
       delimiter: this.csvDelimiter,
       quote: this.csvQuote,

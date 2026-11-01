@@ -1,8 +1,10 @@
-import 'source-map-support/register'
-
 import { expect } from 'chai'
-import * as parse from 'csv-parse'
-import { Csv2md, csv2md } from '../src/csv2md'
+import { parse } from 'csv-parse'
+import { execSync } from 'node:child_process'
+import { readFileSync } from 'node:fs'
+import { Csv2md, csv2md } from '../src/csv2md.ts'
+
+const __dirname = import.meta.dirname
 
 const csvOptions = {
   comment: '#',
@@ -22,9 +24,7 @@ const options = {
   csvComment: '#'
 }
 
-const csvString = require('fs')
-  .readFileSync(__dirname + '/example1.csv')
-  .toString()
+const csvString = readFileSync(`${__dirname}/example1.csv`, 'utf8')
 
 const expectedMarkdownTable = `| a | b | c_1 | c_2 |
 |---|---|---|---|
@@ -41,13 +41,13 @@ const expectedMarkdownTablePretty =
   '| a            | b     | c_1                | c_2   |\n|--------------|-------|--------------------|-------|\n| -122.1430195 | 124.3 | true               | false |\n| null         | a     | a very long string | ~     |\n| a            | b     | c_1                | c_2   |'
 
 describe('markdown table output', () => {
-  let csvData: any[] | never[] = []
+  let csvData: string[][] = []
   let csv2mdConverter: Csv2md = new Csv2md(options)
 
   before(done => {
-    parse(csvString, csvOptions, (err, data) => {
+    parse(csvString, csvOptions, (err, data: string[][]) => {
       csvData = data
-      expect(err).to.be.equal(undefined)
+      expect(err).to.be.oneOf([null, undefined])
       expect(data).to.be.an('array')
       return done()
     })
@@ -58,7 +58,7 @@ describe('markdown table output', () => {
   })
 
   it('expect to have a parsable, multiline csv file', () => {
-    expect(csvString.match(/\n/).length).to.be.above(0)
+    expect(csvString.match(/\n/)?.length).to.be.above(0)
     expect(csvData).to.have.length.above(0)
     expect(csvData[0]).to.have.length.above(0)
   })
@@ -92,8 +92,8 @@ describe('markdown table output', () => {
   })
   it('expect to convert also empty cells', done => {
     const csvData = 'foo,bar,baz\na#,"b",c\nd,e,\n,f,\n,,\ng,h,i'
-    parse(csvData.trim(), {}, function(err, rows) {
-      expect(err).to.be.equal(undefined)
+    parse(csvData.trim(), {}, (err, rows: string[][]) => {
+      expect(err).to.be.oneOf([null, undefined])
       csv2mdConverter.pretty = true
       expect(csv2mdConverter.rowsToString(rows).trim()).to.be.equal(
         '| foo | bar | baz |\n|-----|-----|-----|\n| a#  | b   | c   |\n| d   | e   |     |\n|     | f   |     |\n|     |     |     |\n| g   | h   | i   |'.trim()
@@ -116,17 +116,17 @@ describe('markdown table output', () => {
     expect(data.trim()).to.eq(expectedMarkdownTableInline.trim())
   })
   it('expect to execute bin/csv2md', () => {
-    const md = require('child_process').execSync(
+    const md = execSync(
       `${__dirname}/../bin/csv2md --pretty ${__dirname}/example1.csv`
     )
     expect(md.toString().trim()).to.be.equal(expectedMarkdownTablePretty.trim())
   })
   it('expect to stream with bin/csv2md', () => {
-    let md = require('child_process').execSync(
+    let md = execSync(
       `${__dirname}/../bin/csv2md --pretty < ${__dirname}/example1.csv`
     )
     expect(md.toString().trim()).to.be.equal(expectedMarkdownTablePretty.trim())
-    md = require('child_process').execSync(
+    md = execSync(
       `${__dirname}/../bin/csv2md < ${__dirname}/example1.csv`
     )
     expect(md.toString().trim()).to.be.equal(expectedMarkdownTableInline.trim())
