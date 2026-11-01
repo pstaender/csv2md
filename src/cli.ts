@@ -7,6 +7,8 @@ import { Csv2md, type Options } from './promises.ts'
 const defaultCsv2md = new Csv2md()
 
 const argv = yargs(hideBin(process.argv))
+  // fixed name, so help output doesn't depend on how the script was started
+  .scriptName('csv2md')
   .usage(
     `Converts CSV data to Markdown tables
 (c) 2014-2026 by Philipp Staender, MIT License

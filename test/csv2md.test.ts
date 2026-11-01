@@ -1,10 +1,21 @@
 import { expect } from 'chai'
 import { parse } from 'csv-parse/sync'
-import { execSync } from 'node:child_process'
+import { execFileSync } from 'node:child_process'
 import { readFileSync } from 'node:fs'
+import { join } from 'node:path'
 import { Csv2md, csv2md } from '../src/csv2md.ts'
 
 const __dirname = import.meta.dirname
+const bin = join(__dirname, '..', 'bin', 'csv2md.js')
+const example1 = join(__dirname, 'fixtures', 'example1.csv')
+
+// runs the cli via node (works on every OS, no shebang needed)
+function runBin(args: string[], input?: string): string {
+  return execFileSync(process.execPath, [bin, ...args], {
+    input,
+    encoding: 'utf8'
+  })
+}
 
 const csvOptions = {
   comment: '#',
@@ -135,19 +146,13 @@ describe('markdown table output', () => {
     expect(data.trim()).to.eq(expectedMarkdownTableInline.trim())
   })
   it('expect to execute bin/csv2md', () => {
-    const md = execSync(
-      `${__dirname}/../bin/csv2md --pretty ${__dirname}/fixtures/example1.csv`
-    )
-    expect(md.toString().trim()).to.be.equal(expectedMarkdownTablePretty.trim())
+    const md = runBin(['--pretty', example1])
+    expect(md.trim()).to.be.equal(expectedMarkdownTablePretty.trim())
   })
   it('expect to stream with bin/csv2md', () => {
-    let md = execSync(
-      `${__dirname}/../bin/csv2md --pretty < ${__dirname}/fixtures/example1.csv`
-    )
-    expect(md.toString().trim()).to.be.equal(expectedMarkdownTablePretty.trim())
-    md = execSync(
-      `${__dirname}/../bin/csv2md < ${__dirname}/fixtures/example1.csv`
-    )
-    expect(md.toString().trim()).to.be.equal(expectedMarkdownTableInline.trim())
+    let md = runBin(['--pretty'], csvString)
+    expect(md.trim()).to.be.equal(expectedMarkdownTablePretty.trim())
+    md = runBin([], csvString)
+    expect(md.trim()).to.be.equal(expectedMarkdownTableInline.trim())
   })
 })

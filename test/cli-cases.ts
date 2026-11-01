@@ -7,7 +7,7 @@ import { basename, join } from 'node:path'
 
 export const fixturesDir = join(import.meta.dirname, 'fixtures')
 export const snapshotFile = join(import.meta.dirname, 'cli-snapshots.json')
-export const defaultBin = join(import.meta.dirname, '..', 'bin', 'csv2md')
+export const defaultBin = join(import.meta.dirname, '..', 'bin', 'csv2md.js')
 
 export const optionSets: string[][] = [
   [],
@@ -70,7 +70,10 @@ export function cliCases(): CliCase[] {
 export function runCli(bin: string, c: CliCase): Promise<CliResult> {
   return new Promise((resolve, reject) => {
     // run inside test/ so that relative fixture paths are stable in snapshots
-    const child = spawn(bin, c.args, { cwd: import.meta.dirname })
+    // start via node instead of the shebang, which Windows doesn't support
+    const child = spawn(process.execPath, [bin, ...c.args], {
+      cwd: import.meta.dirname
+    })
     let stdout = ''
     let stderr = ''
     child.stdout.setEncoding('utf8').on('data', d => (stdout += d))

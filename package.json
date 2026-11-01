@@ -4,7 +4,7 @@
   "description": "csv2md transforms csv data to markdown tables",
   "main": "dist/csv2md.js",
   "bin": {
-    "csv2md": "bin/csv2md"
+    "csv2md": "bin/csv2md.js"
   },
   "scripts": {
     "test": "npm run build && npm run typecheck && mocha",

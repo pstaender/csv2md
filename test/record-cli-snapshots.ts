@@ -1,5 +1,5 @@
 // Records the CLI output matrix into test/cli-snapshots.json.
-// Usage: node test/record-cli-snapshots.ts [path/to/bin/csv2md]
+// Usage: node test/record-cli-snapshots.ts [path/to/bin/csv2md.js]
 import { writeFileSync } from 'node:fs'
 import { cliCases, defaultBin, runAll, snapshotFile } from './cli-cases.ts'
 

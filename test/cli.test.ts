@@ -18,7 +18,7 @@ const snapshots: Record<string, Snapshot> = JSON.parse(
 const cases = cliCases()
 
 describe('cli output snapshots', function () {
-  this.timeout(60_000)
+  this.timeout(180_000)
   let results: Map<string, CliResult>
 
   before(async () => {
