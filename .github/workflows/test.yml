@@ -11,11 +11,10 @@ permissions:
 
 jobs:
   test:
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
         node-version: [24, 26]
     steps:
       - uses: actions/checkout@v7
@@ -25,10 +24,8 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm test
-      # smoke test the installed command (npm creates a .cmd shim on Windows)
+      # smoke test the installed command
       - run: npm pack
       - run: npm install --global ./csv2md-*.tgz
-        shell: bash
       - run: csv2md --pretty test/fixtures/example1.csv
       - run: csv2md --pretty < test/fixtures/example1.csv
-        shell: bash

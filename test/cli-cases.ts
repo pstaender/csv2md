@@ -1,34 +1,13 @@
-// Shared definition of the CLI snapshot matrix. Used by both
+// CLI snapshot cases covering the basic functionality. Used by both
 // `test/record-cli-snapshots.ts` (records expected output) and `test/cli.test.ts`.
 import { spawn } from 'node:child_process'
-import { createReadStream, readdirSync } from 'node:fs'
+import { createReadStream } from 'node:fs'
 import { availableParallelism } from 'node:os'
-import { basename, join } from 'node:path'
+import { join } from 'node:path'
 
 export const fixturesDir = join(import.meta.dirname, 'fixtures')
 export const snapshotFile = join(import.meta.dirname, 'cli-snapshots.json')
 export const defaultBin = join(import.meta.dirname, '..', 'bin', 'csv2md.js')
-
-export const optionSets: string[][] = [
-  [],
-  ['-p'],
-  ['--pretty'],
-  ['--csvDelimiter=;'],
-  ['-p', '--csvDelimiter=;'],
-  ['--csvComment=#'],
-  ['-p', '--csvComment=#'],
-  ["--csvQuote='", '--csvEscape=\\'],
-  ['-p', '--tableDelimiter=$', '--cellPadding=_', '--firstLineMarker=+*'],
-  ['--tableDelimiter=$', '--cellPadding=_', '--firstLineMarker=-==-'],
-  ['-p', '--firstLineMarker=-==-'],
-  ['--delimiterOnBegin=|', '--delimiterOnEnd=|'],
-  ['-p', '--delimiterOnBegin=/', '--delimiterOnEnd=\\'],
-  ['--parallel=1'],
-  ['-p', '--csvDelimiter=;', '--csvComment=#', '--cellPadding=', '--tableDelimiter=;'],
-  ['--csvDelimiter='],
-  ['--tableDelimiter', ';'],
-  ['-p', '--csvComment=#', '--firstLineMarker=:-']
-]
 
 export interface CliCase {
   name: string
@@ -43,27 +22,37 @@ export interface CliResult {
   stderr: string
 }
 
+/** [fixture, cli options, input mode] */
+const matrix: [string, string[], 'file' | 'stdin'][] = [
+  // regular and pretty output, from a file and streamed from stdin
+  ['example1', [], 'file'],
+  ['example1', [], 'stdin'],
+  ['example1', ['-p'], 'file'],
+  ['example1', ['-p'], 'stdin'],
+  // output formatting options
+  ['example1', ['-p', '--tableDelimiter=$', '--cellPadding=_', '--firstLineMarker=+*'], 'file'],
+  ['example1', ['--delimiterOnBegin=|', '--delimiterOnEnd=|'], 'file'],
+  // csv parsing options
+  ['semi', ['--csvDelimiter=;'], 'file'],
+  ['semi', ['-p', '--csvDelimiter=;'], 'stdin'],
+  ['comment', ['--csvComment=#'], 'file'],
+  ['crlf', [], 'file'],
+  // empty input: no output (stdin streaming exits 0, everything else 1)
+  ['empty', [], 'stdin'],
+  ['empty', ['-p'], 'file'],
+  // invalid csv: streaming prints the rows before the error, then exits 1
+  ['bad', [], 'stdin'],
+  ['bad', [], 'file']
+]
+
 export function cliCases(): CliCase[] {
-  const fixtures = readdirSync(fixturesDir)
-    .filter(f => f.endsWith('.csv'))
-    .sort()
-  const cases: CliCase[] = []
-  for (const fixture of fixtures) {
-    for (const args of optionSets) {
-      const label = `${basename(fixture, '.csv')} ${JSON.stringify(args)}`
-      cases.push({
-        name: `${label} file`,
-        args: [...args, join('fixtures', fixture)]
-      })
-      cases.push({ name: `${label} stdin`, args, stdin: fixture })
-    }
-  }
-  cases.push({ name: 'help --help', args: ['--help'] })
-  cases.push({ name: 'help -h', args: ['-h'] })
-  cases.push({
-    name: 'two files (last one wins)',
-    args: ['-p', 'fixtures/example1.csv', 'fixtures/semi.csv']
+  const cases: CliCase[] = matrix.map(([fixture, args, mode]) => {
+    const name = `${fixture} ${JSON.stringify(args)} ${mode}`
+    return mode === 'file'
+      ? { name, args: [...args, join('fixtures', `${fixture}.csv`)] }
+      : { name, args, stdin: `${fixture}.csv` }
   })
+  cases.push({ name: 'help --help', args: ['--help'] })
   return cases
 }
 

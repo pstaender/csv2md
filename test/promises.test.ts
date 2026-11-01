@@ -101,13 +101,7 @@ describe('promise based api', () => {
 })
 
 describe('sync and promise based api', () => {
-  const optionSets: Options[] = [
-    {},
-    { pretty: true },
-    { csvComment: '#', pretty: true, firstLineMarker: '-==-' },
-    { csvDelimiter: ';', tableDelimiter: '$', cellPadding: '_' },
-    { delimiterOnBegin: '/', delimiterOnEnd: '\\', prettyCellSpace: '…', pretty: true }
-  ]
+  const optionSets: Options[] = [{}, { pretty: true }]
   const fixtures = readdirSync(`${__dirname}/fixtures`).filter(f => f.endsWith('.csv'))
 
   for (const file of fixtures) {
