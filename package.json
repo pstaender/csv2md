@@ -11,7 +11,8 @@
     "build": "tsc --project tsconfig.json",
     "watch": "tsc --project tsconfig.json --watch",
     "typecheck": "tsc --project tsconfig.test.json",
-    "prepare": "npm run build"
+    "prepare": "npm run build",
+    "test:record": "npm run build && node test/record-cli-snapshots.ts"
   },
   "repository": {
     "type": "git",
@@ -29,7 +30,6 @@
   "license": "MIT",
   "dependencies": {
     "csv-parse": "^7.0.3",
-    "stream-transform": "^3.6.0",
     "yargs": "^18.2.0"
   },
   "devDependencies": {

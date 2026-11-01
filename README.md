@@ -60,48 +60,36 @@ Use `-h` for more command options:
 
 ## Using csv2md programatically
 
-```js
-import { readFileSync } from 'node:fs'
-import { Csv2md } from 'csv2md'
-
-let csvString = readFileSync(`${import.meta.dirname}/data.csv`, 'utf8')
-
-let csv2md = new Csv2md({
-  pretty: true
-})
-
-let markdown = await csv2md.convert(csvString)
-```
-
-### Synchronous usage
+All conversions are promise based. Input can be a string, a `Buffer`, a readable stream or any (async) iterable of strings/buffers.
 
 ```js
+import { createReadStream } from 'node:fs'
 import { Csv2md, csv2md } from 'csv2md'
 
-let csvString = `
-a,b,c_1,c_2
--122.1430195,124.3,true,false
-null, a ,a very long string,~
-a,b,c_1,c_2`.trim()
+// one-off conversion
+const markdown = await csv2md('a,b\n1,2', { pretty: true })
 
-let markdown = csv2md(csvString, {
-  pretty: true
-})
+// reusable converter, reading from a stream
+const converter = new Csv2md({ pretty: true, csvDelimiter: ';' })
+const table = await converter.convert(createReadStream('data.csv'))
 ```
 
-### Stream
+### Streaming
+
+`chunks()` yields the markdown table piece by piece. Regular tables are streamed row by row, pretty tables (which need all rows to compute the column widths) are yielded as one chunk.
 
 ```js
 import { Csv2md } from 'csv2md'
-import { parse } from 'csv-parse'
-import { transform } from 'stream-transform'
 
-const csv2md = new Csv2md()
-const parser = parse()
-const transformer = transform((record, cb) => csv2md.transform(record, cb))
-
-process.stdin.pipe(parser).pipe(transformer).pipe(process.stdout)
+for await (const chunk of new Csv2md().chunks(process.stdin)) {
+  process.stdout.write(chunk)
+}
 ```
+
+### Other methods
+
+- `records(input)` – async generator of the parsed CSV records (`string[]`)
+- `rowsToString(rows)` – formats already parsed rows synchronously
 
 > Requires Node.js 24 or newer. The package is ESM, but it can still be loaded via `require('csv2md')` thanks to Node's `require(esm)` support.
 

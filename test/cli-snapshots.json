@@ -1,0 +1,1166 @@
+{
+  "bad [] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "bad [] stdin": {
+    "stdout": "a | b\n---|---\n",
+    "exitCode": 1
+  },
+  "bad [\"-p\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "bad [\"-p\"] stdin": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "bad [\"--pretty\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "bad [\"--pretty\"] stdin": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "bad [\"--csvDelimiter=;\"] file": {
+    "stdout": "a,b\n---\n1,2,3\n\n",
+    "exitCode": 0
+  },
+  "bad [\"--csvDelimiter=;\"] stdin": {
+    "stdout": "a,b\n---\n1,2,3\n",
+    "exitCode": 0
+  },
+  "bad [\"-p\",\"--csvDelimiter=;\"] file": {
+    "stdout": "| a,b   |\n|-------|\n| 1,2,3 |\n\n",
+    "exitCode": 0
+  },
+  "bad [\"-p\",\"--csvDelimiter=;\"] stdin": {
+    "stdout": "| a,b   |\n|-------|\n| 1,2,3 |\n\n",
+    "exitCode": 0
+  },
+  "bad [\"--csvComment=#\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "bad [\"--csvComment=#\"] stdin": {
+    "stdout": "a | b\n---|---\n",
+    "exitCode": 1
+  },
+  "bad [\"-p\",\"--csvComment=#\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "bad [\"-p\",\"--csvComment=#\"] stdin": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "bad [\"--csvQuote='\",\"--csvEscape=\\\\\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "bad [\"--csvQuote='\",\"--csvEscape=\\\\\"] stdin": {
+    "stdout": "a | b\n---|---\n",
+    "exitCode": 1
+  },
+  "bad [\"-p\",\"--tableDelimiter=$\",\"--cellPadding=_\",\"--firstLineMarker=+*\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "bad [\"-p\",\"--tableDelimiter=$\",\"--cellPadding=_\",\"--firstLineMarker=+*\"] stdin": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "bad [\"--tableDelimiter=$\",\"--cellPadding=_\",\"--firstLineMarker=-==-\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "bad [\"--tableDelimiter=$\",\"--cellPadding=_\",\"--firstLineMarker=-==-\"] stdin": {
+    "stdout": "a_$_b\n-==-_$-==-_\n",
+    "exitCode": 1
+  },
+  "bad [\"-p\",\"--firstLineMarker=-==-\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "bad [\"-p\",\"--firstLineMarker=-==-\"] stdin": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "bad [\"--delimiterOnBegin=|\",\"--delimiterOnEnd=|\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "bad [\"--delimiterOnBegin=|\",\"--delimiterOnEnd=|\"] stdin": {
+    "stdout": "| a | b |\n|---|---|\n",
+    "exitCode": 1
+  },
+  "bad [\"-p\",\"--delimiterOnBegin=/\",\"--delimiterOnEnd=\\\\\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "bad [\"-p\",\"--delimiterOnBegin=/\",\"--delimiterOnEnd=\\\\\"] stdin": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "bad [\"--parallel=1\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "bad [\"--parallel=1\"] stdin": {
+    "stdout": "a | b\n---|---\n",
+    "exitCode": 1
+  },
+  "bad [\"-p\",\"--csvDelimiter=;\",\"--csvComment=#\",\"--cellPadding=\",\"--tableDelimiter=;\"] file": {
+    "stdout": "|a,b  |\n|-------|\n|1,2,3|\n\n",
+    "exitCode": 0
+  },
+  "bad [\"-p\",\"--csvDelimiter=;\",\"--csvComment=#\",\"--cellPadding=\",\"--tableDelimiter=;\"] stdin": {
+    "stdout": "|a,b  |\n|-------|\n|1,2,3|\n\n",
+    "exitCode": 0
+  },
+  "bad [\"--csvDelimiter=\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "bad [\"--csvDelimiter=\"] stdin": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "bad [\"--tableDelimiter\",\";\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "bad [\"--tableDelimiter\",\";\"] stdin": {
+    "stdout": "a ; b\n---;---\n",
+    "exitCode": 1
+  },
+  "bad [\"-p\",\"--csvComment=#\",\"--firstLineMarker=:-\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "bad [\"-p\",\"--csvComment=#\",\"--firstLineMarker=:-\"] stdin": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "comment [] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "comment [] stdin": {
+    "stdout": "# comment\n---\n",
+    "exitCode": 1
+  },
+  "comment [\"-p\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "comment [\"-p\"] stdin": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "comment [\"--pretty\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "comment [\"--pretty\"] stdin": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "comment [\"--csvDelimiter=;\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "comment [\"--csvDelimiter=;\"] stdin": {
+    "stdout": "# comment\n---\na,b,c\n1,2,3 # trailing\n#x,y,z\n",
+    "exitCode": 1
+  },
+  "comment [\"-p\",\"--csvDelimiter=;\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "comment [\"-p\",\"--csvDelimiter=;\"] stdin": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "comment [\"--csvComment=#\"] file": {
+    "stdout": "a | b | c\n---|---|---\n1 | 2 | 3\nq\"uote | ä | €\n\n",
+    "exitCode": 0
+  },
+  "comment [\"--csvComment=#\"] stdin": {
+    "stdout": "a | b | c\n---|---|---\n1 | 2 | 3\nq\"uote | ä | €\n",
+    "exitCode": 0
+  },
+  "comment [\"-p\",\"--csvComment=#\"] file": {
+    "stdout": "| a      | b  | c  |\n|--------|----|----|\n| 1      | 2  | 3  |\n| q\"uote | ä  | €  |\n\n",
+    "exitCode": 0
+  },
+  "comment [\"-p\",\"--csvComment=#\"] stdin": {
+    "stdout": "| a      | b  | c  |\n|--------|----|----|\n| 1      | 2  | 3  |\n| q\"uote | ä  | €  |\n\n",
+    "exitCode": 0
+  },
+  "comment [\"--csvQuote='\",\"--csvEscape=\\\\\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "comment [\"--csvQuote='\",\"--csvEscape=\\\\\"] stdin": {
+    "stdout": "# comment\n---\n",
+    "exitCode": 1
+  },
+  "comment [\"-p\",\"--tableDelimiter=$\",\"--cellPadding=_\",\"--firstLineMarker=+*\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "comment [\"-p\",\"--tableDelimiter=$\",\"--cellPadding=_\",\"--firstLineMarker=+*\"] stdin": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "comment [\"--tableDelimiter=$\",\"--cellPadding=_\",\"--firstLineMarker=-==-\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "comment [\"--tableDelimiter=$\",\"--cellPadding=_\",\"--firstLineMarker=-==-\"] stdin": {
+    "stdout": "# comment\n-==-_\n",
+    "exitCode": 1
+  },
+  "comment [\"-p\",\"--firstLineMarker=-==-\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "comment [\"-p\",\"--firstLineMarker=-==-\"] stdin": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "comment [\"--delimiterOnBegin=|\",\"--delimiterOnEnd=|\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "comment [\"--delimiterOnBegin=|\",\"--delimiterOnEnd=|\"] stdin": {
+    "stdout": "| # comment |\n|---|\n",
+    "exitCode": 1
+  },
+  "comment [\"-p\",\"--delimiterOnBegin=/\",\"--delimiterOnEnd=\\\\\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "comment [\"-p\",\"--delimiterOnBegin=/\",\"--delimiterOnEnd=\\\\\"] stdin": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "comment [\"--parallel=1\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "comment [\"--parallel=1\"] stdin": {
+    "stdout": "# comment\n---\n",
+    "exitCode": 1
+  },
+  "comment [\"-p\",\"--csvDelimiter=;\",\"--csvComment=#\",\"--cellPadding=\",\"--tableDelimiter=;\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "comment [\"-p\",\"--csvDelimiter=;\",\"--csvComment=#\",\"--cellPadding=\",\"--tableDelimiter=;\"] stdin": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "comment [\"--csvDelimiter=\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "comment [\"--csvDelimiter=\"] stdin": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "comment [\"--tableDelimiter\",\";\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "comment [\"--tableDelimiter\",\";\"] stdin": {
+    "stdout": "# comment\n---\n",
+    "exitCode": 1
+  },
+  "comment [\"-p\",\"--csvComment=#\",\"--firstLineMarker=:-\"] file": {
+    "stdout": "| a      | b  | c  |\n|:- |:- |:- |\n| 1      | 2  | 3  |\n| q\"uote | ä  | €  |\n\n",
+    "exitCode": 0
+  },
+  "comment [\"-p\",\"--csvComment=#\",\"--firstLineMarker=:-\"] stdin": {
+    "stdout": "| a      | b  | c  |\n|:- |:- |:- |\n| 1      | 2  | 3  |\n| q\"uote | ä  | €  |\n\n",
+    "exitCode": 0
+  },
+  "crlf [] file": {
+    "stdout": "a | b\n---|---\n1 | 2\n | \n\n",
+    "exitCode": 0
+  },
+  "crlf [] stdin": {
+    "stdout": "a | b\n---|---\n1 | 2\n | \n",
+    "exitCode": 0
+  },
+  "crlf [\"-p\"] file": {
+    "stdout": "| a  | b  |\n|----|----|\n| 1  | 2  |\n|    |    |\n\n",
+    "exitCode": 0
+  },
+  "crlf [\"-p\"] stdin": {
+    "stdout": "| a  | b  |\n|----|----|\n| 1  | 2  |\n|    |    |\n\n",
+    "exitCode": 0
+  },
+  "crlf [\"--pretty\"] file": {
+    "stdout": "| a  | b  |\n|----|----|\n| 1  | 2  |\n|    |    |\n\n",
+    "exitCode": 0
+  },
+  "crlf [\"--pretty\"] stdin": {
+    "stdout": "| a  | b  |\n|----|----|\n| 1  | 2  |\n|    |    |\n\n",
+    "exitCode": 0
+  },
+  "crlf [\"--csvDelimiter=;\"] file": {
+    "stdout": "a,b\n---\n1,2\n,\n\n",
+    "exitCode": 0
+  },
+  "crlf [\"--csvDelimiter=;\"] stdin": {
+    "stdout": "a,b\n---\n1,2\n,\n",
+    "exitCode": 0
+  },
+  "crlf [\"-p\",\"--csvDelimiter=;\"] file": {
+    "stdout": "| a,b |\n|-----|\n| 1,2 |\n| ,   |\n\n",
+    "exitCode": 0
+  },
+  "crlf [\"-p\",\"--csvDelimiter=;\"] stdin": {
+    "stdout": "| a,b |\n|-----|\n| 1,2 |\n| ,   |\n\n",
+    "exitCode": 0
+  },
+  "crlf [\"--csvComment=#\"] file": {
+    "stdout": "a | b\n---|---\n1 | 2\n | \n\n",
+    "exitCode": 0
+  },
+  "crlf [\"--csvComment=#\"] stdin": {
+    "stdout": "a | b\n---|---\n1 | 2\n | \n",
+    "exitCode": 0
+  },
+  "crlf [\"-p\",\"--csvComment=#\"] file": {
+    "stdout": "| a  | b  |\n|----|----|\n| 1  | 2  |\n|    |    |\n\n",
+    "exitCode": 0
+  },
+  "crlf [\"-p\",\"--csvComment=#\"] stdin": {
+    "stdout": "| a  | b  |\n|----|----|\n| 1  | 2  |\n|    |    |\n\n",
+    "exitCode": 0
+  },
+  "crlf [\"--csvQuote='\",\"--csvEscape=\\\\\"] file": {
+    "stdout": "a | b\n---|---\n1 | 2\n | \n\n",
+    "exitCode": 0
+  },
+  "crlf [\"--csvQuote='\",\"--csvEscape=\\\\\"] stdin": {
+    "stdout": "a | b\n---|---\n1 | 2\n | \n",
+    "exitCode": 0
+  },
+  "crlf [\"-p\",\"--tableDelimiter=$\",\"--cellPadding=_\",\"--firstLineMarker=+*\"] file": {
+    "stdout": "|_a _$_b _|\n|++++$++++|\n|_1 _$_2 _|\n|_  _$_  _|\n\n",
+    "exitCode": 0
+  },
+  "crlf [\"-p\",\"--tableDelimiter=$\",\"--cellPadding=_\",\"--firstLineMarker=+*\"] stdin": {
+    "stdout": "|_a _$_b _|\n|++++$++++|\n|_1 _$_2 _|\n|_  _$_  _|\n\n",
+    "exitCode": 0
+  },
+  "crlf [\"--tableDelimiter=$\",\"--cellPadding=_\",\"--firstLineMarker=-==-\"] file": {
+    "stdout": "a_$_b\n-==-_$-==-_\n1_$_2\n_$_\n\n",
+    "exitCode": 0
+  },
+  "crlf [\"--tableDelimiter=$\",\"--cellPadding=_\",\"--firstLineMarker=-==-\"] stdin": {
+    "stdout": "a_$_b\n-==-_$-==-_\n1_$_2\n_$_\n",
+    "exitCode": 0
+  },
+  "crlf [\"-p\",\"--firstLineMarker=-==-\"] file": {
+    "stdout": "| a    | b    |\n|-==- |-==- |\n| 1    | 2    |\n|      |      |\n\n",
+    "exitCode": 0
+  },
+  "crlf [\"-p\",\"--firstLineMarker=-==-\"] stdin": {
+    "stdout": "| a    | b    |\n|-==- |-==- |\n| 1    | 2    |\n|      |      |\n\n",
+    "exitCode": 0
+  },
+  "crlf [\"--delimiterOnBegin=|\",\"--delimiterOnEnd=|\"] file": {
+    "stdout": "| a | b |\n|---|---|\n| 1 | 2 |\n|  |  |\n\n",
+    "exitCode": 0
+  },
+  "crlf [\"--delimiterOnBegin=|\",\"--delimiterOnEnd=|\"] stdin": {
+    "stdout": "| a | b |\n|---|---|\n| 1 | 2 |\n|  |  |\n",
+    "exitCode": 0
+  },
+  "crlf [\"-p\",\"--delimiterOnBegin=/\",\"--delimiterOnEnd=\\\\\"] file": {
+    "stdout": "/ a  | b  \\\n/----|----\\\n/ 1  | 2  \\\n/    |    \\\n\n",
+    "exitCode": 0
+  },
+  "crlf [\"-p\",\"--delimiterOnBegin=/\",\"--delimiterOnEnd=\\\\\"] stdin": {
+    "stdout": "/ a  | b  \\\n/----|----\\\n/ 1  | 2  \\\n/    |    \\\n\n",
+    "exitCode": 0
+  },
+  "crlf [\"--parallel=1\"] file": {
+    "stdout": "a | b\n---|---\n1 | 2\n | \n\n",
+    "exitCode": 0
+  },
+  "crlf [\"--parallel=1\"] stdin": {
+    "stdout": "a | b\n---|---\n1 | 2\n | \n",
+    "exitCode": 0
+  },
+  "crlf [\"-p\",\"--csvDelimiter=;\",\"--csvComment=#\",\"--cellPadding=\",\"--tableDelimiter=;\"] file": {
+    "stdout": "|a,b|\n|-----|\n|1,2|\n|,  |\n\n",
+    "exitCode": 0
+  },
+  "crlf [\"-p\",\"--csvDelimiter=;\",\"--csvComment=#\",\"--cellPadding=\",\"--tableDelimiter=;\"] stdin": {
+    "stdout": "|a,b|\n|-----|\n|1,2|\n|,  |\n\n",
+    "exitCode": 0
+  },
+  "crlf [\"--csvDelimiter=\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "crlf [\"--csvDelimiter=\"] stdin": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "crlf [\"--tableDelimiter\",\";\"] file": {
+    "stdout": "a ; b\n---;---\n1 ; 2\n ; \n\n",
+    "exitCode": 0
+  },
+  "crlf [\"--tableDelimiter\",\";\"] stdin": {
+    "stdout": "a ; b\n---;---\n1 ; 2\n ; \n",
+    "exitCode": 0
+  },
+  "crlf [\"-p\",\"--csvComment=#\",\"--firstLineMarker=:-\"] file": {
+    "stdout": "| a  | b  |\n|:- |:- |\n| 1  | 2  |\n|    |    |\n\n",
+    "exitCode": 0
+  },
+  "crlf [\"-p\",\"--csvComment=#\",\"--firstLineMarker=:-\"] stdin": {
+    "stdout": "| a  | b  |\n|:- |:- |\n| 1  | 2  |\n|    |    |\n\n",
+    "exitCode": 0
+  },
+  "empty [] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "empty [] stdin": {
+    "stdout": "",
+    "exitCode": 0
+  },
+  "empty [\"-p\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "empty [\"-p\"] stdin": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "empty [\"--pretty\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "empty [\"--pretty\"] stdin": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "empty [\"--csvDelimiter=;\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "empty [\"--csvDelimiter=;\"] stdin": {
+    "stdout": "",
+    "exitCode": 0
+  },
+  "empty [\"-p\",\"--csvDelimiter=;\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "empty [\"-p\",\"--csvDelimiter=;\"] stdin": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "empty [\"--csvComment=#\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "empty [\"--csvComment=#\"] stdin": {
+    "stdout": "",
+    "exitCode": 0
+  },
+  "empty [\"-p\",\"--csvComment=#\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "empty [\"-p\",\"--csvComment=#\"] stdin": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "empty [\"--csvQuote='\",\"--csvEscape=\\\\\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "empty [\"--csvQuote='\",\"--csvEscape=\\\\\"] stdin": {
+    "stdout": "",
+    "exitCode": 0
+  },
+  "empty [\"-p\",\"--tableDelimiter=$\",\"--cellPadding=_\",\"--firstLineMarker=+*\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "empty [\"-p\",\"--tableDelimiter=$\",\"--cellPadding=_\",\"--firstLineMarker=+*\"] stdin": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "empty [\"--tableDelimiter=$\",\"--cellPadding=_\",\"--firstLineMarker=-==-\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "empty [\"--tableDelimiter=$\",\"--cellPadding=_\",\"--firstLineMarker=-==-\"] stdin": {
+    "stdout": "",
+    "exitCode": 0
+  },
+  "empty [\"-p\",\"--firstLineMarker=-==-\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "empty [\"-p\",\"--firstLineMarker=-==-\"] stdin": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "empty [\"--delimiterOnBegin=|\",\"--delimiterOnEnd=|\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "empty [\"--delimiterOnBegin=|\",\"--delimiterOnEnd=|\"] stdin": {
+    "stdout": "",
+    "exitCode": 0
+  },
+  "empty [\"-p\",\"--delimiterOnBegin=/\",\"--delimiterOnEnd=\\\\\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "empty [\"-p\",\"--delimiterOnBegin=/\",\"--delimiterOnEnd=\\\\\"] stdin": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "empty [\"--parallel=1\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "empty [\"--parallel=1\"] stdin": {
+    "stdout": "",
+    "exitCode": 0
+  },
+  "empty [\"-p\",\"--csvDelimiter=;\",\"--csvComment=#\",\"--cellPadding=\",\"--tableDelimiter=;\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "empty [\"-p\",\"--csvDelimiter=;\",\"--csvComment=#\",\"--cellPadding=\",\"--tableDelimiter=;\"] stdin": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "empty [\"--csvDelimiter=\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "empty [\"--csvDelimiter=\"] stdin": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "empty [\"--tableDelimiter\",\";\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "empty [\"--tableDelimiter\",\";\"] stdin": {
+    "stdout": "",
+    "exitCode": 0
+  },
+  "empty [\"-p\",\"--csvComment=#\",\"--firstLineMarker=:-\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "empty [\"-p\",\"--csvComment=#\",\"--firstLineMarker=:-\"] stdin": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "example1 [] file": {
+    "stdout": "a | b | c_1 | c_2\n---|---|---|---\n-122.1430195 | 124.3 | true | false\nnull | a | a very long string | ~\na | b | c_1 | c_2\n\n",
+    "exitCode": 0
+  },
+  "example1 [] stdin": {
+    "stdout": "a | b | c_1 | c_2\n---|---|---|---\n-122.1430195 | 124.3 | true | false\nnull | a | a very long string | ~\na | b | c_1 | c_2\n",
+    "exitCode": 0
+  },
+  "example1 [\"-p\"] file": {
+    "stdout": "| a            | b     | c_1                | c_2   |\n|--------------|-------|--------------------|-------|\n| -122.1430195 | 124.3 | true               | false |\n| null         | a     | a very long string | ~     |\n| a            | b     | c_1                | c_2   |\n\n",
+    "exitCode": 0
+  },
+  "example1 [\"-p\"] stdin": {
+    "stdout": "| a            | b     | c_1                | c_2   |\n|--------------|-------|--------------------|-------|\n| -122.1430195 | 124.3 | true               | false |\n| null         | a     | a very long string | ~     |\n| a            | b     | c_1                | c_2   |\n\n",
+    "exitCode": 0
+  },
+  "example1 [\"--pretty\"] file": {
+    "stdout": "| a            | b     | c_1                | c_2   |\n|--------------|-------|--------------------|-------|\n| -122.1430195 | 124.3 | true               | false |\n| null         | a     | a very long string | ~     |\n| a            | b     | c_1                | c_2   |\n\n",
+    "exitCode": 0
+  },
+  "example1 [\"--pretty\"] stdin": {
+    "stdout": "| a            | b     | c_1                | c_2   |\n|--------------|-------|--------------------|-------|\n| -122.1430195 | 124.3 | true               | false |\n| null         | a     | a very long string | ~     |\n| a            | b     | c_1                | c_2   |\n\n",
+    "exitCode": 0
+  },
+  "example1 [\"--csvDelimiter=;\"] file": {
+    "stdout": "a,b,c_1,c_2\n---\n-122.1430195,124.3,true,false\nnull, a ,a very long string,~\na,b,c_1,c_2\n\n",
+    "exitCode": 0
+  },
+  "example1 [\"--csvDelimiter=;\"] stdin": {
+    "stdout": "a,b,c_1,c_2\n---\n-122.1430195,124.3,true,false\nnull, a ,a very long string,~\na,b,c_1,c_2\n",
+    "exitCode": 0
+  },
+  "example1 [\"-p\",\"--csvDelimiter=;\"] file": {
+    "stdout": "| a,b,c_1,c_2                   |\n|-------------------------------|\n| -122.1430195,124.3,true,false |\n| null, a ,a very long string,~ |\n| a,b,c_1,c_2                   |\n\n",
+    "exitCode": 0
+  },
+  "example1 [\"-p\",\"--csvDelimiter=;\"] stdin": {
+    "stdout": "| a,b,c_1,c_2                   |\n|-------------------------------|\n| -122.1430195,124.3,true,false |\n| null, a ,a very long string,~ |\n| a,b,c_1,c_2                   |\n\n",
+    "exitCode": 0
+  },
+  "example1 [\"--csvComment=#\"] file": {
+    "stdout": "a | b | c_1 | c_2\n---|---|---|---\n-122.1430195 | 124.3 | true | false\nnull | a | a very long string | ~\na | b | c_1 | c_2\n\n",
+    "exitCode": 0
+  },
+  "example1 [\"--csvComment=#\"] stdin": {
+    "stdout": "a | b | c_1 | c_2\n---|---|---|---\n-122.1430195 | 124.3 | true | false\nnull | a | a very long string | ~\na | b | c_1 | c_2\n",
+    "exitCode": 0
+  },
+  "example1 [\"-p\",\"--csvComment=#\"] file": {
+    "stdout": "| a            | b     | c_1                | c_2   |\n|--------------|-------|--------------------|-------|\n| -122.1430195 | 124.3 | true               | false |\n| null         | a     | a very long string | ~     |\n| a            | b     | c_1                | c_2   |\n\n",
+    "exitCode": 0
+  },
+  "example1 [\"-p\",\"--csvComment=#\"] stdin": {
+    "stdout": "| a            | b     | c_1                | c_2   |\n|--------------|-------|--------------------|-------|\n| -122.1430195 | 124.3 | true               | false |\n| null         | a     | a very long string | ~     |\n| a            | b     | c_1                | c_2   |\n\n",
+    "exitCode": 0
+  },
+  "example1 [\"--csvQuote='\",\"--csvEscape=\\\\\"] file": {
+    "stdout": "a | b | c_1 | c_2\n---|---|---|---\n-122.1430195 | 124.3 | true | false\nnull | a | a very long string | ~\na | b | c_1 | c_2\n\n",
+    "exitCode": 0
+  },
+  "example1 [\"--csvQuote='\",\"--csvEscape=\\\\\"] stdin": {
+    "stdout": "a | b | c_1 | c_2\n---|---|---|---\n-122.1430195 | 124.3 | true | false\nnull | a | a very long string | ~\na | b | c_1 | c_2\n",
+    "exitCode": 0
+  },
+  "example1 [\"-p\",\"--tableDelimiter=$\",\"--cellPadding=_\",\"--firstLineMarker=+*\"] file": {
+    "stdout": "|_a           _$_b    _$_c_1               _$_c_2  _|\n|++++++++++++++$+++++++$++++++++++++++++++++$+++++++|\n|_-122.1430195_$_124.3_$_true              _$_false_|\n|_null        _$_a    _$_a very long string_$_~    _|\n|_a           _$_b    _$_c_1               _$_c_2  _|\n\n",
+    "exitCode": 0
+  },
+  "example1 [\"-p\",\"--tableDelimiter=$\",\"--cellPadding=_\",\"--firstLineMarker=+*\"] stdin": {
+    "stdout": "|_a           _$_b    _$_c_1               _$_c_2  _|\n|++++++++++++++$+++++++$++++++++++++++++++++$+++++++|\n|_-122.1430195_$_124.3_$_true              _$_false_|\n|_null        _$_a    _$_a very long string_$_~    _|\n|_a           _$_b    _$_c_1               _$_c_2  _|\n\n",
+    "exitCode": 0
+  },
+  "example1 [\"--tableDelimiter=$\",\"--cellPadding=_\",\"--firstLineMarker=-==-\"] file": {
+    "stdout": "a_$_b_$_c_1_$_c_2\n-==-_$-==-_$-==-_$-==-_\n-122.1430195_$_124.3_$_true_$_false\nnull_$_a_$_a very long string_$_~\na_$_b_$_c_1_$_c_2\n\n",
+    "exitCode": 0
+  },
+  "example1 [\"--tableDelimiter=$\",\"--cellPadding=_\",\"--firstLineMarker=-==-\"] stdin": {
+    "stdout": "a_$_b_$_c_1_$_c_2\n-==-_$-==-_$-==-_$-==-_\n-122.1430195_$_124.3_$_true_$_false\nnull_$_a_$_a very long string_$_~\na_$_b_$_c_1_$_c_2\n",
+    "exitCode": 0
+  },
+  "example1 [\"-p\",\"--firstLineMarker=-==-\"] file": {
+    "stdout": "| a            | b     | c_1                | c_2   |\n|-==- |-==- |-==- |-==- |\n| -122.1430195 | 124.3 | true               | false |\n| null         | a     | a very long string | ~     |\n| a            | b     | c_1                | c_2   |\n\n",
+    "exitCode": 0
+  },
+  "example1 [\"-p\",\"--firstLineMarker=-==-\"] stdin": {
+    "stdout": "| a            | b     | c_1                | c_2   |\n|-==- |-==- |-==- |-==- |\n| -122.1430195 | 124.3 | true               | false |\n| null         | a     | a very long string | ~     |\n| a            | b     | c_1                | c_2   |\n\n",
+    "exitCode": 0
+  },
+  "example1 [\"--delimiterOnBegin=|\",\"--delimiterOnEnd=|\"] file": {
+    "stdout": "| a | b | c_1 | c_2 |\n|---|---|---|---|\n| -122.1430195 | 124.3 | true | false |\n| null | a | a very long string | ~ |\n| a | b | c_1 | c_2 |\n\n",
+    "exitCode": 0
+  },
+  "example1 [\"--delimiterOnBegin=|\",\"--delimiterOnEnd=|\"] stdin": {
+    "stdout": "| a | b | c_1 | c_2 |\n|---|---|---|---|\n| -122.1430195 | 124.3 | true | false |\n| null | a | a very long string | ~ |\n| a | b | c_1 | c_2 |\n",
+    "exitCode": 0
+  },
+  "example1 [\"-p\",\"--delimiterOnBegin=/\",\"--delimiterOnEnd=\\\\\"] file": {
+    "stdout": "/ a            | b     | c_1                | c_2   \\\n/--------------|-------|--------------------|-------\\\n/ -122.1430195 | 124.3 | true               | false \\\n/ null         | a     | a very long string | ~     \\\n/ a            | b     | c_1                | c_2   \\\n\n",
+    "exitCode": 0
+  },
+  "example1 [\"-p\",\"--delimiterOnBegin=/\",\"--delimiterOnEnd=\\\\\"] stdin": {
+    "stdout": "/ a            | b     | c_1                | c_2   \\\n/--------------|-------|--------------------|-------\\\n/ -122.1430195 | 124.3 | true               | false \\\n/ null         | a     | a very long string | ~     \\\n/ a            | b     | c_1                | c_2   \\\n\n",
+    "exitCode": 0
+  },
+  "example1 [\"--parallel=1\"] file": {
+    "stdout": "a | b | c_1 | c_2\n---|---|---|---\n-122.1430195 | 124.3 | true | false\nnull | a | a very long string | ~\na | b | c_1 | c_2\n\n",
+    "exitCode": 0
+  },
+  "example1 [\"--parallel=1\"] stdin": {
+    "stdout": "a | b | c_1 | c_2\n---|---|---|---\n-122.1430195 | 124.3 | true | false\nnull | a | a very long string | ~\na | b | c_1 | c_2\n",
+    "exitCode": 0
+  },
+  "example1 [\"-p\",\"--csvDelimiter=;\",\"--csvComment=#\",\"--cellPadding=\",\"--tableDelimiter=;\"] file": {
+    "stdout": "|a,b,c_1,c_2                  |\n|-------------------------------|\n|-122.1430195,124.3,true,false|\n|null, a ,a very long string,~|\n|a,b,c_1,c_2                  |\n\n",
+    "exitCode": 0
+  },
+  "example1 [\"-p\",\"--csvDelimiter=;\",\"--csvComment=#\",\"--cellPadding=\",\"--tableDelimiter=;\"] stdin": {
+    "stdout": "|a,b,c_1,c_2                  |\n|-------------------------------|\n|-122.1430195,124.3,true,false|\n|null, a ,a very long string,~|\n|a,b,c_1,c_2                  |\n\n",
+    "exitCode": 0
+  },
+  "example1 [\"--csvDelimiter=\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "example1 [\"--csvDelimiter=\"] stdin": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "example1 [\"--tableDelimiter\",\";\"] file": {
+    "stdout": "a ; b ; c_1 ; c_2\n---;---;---;---\n-122.1430195 ; 124.3 ; true ; false\nnull ; a ; a very long string ; ~\na ; b ; c_1 ; c_2\n\n",
+    "exitCode": 0
+  },
+  "example1 [\"--tableDelimiter\",\";\"] stdin": {
+    "stdout": "a ; b ; c_1 ; c_2\n---;---;---;---\n-122.1430195 ; 124.3 ; true ; false\nnull ; a ; a very long string ; ~\na ; b ; c_1 ; c_2\n",
+    "exitCode": 0
+  },
+  "example1 [\"-p\",\"--csvComment=#\",\"--firstLineMarker=:-\"] file": {
+    "stdout": "| a            | b     | c_1                | c_2   |\n|:- |:- |:- |:- |\n| -122.1430195 | 124.3 | true               | false |\n| null         | a     | a very long string | ~     |\n| a            | b     | c_1                | c_2   |\n\n",
+    "exitCode": 0
+  },
+  "example1 [\"-p\",\"--csvComment=#\",\"--firstLineMarker=:-\"] stdin": {
+    "stdout": "| a            | b     | c_1                | c_2   |\n|:- |:- |:- |:- |\n| -122.1430195 | 124.3 | true               | false |\n| null         | a     | a very long string | ~     |\n| a            | b     | c_1                | c_2   |\n\n",
+    "exitCode": 0
+  },
+  "quote [] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "quote [] stdin": {
+    "stdout": "a | b | c\n---|---|---\n",
+    "exitCode": 1
+  },
+  "quote [\"-p\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "quote [\"-p\"] stdin": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "quote [\"--pretty\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "quote [\"--pretty\"] stdin": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "quote [\"--csvDelimiter=;\"] file": {
+    "stdout": "a,b,c\n---\n'1,2',3,4\n\n",
+    "exitCode": 0
+  },
+  "quote [\"--csvDelimiter=;\"] stdin": {
+    "stdout": "a,b,c\n---\n'1,2',3,4\n",
+    "exitCode": 0
+  },
+  "quote [\"-p\",\"--csvDelimiter=;\"] file": {
+    "stdout": "| a,b,c     |\n|-----------|\n| '1,2',3,4 |\n\n",
+    "exitCode": 0
+  },
+  "quote [\"-p\",\"--csvDelimiter=;\"] stdin": {
+    "stdout": "| a,b,c     |\n|-----------|\n| '1,2',3,4 |\n\n",
+    "exitCode": 0
+  },
+  "quote [\"--csvComment=#\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "quote [\"--csvComment=#\"] stdin": {
+    "stdout": "a | b | c\n---|---|---\n",
+    "exitCode": 1
+  },
+  "quote [\"-p\",\"--csvComment=#\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "quote [\"-p\",\"--csvComment=#\"] stdin": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "quote [\"--csvQuote='\",\"--csvEscape=\\\\\"] file": {
+    "stdout": "a | b | c\n---|---|---\n1,2 | 3 | 4\n\n",
+    "exitCode": 0
+  },
+  "quote [\"--csvQuote='\",\"--csvEscape=\\\\\"] stdin": {
+    "stdout": "a | b | c\n---|---|---\n1,2 | 3 | 4\n",
+    "exitCode": 0
+  },
+  "quote [\"-p\",\"--tableDelimiter=$\",\"--cellPadding=_\",\"--firstLineMarker=+*\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "quote [\"-p\",\"--tableDelimiter=$\",\"--cellPadding=_\",\"--firstLineMarker=+*\"] stdin": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "quote [\"--tableDelimiter=$\",\"--cellPadding=_\",\"--firstLineMarker=-==-\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "quote [\"--tableDelimiter=$\",\"--cellPadding=_\",\"--firstLineMarker=-==-\"] stdin": {
+    "stdout": "a_$_b_$_c\n-==-_$-==-_$-==-_\n",
+    "exitCode": 1
+  },
+  "quote [\"-p\",\"--firstLineMarker=-==-\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "quote [\"-p\",\"--firstLineMarker=-==-\"] stdin": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "quote [\"--delimiterOnBegin=|\",\"--delimiterOnEnd=|\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "quote [\"--delimiterOnBegin=|\",\"--delimiterOnEnd=|\"] stdin": {
+    "stdout": "| a | b | c |\n|---|---|---|\n",
+    "exitCode": 1
+  },
+  "quote [\"-p\",\"--delimiterOnBegin=/\",\"--delimiterOnEnd=\\\\\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "quote [\"-p\",\"--delimiterOnBegin=/\",\"--delimiterOnEnd=\\\\\"] stdin": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "quote [\"--parallel=1\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "quote [\"--parallel=1\"] stdin": {
+    "stdout": "a | b | c\n---|---|---\n",
+    "exitCode": 1
+  },
+  "quote [\"-p\",\"--csvDelimiter=;\",\"--csvComment=#\",\"--cellPadding=\",\"--tableDelimiter=;\"] file": {
+    "stdout": "|a,b,c    |\n|-----------|\n|'1,2',3,4|\n\n",
+    "exitCode": 0
+  },
+  "quote [\"-p\",\"--csvDelimiter=;\",\"--csvComment=#\",\"--cellPadding=\",\"--tableDelimiter=;\"] stdin": {
+    "stdout": "|a,b,c    |\n|-----------|\n|'1,2',3,4|\n\n",
+    "exitCode": 0
+  },
+  "quote [\"--csvDelimiter=\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "quote [\"--csvDelimiter=\"] stdin": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "quote [\"--tableDelimiter\",\";\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "quote [\"--tableDelimiter\",\";\"] stdin": {
+    "stdout": "a ; b ; c\n---;---;---\n",
+    "exitCode": 1
+  },
+  "quote [\"-p\",\"--csvComment=#\",\"--firstLineMarker=:-\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "quote [\"-p\",\"--csvComment=#\",\"--firstLineMarker=:-\"] stdin": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "semi [] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "semi [] stdin": {
+    "stdout": "name;age;city\n---\n",
+    "exitCode": 1
+  },
+  "semi [\"-p\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "semi [\"-p\"] stdin": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "semi [\"--pretty\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "semi [\"--pretty\"] stdin": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "semi [\"--csvDelimiter=;\"] file": {
+    "stdout": "name | age | city\n---|---|---\nDoe, John | 42 | Berlin\nJane | 7 | New\nYork\n\n",
+    "exitCode": 0
+  },
+  "semi [\"--csvDelimiter=;\"] stdin": {
+    "stdout": "name | age | city\n---|---|---\nDoe, John | 42 | Berlin\nJane | 7 | New\nYork\n",
+    "exitCode": 0
+  },
+  "semi [\"-p\",\"--csvDelimiter=;\"] file": {
+    "stdout": "| name      | age | city     |\n|-----------|-----|----------|\n| Doe, John | 42  | Berlin   |\n| Jane      | 7   | New\nYork |\n\n",
+    "exitCode": 0
+  },
+  "semi [\"-p\",\"--csvDelimiter=;\"] stdin": {
+    "stdout": "| name      | age | city     |\n|-----------|-----|----------|\n| Doe, John | 42  | Berlin   |\n| Jane      | 7   | New\nYork |\n\n",
+    "exitCode": 0
+  },
+  "semi [\"--csvComment=#\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "semi [\"--csvComment=#\"] stdin": {
+    "stdout": "name;age;city\n---\n",
+    "exitCode": 1
+  },
+  "semi [\"-p\",\"--csvComment=#\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "semi [\"-p\",\"--csvComment=#\"] stdin": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "semi [\"--csvQuote='\",\"--csvEscape=\\\\\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "semi [\"--csvQuote='\",\"--csvEscape=\\\\\"] stdin": {
+    "stdout": "name;age;city\n---\n",
+    "exitCode": 1
+  },
+  "semi [\"-p\",\"--tableDelimiter=$\",\"--cellPadding=_\",\"--firstLineMarker=+*\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "semi [\"-p\",\"--tableDelimiter=$\",\"--cellPadding=_\",\"--firstLineMarker=+*\"] stdin": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "semi [\"--tableDelimiter=$\",\"--cellPadding=_\",\"--firstLineMarker=-==-\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "semi [\"--tableDelimiter=$\",\"--cellPadding=_\",\"--firstLineMarker=-==-\"] stdin": {
+    "stdout": "name;age;city\n-==-_\n",
+    "exitCode": 1
+  },
+  "semi [\"-p\",\"--firstLineMarker=-==-\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "semi [\"-p\",\"--firstLineMarker=-==-\"] stdin": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "semi [\"--delimiterOnBegin=|\",\"--delimiterOnEnd=|\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "semi [\"--delimiterOnBegin=|\",\"--delimiterOnEnd=|\"] stdin": {
+    "stdout": "| name;age;city |\n|---|\n",
+    "exitCode": 1
+  },
+  "semi [\"-p\",\"--delimiterOnBegin=/\",\"--delimiterOnEnd=\\\\\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "semi [\"-p\",\"--delimiterOnBegin=/\",\"--delimiterOnEnd=\\\\\"] stdin": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "semi [\"--parallel=1\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "semi [\"--parallel=1\"] stdin": {
+    "stdout": "name;age;city\n---\n",
+    "exitCode": 1
+  },
+  "semi [\"-p\",\"--csvDelimiter=;\",\"--csvComment=#\",\"--cellPadding=\",\"--tableDelimiter=;\"] file": {
+    "stdout": "|name     ;age;city    |\n|-----------;-----;----------|\n|Doe, John;42 ;Berlin  |\n|Jane     ;7  ;New\nYork|\n\n",
+    "exitCode": 0
+  },
+  "semi [\"-p\",\"--csvDelimiter=;\",\"--csvComment=#\",\"--cellPadding=\",\"--tableDelimiter=;\"] stdin": {
+    "stdout": "|name     ;age;city    |\n|-----------;-----;----------|\n|Doe, John;42 ;Berlin  |\n|Jane     ;7  ;New\nYork|\n\n",
+    "exitCode": 0
+  },
+  "semi [\"--csvDelimiter=\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "semi [\"--csvDelimiter=\"] stdin": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "semi [\"--tableDelimiter\",\";\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "semi [\"--tableDelimiter\",\";\"] stdin": {
+    "stdout": "name;age;city\n---\n",
+    "exitCode": 1
+  },
+  "semi [\"-p\",\"--csvComment=#\",\"--firstLineMarker=:-\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "semi [\"-p\",\"--csvComment=#\",\"--firstLineMarker=:-\"] stdin": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "single [] file": {
+    "stdout": "x\n---\n\n",
+    "exitCode": 0
+  },
+  "single [] stdin": {
+    "stdout": "x\n---\n",
+    "exitCode": 0
+  },
+  "single [\"-p\"] file": {
+    "stdout": "| x  |\n|----|\n\n",
+    "exitCode": 0
+  },
+  "single [\"-p\"] stdin": {
+    "stdout": "| x  |\n|----|\n\n",
+    "exitCode": 0
+  },
+  "single [\"--pretty\"] file": {
+    "stdout": "| x  |\n|----|\n\n",
+    "exitCode": 0
+  },
+  "single [\"--pretty\"] stdin": {
+    "stdout": "| x  |\n|----|\n\n",
+    "exitCode": 0
+  },
+  "single [\"--csvDelimiter=;\"] file": {
+    "stdout": "x\n---\n\n",
+    "exitCode": 0
+  },
+  "single [\"--csvDelimiter=;\"] stdin": {
+    "stdout": "x\n---\n",
+    "exitCode": 0
+  },
+  "single [\"-p\",\"--csvDelimiter=;\"] file": {
+    "stdout": "| x  |\n|----|\n\n",
+    "exitCode": 0
+  },
+  "single [\"-p\",\"--csvDelimiter=;\"] stdin": {
+    "stdout": "| x  |\n|----|\n\n",
+    "exitCode": 0
+  },
+  "single [\"--csvComment=#\"] file": {
+    "stdout": "x\n---\n\n",
+    "exitCode": 0
+  },
+  "single [\"--csvComment=#\"] stdin": {
+    "stdout": "x\n---\n",
+    "exitCode": 0
+  },
+  "single [\"-p\",\"--csvComment=#\"] file": {
+    "stdout": "| x  |\n|----|\n\n",
+    "exitCode": 0
+  },
+  "single [\"-p\",\"--csvComment=#\"] stdin": {
+    "stdout": "| x  |\n|----|\n\n",
+    "exitCode": 0
+  },
+  "single [\"--csvQuote='\",\"--csvEscape=\\\\\"] file": {
+    "stdout": "x\n---\n\n",
+    "exitCode": 0
+  },
+  "single [\"--csvQuote='\",\"--csvEscape=\\\\\"] stdin": {
+    "stdout": "x\n---\n",
+    "exitCode": 0
+  },
+  "single [\"-p\",\"--tableDelimiter=$\",\"--cellPadding=_\",\"--firstLineMarker=+*\"] file": {
+    "stdout": "|_x _|\n|++++|\n\n",
+    "exitCode": 0
+  },
+  "single [\"-p\",\"--tableDelimiter=$\",\"--cellPadding=_\",\"--firstLineMarker=+*\"] stdin": {
+    "stdout": "|_x _|\n|++++|\n\n",
+    "exitCode": 0
+  },
+  "single [\"--tableDelimiter=$\",\"--cellPadding=_\",\"--firstLineMarker=-==-\"] file": {
+    "stdout": "x\n-==-_\n\n",
+    "exitCode": 0
+  },
+  "single [\"--tableDelimiter=$\",\"--cellPadding=_\",\"--firstLineMarker=-==-\"] stdin": {
+    "stdout": "x\n-==-_\n",
+    "exitCode": 0
+  },
+  "single [\"-p\",\"--firstLineMarker=-==-\"] file": {
+    "stdout": "| x    |\n|-==- |\n\n",
+    "exitCode": 0
+  },
+  "single [\"-p\",\"--firstLineMarker=-==-\"] stdin": {
+    "stdout": "| x    |\n|-==- |\n\n",
+    "exitCode": 0
+  },
+  "single [\"--delimiterOnBegin=|\",\"--delimiterOnEnd=|\"] file": {
+    "stdout": "| x |\n|---|\n\n",
+    "exitCode": 0
+  },
+  "single [\"--delimiterOnBegin=|\",\"--delimiterOnEnd=|\"] stdin": {
+    "stdout": "| x |\n|---|\n",
+    "exitCode": 0
+  },
+  "single [\"-p\",\"--delimiterOnBegin=/\",\"--delimiterOnEnd=\\\\\"] file": {
+    "stdout": "/ x  \\\n/----\\\n\n",
+    "exitCode": 0
+  },
+  "single [\"-p\",\"--delimiterOnBegin=/\",\"--delimiterOnEnd=\\\\\"] stdin": {
+    "stdout": "/ x  \\\n/----\\\n\n",
+    "exitCode": 0
+  },
+  "single [\"--parallel=1\"] file": {
+    "stdout": "x\n---\n\n",
+    "exitCode": 0
+  },
+  "single [\"--parallel=1\"] stdin": {
+    "stdout": "x\n---\n",
+    "exitCode": 0
+  },
+  "single [\"-p\",\"--csvDelimiter=;\",\"--csvComment=#\",\"--cellPadding=\",\"--tableDelimiter=;\"] file": {
+    "stdout": "|x |\n|----|\n\n",
+    "exitCode": 0
+  },
+  "single [\"-p\",\"--csvDelimiter=;\",\"--csvComment=#\",\"--cellPadding=\",\"--tableDelimiter=;\"] stdin": {
+    "stdout": "|x |\n|----|\n\n",
+    "exitCode": 0
+  },
+  "single [\"--csvDelimiter=\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "single [\"--csvDelimiter=\"] stdin": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "single [\"--tableDelimiter\",\";\"] file": {
+    "stdout": "x\n---\n\n",
+    "exitCode": 0
+  },
+  "single [\"--tableDelimiter\",\";\"] stdin": {
+    "stdout": "x\n---\n",
+    "exitCode": 0
+  },
+  "single [\"-p\",\"--csvComment=#\",\"--firstLineMarker=:-\"] file": {
+    "stdout": "| x  |\n|:- |\n\n",
+    "exitCode": 0
+  },
+  "single [\"-p\",\"--csvComment=#\",\"--firstLineMarker=:-\"] stdin": {
+    "stdout": "| x  |\n|:- |\n\n",
+    "exitCode": 0
+  },
+  "help --help": {
+    "stdout": "Converts CSV data to Markdown tables\n(c) 2014-2026 by Philipp Staender, MIT License\n\nUsage: csv2md [options] <csvfile>\n\nOptions:\n      --version           Show version number                          [boolean]\n  -p, --pretty            pretty output, i.e. optimized column width and not\n                          inline-style                                 [boolean]\n      --csvComment        ignore everything until next line after this character\n      --tableDelimiter    delimiter for cells in output           [default: \"|\"]\n      --cellPadding       chars / spaces to wrap cell content     [default: \" \"]\n      --firstLineMarker   to seperate first row\n                          you can specifiy own characters, for instance:\n                          `-*` -> `------…` (gets cell width)\n                          `-====-` -> `-====-`\n                                                                 [default: \"-*\"]\n      --delimiterOnBegin  first row delimiter                      [default: \"\"]\n      --delimiterOnEnd    last row delimiter                       [default: \"\"]\n      --parallel          number of transformation callbacks to run in parallel\n                                                         [number] [default: 100]\n      --csvDelimiter      column delimiter\n      --csvQuote          cell quote\n      --csvEscape         char to escape, see quoter\n  -h, --help              Show help                                    [boolean]\n\nExamples:\n  csv2md -p data.csv > output.md          Converts csv to pretty markdown table\n  cat data.csv | csv2md > output.md       Converts larger data\n  csv2md --csvDelimiter=\";\" < ~/data.csv  Converts with a distinct csv delimiter\n",
+    "exitCode": 0
+  },
+  "help -h": {
+    "stdout": "Converts CSV data to Markdown tables\n(c) 2014-2026 by Philipp Staender, MIT License\n\nUsage: csv2md [options] <csvfile>\n\nOptions:\n      --version           Show version number                          [boolean]\n  -p, --pretty            pretty output, i.e. optimized column width and not\n                          inline-style                                 [boolean]\n      --csvComment        ignore everything until next line after this character\n      --tableDelimiter    delimiter for cells in output           [default: \"|\"]\n      --cellPadding       chars / spaces to wrap cell content     [default: \" \"]\n      --firstLineMarker   to seperate first row\n                          you can specifiy own characters, for instance:\n                          `-*` -> `------…` (gets cell width)\n                          `-====-` -> `-====-`\n                                                                 [default: \"-*\"]\n      --delimiterOnBegin  first row delimiter                      [default: \"\"]\n      --delimiterOnEnd    last row delimiter                       [default: \"\"]\n      --parallel          number of transformation callbacks to run in parallel\n                                                         [number] [default: 100]\n      --csvDelimiter      column delimiter\n      --csvQuote          cell quote\n      --csvEscape         char to escape, see quoter\n  -h, --help              Show help                                    [boolean]\n\nExamples:\n  csv2md -p data.csv > output.md          Converts csv to pretty markdown table\n  cat data.csv | csv2md > output.md       Converts larger data\n  csv2md --csvDelimiter=\";\" < ~/data.csv  Converts with a distinct csv delimiter\n",
+    "exitCode": 0
+  },
+  "two files (last one wins)": {
+    "stdout": "",
+    "exitCode": 1
+  }
+}
