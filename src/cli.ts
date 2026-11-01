@@ -1,13 +1,17 @@
-import { Csv2md, Options } from './csv2md'
-import * as fs from 'fs'
-import * as yargs from 'yargs'
+import { createReadStream } from 'node:fs'
+import { once } from 'node:events'
+import yargs from 'yargs'
+import { hideBin } from 'yargs/helpers'
+import { Csv2md, type Options } from './promises.ts'
 
 const defaultCsv2md = new Csv2md()
 
-const { argv } = yargs
+const argv = yargs(hideBin(process.argv))
+  // fixed name, so help output doesn't depend on how the script was started
+  .scriptName('csv2md')
   .usage(
     `Converts CSV data to Markdown tables
-(c) 2014-2020 by Philipp Staender, MIT License
+(c) 2014-2026 by Philipp Staender, MIT License
 
 Usage: $0 [options] <csvfile>`
   )
@@ -42,6 +46,8 @@ Usage: $0 [options] <csvfile>`
   .default('delimiterOnBegin', defaultCsv2md.delimiterOnBegin)
   .describe('delimiterOnEnd', 'last row delimiter')
   .default('delimiterOnEnd', defaultCsv2md.delimiterOnEnd)
+  // no-op since the async rewrite, kept for backwards compatibility
+  // --parallel is a no-op since the async rewrite; kept for backwards compatibility
   .describe('parallel', 'number of transformation callbacks to run in parallel')
   .default('parallel', 100)
   .default('csvComment', defaultCsv2md.csvComment)
@@ -55,12 +61,10 @@ Usage: $0 [options] <csvfile>`
   .boolean(['pretty'])
   .help('h')
   .alias('h', 'help')
+  .parseSync()
 
-const lastArgument = process.argv.slice(-1)[0]
-
-const inputFile = lastArgument.match(/\.csv$/i) ? lastArgument : null
-
-const processAsStream = Boolean(!inputFile && process.stdin)
+const lastArgument = process.argv.at(-1) ?? ''
+const inputFile = /\.csv$/i.test(lastArgument) ? lastArgument : null
 
 const options: Options = {
   pretty: argv.pretty,
@@ -69,43 +73,35 @@ const options: Options = {
   delimiterOnEnd: argv.delimiterOnEnd || undefined,
   cellPadding: argv.cellPadding,
   tableDelimiter: argv.tableDelimiter,
-  csvComment: argv.csvComment as string,
-  csvDelimiter: argv.csvDelimiter as string,
-  csvQuote: argv.csvQuote as string,
-  csvEscape: argv.csvEscape as string
+  csvComment: argv.csvComment as string | undefined,
+  csvDelimiter: argv.csvDelimiter as string | undefined,
+  csvQuote: argv.csvQuote as string | undefined,
+  csvEscape: argv.csvEscape as string | undefined
 }
 
 const csv2md = new Csv2md(options)
 
-import * as parse from 'csv-parse'
-import * as transform from 'stream-transform'
+async function write(chunk: string) {
+  if (!process.stdout.write(chunk)) await once(process.stdout, 'drain')
+}
 
-const parser = parse({
-  comment: options.csvComment as string,
-  delimiter: options.csvDelimiter,
-  quote: options.csvQuote,
-  escape: options.csvEscape
-})
-
-if (processAsStream) {
-  ;(csv2md => {
-    const transformer = transform({ parallel: argv.parallel }, (record, cb) =>
-      csv2md.transform(record, cb)
+async function main() {
+  if (inputFile || csv2md.pretty) {
+    // the whole table is needed (file or pretty output): convert, then print
+    const markdown = await csv2md.convert(
+      inputFile ? createReadStream(inputFile) : process.stdin
     )
-    if (csv2md.pretty) {
-      process.stdin.pipe(parser).pipe(transformer)
-      transformer.on('finish', function() {
-        console.log(csv2md.rowsToString())
-      })
-    } else {
-      process.stdin
-        .pipe(parser)
-        .pipe(transformer)
-        .pipe(process.stdout)
-    }
-  })(csv2md)
-} else if (inputFile) {
-  ;(async () => {
-    console.log(await csv2md.convert(fs.readFileSync(inputFile).toString()))
-  })()
+    if (markdown === '') throw new Error('no CSV data found')
+    await write(markdown + '\n')
+  } else {
+    // stream the table row by row
+    for await (const chunk of csv2md.chunks(process.stdin)) await write(chunk)
+  }
+}
+
+try {
+  await main()
+} catch (err) {
+  console.error(String(err))
+  process.exitCode = 1
 }

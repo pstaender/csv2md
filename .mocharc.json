@@ -1,0 +1,7 @@
+{
+  "spec": ["test/*.test.ts"],
+  "ui": "bdd",
+  "reporter": "spec",
+  "color": true,
+  "timeout": 4000
+}

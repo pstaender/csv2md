@@ -1,0 +1,62 @@
+{
+  "example1 [] file": {
+    "stdout": "a | b | c_1 | c_2\n---|---|---|---\n-122.1430195 | 124.3 | true | false\nnull | a | a very long string | ~\na | b | c_1 | c_2\n\n",
+    "exitCode": 0
+  },
+  "example1 [] stdin": {
+    "stdout": "a | b | c_1 | c_2\n---|---|---|---\n-122.1430195 | 124.3 | true | false\nnull | a | a very long string | ~\na | b | c_1 | c_2\n",
+    "exitCode": 0
+  },
+  "example1 [\"-p\"] file": {
+    "stdout": "| a            | b     | c_1                | c_2   |\n|--------------|-------|--------------------|-------|\n| -122.1430195 | 124.3 | true               | false |\n| null         | a     | a very long string | ~     |\n| a            | b     | c_1                | c_2   |\n\n",
+    "exitCode": 0
+  },
+  "example1 [\"-p\"] stdin": {
+    "stdout": "| a            | b     | c_1                | c_2   |\n|--------------|-------|--------------------|-------|\n| -122.1430195 | 124.3 | true               | false |\n| null         | a     | a very long string | ~     |\n| a            | b     | c_1                | c_2   |\n\n",
+    "exitCode": 0
+  },
+  "example1 [\"-p\",\"--tableDelimiter=$\",\"--cellPadding=_\",\"--firstLineMarker=+*\"] file": {
+    "stdout": "|_a           _$_b    _$_c_1               _$_c_2  _|\n|++++++++++++++$+++++++$++++++++++++++++++++$+++++++|\n|_-122.1430195_$_124.3_$_true              _$_false_|\n|_null        _$_a    _$_a very long string_$_~    _|\n|_a           _$_b    _$_c_1               _$_c_2  _|\n\n",
+    "exitCode": 0
+  },
+  "example1 [\"--delimiterOnBegin=|\",\"--delimiterOnEnd=|\"] file": {
+    "stdout": "| a | b | c_1 | c_2 |\n|---|---|---|---|\n| -122.1430195 | 124.3 | true | false |\n| null | a | a very long string | ~ |\n| a | b | c_1 | c_2 |\n\n",
+    "exitCode": 0
+  },
+  "semi [\"--csvDelimiter=;\"] file": {
+    "stdout": "name | age | city\n---|---|---\nDoe, John | 42 | Berlin\nJane | 7 | New\nYork\n\n",
+    "exitCode": 0
+  },
+  "semi [\"-p\",\"--csvDelimiter=;\"] stdin": {
+    "stdout": "| name      | age | city     |\n|-----------|-----|----------|\n| Doe, John | 42  | Berlin   |\n| Jane      | 7   | New\nYork |\n\n",
+    "exitCode": 0
+  },
+  "comment [\"--csvComment=#\"] file": {
+    "stdout": "a | b | c\n---|---|---\n1 | 2 | 3\nq\"uote | ä | €\n\n",
+    "exitCode": 0
+  },
+  "crlf [] file": {
+    "stdout": "a | b\n---|---\n1 | 2\n | \n\n",
+    "exitCode": 0
+  },
+  "empty [] stdin": {
+    "stdout": "",
+    "exitCode": 0
+  },
+  "empty [\"-p\"] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "bad [] stdin": {
+    "stdout": "a | b\n---|---\n",
+    "exitCode": 1
+  },
+  "bad [] file": {
+    "stdout": "",
+    "exitCode": 1
+  },
+  "help --help": {
+    "stdout": "Converts CSV data to Markdown tables\n(c) 2014-2026 by Philipp Staender, MIT License\n\nUsage: csv2md [options] <csvfile>\n\nOptions:\n      --version           Show version number                          [boolean]\n  -p, --pretty            pretty output, i.e. optimized column width and not\n                          inline-style                                 [boolean]\n      --csvComment        ignore everything until next line after this character\n      --tableDelimiter    delimiter for cells in output           [default: \"|\"]\n      --cellPadding       chars / spaces to wrap cell content     [default: \" \"]\n      --firstLineMarker   to seperate first row\n                          you can specifiy own characters, for instance:\n                          `-*` -> `------…` (gets cell width)\n                          `-====-` -> `-====-`\n                                                                 [default: \"-*\"]\n      --delimiterOnBegin  first row delimiter                      [default: \"\"]\n      --delimiterOnEnd    last row delimiter                       [default: \"\"]\n      --parallel          number of transformation callbacks to run in parallel\n                                                         [number] [default: 100]\n      --csvDelimiter      column delimiter\n      --csvQuote          cell quote\n      --csvEscape         char to escape, see quoter\n  -h, --help              Show help                                    [boolean]\n\nExamples:\n  csv2md -p data.csv > output.md          Converts csv to pretty markdown table\n  cat data.csv | csv2md > output.md       Converts larger data\n  csv2md --csvDelimiter=\";\" < ~/data.csv  Converts with a distinct csv delimiter\n",
+    "exitCode": 0
+  }
+}

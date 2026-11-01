@@ -1,0 +1,5 @@
+# Keep LF line endings on every OS (a CRLF shebang breaks the bin on Unix)
+* text=auto eol=lf
+
+# Test fixtures must stay byte-identical (one of them is deliberately CRLF)
+test/fixtures/*.csv -text
